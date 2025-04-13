@@ -42,6 +42,14 @@ public class AccountService {
         // Save the updated account
         return accountRepository.save(account);
     }
+    public Account getAccountByAccountNumber(String accountNumber) {
+        // Find the account using the account number
+        Account account = accountRepository.findByAccountNumber(accountNumber);
+        if (account == null) {
+            throw new RuntimeException("Account not found for account number: " + accountNumber);
+        }
+        return account;
+    }
 
 
 

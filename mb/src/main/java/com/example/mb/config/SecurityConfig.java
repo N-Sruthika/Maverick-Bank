@@ -48,6 +48,13 @@ public class SecurityConfig {
 				.requestMatchers("/api/service-request/customer/{customerId}").permitAll()
 				.requestMatchers("/api/service-request/{requestId}").permitAll()
 				.requestMatchers("/api/service-request/delete/{requestId}").permitAll()
+				.requestMatchers("/api/transaction-limit/add").permitAll()
+				.requestMatchers("/api/transaction-limit/account/{accountNumber}").permitAll()
+				.requestMatchers("/api/transaction-limit/update/{accountId}").permitAll()
+				.requestMatchers("/api/transactions/upi").hasAuthority("CUSTOMER")  // UPI transaction
+                .requestMatchers("/api/transactions/bank-transfer").hasAuthority("CUSTOMER")  // Bank transfer
+                .requestMatchers("/api/transactions/history/{accountId}").hasAuthority("CUSTOMER")  // View transaction history for a specific account
+
 				   
 				.requestMatchers("/api/employees/**").hasAuthority("ADMIN")
 				.requestMatchers("/api/branches/**").permitAll()

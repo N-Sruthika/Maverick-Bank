@@ -112,6 +112,11 @@ public class AccountController {
 
         return "Account deactivated successfully.";
     }
+    @GetMapping("/find/{accountNumber}")
+    public Account getAccountByAccountNumber(@PathVariable String accountNumber) {
+        // Call service to get the account details based on the account number
+        return accountService.getAccountByAccountNumber(accountNumber);
+    }
 
 
 

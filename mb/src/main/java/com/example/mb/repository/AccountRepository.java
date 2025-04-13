@@ -8,5 +8,6 @@ import com.example.mb.model.Account;
 public interface AccountRepository extends JpaRepository<Account, Long> {
 
 	List<Account> findByCustomerId(long customerId);
+	Account findByAccountNumber(String accountNumber);
     // Additional query methods can be added here if necessary
 }
