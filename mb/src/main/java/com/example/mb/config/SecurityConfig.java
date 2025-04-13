@@ -34,9 +34,14 @@ public class SecurityConfig {
 				.requestMatchers("/api/auth/token/generate").permitAll()	
 				.requestMatchers("/api/auth/user/details").authenticated()
 				.requestMatchers("/api/auth/signup").permitAll()
+				.requestMatchers("/api/newuser/signup").permitAll()
+				.requestMatchers("/api/customer/add").permitAll()
+				.requestMatchers("/api/get/ifsc/{ifsc}").permitAll()
+				
 				.requestMatchers("/api/employees/**").hasAuthority("ADMIN")
 				.requestMatchers("/api/branches/**").permitAll()
 				.requestMatchers("/api/departments/**").permitAll()
+				
 				.anyRequest().authenticated()
 			)
 			.sessionManagement(session-> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

@@ -1,7 +1,15 @@
 package com.example.mb.model;
 
-import jakarta.persistence.*;
 import java.time.LocalDate;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "customer_signup")
@@ -21,7 +29,8 @@ public class CustomerSignup {
 
     @Column(nullable = false)
     private LocalDate dob;
-
+    
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Gender gender;
 
@@ -58,7 +67,31 @@ public class CustomerSignup {
     @Column(nullable = false)
     private String panCardProof;
 
-    @Column(nullable = false)
+    public String getPanCardProof() {
+		return panCardProof;
+	}
+
+	public void setPanCardProof(String panCardProof) {
+		this.panCardProof = panCardProof;
+	}
+
+	public String getAadhaarCardProof() {
+		return aadhaarCardProof;
+	}
+
+	public void setAadhaarCardProof(String aadhaarCardProof) {
+		this.aadhaarCardProof = aadhaarCardProof;
+	}
+
+	public String getPassportPhoto() {
+		return passportPhoto;
+	}
+
+	public void setPassportPhoto(String passportPhoto) {
+		this.passportPhoto = passportPhoto;
+	}
+
+	@Column(nullable = false)
     private String aadhaarCardProof;
 
     @Column(nullable = false)
@@ -223,4 +256,71 @@ public class CustomerSignup {
     public void setPassword(String password) {
         this.password = password;
     }
+    
+    
+	public CustomerSignup() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	public CustomerSignup(Long id, String name, LocalDate dob, Gender gender, String email, String mobileNo,
+			String address, String city, String state, String pincode, String panNumber, String aadhaarNumber,
+			String accountNumber, String ifscCode, String panCardProof, String aadhaarCardProof, String passportPhoto,
+			String username, String password) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.dob = dob;
+		this.gender = gender;
+		this.email = email;
+		this.mobileNo = mobileNo;
+		this.address = address;
+		this.city = city;
+		this.state = state;
+		this.pincode = pincode;
+		this.panNumber = panNumber;
+		this.aadhaarNumber = aadhaarNumber;
+		this.accountNumber = accountNumber;
+		this.ifscCode = ifscCode;
+		this.panCardProof = panCardProof;
+		this.aadhaarCardProof = aadhaarCardProof;
+		this.passportPhoto = passportPhoto;
+		this.username = username;
+		this.password = password;
+	}
+
+	public CustomerSignup(String name, LocalDate dob, Gender gender, String email, String mobileNo, String address,
+			String city, String state, String pincode, String panNumber, String aadhaarNumber, String accountNumber,
+			String ifscCode, String panCardProof, String aadhaarCardProof, String passportPhoto, String username,
+			String password) {
+		super();
+		this.name = name;
+		this.dob = dob;
+		this.gender = gender;
+		this.email = email;
+		this.mobileNo = mobileNo;
+		this.address = address;
+		this.city = city;
+		this.state = state;
+		this.pincode = pincode;
+		this.panNumber = panNumber;
+		this.aadhaarNumber = aadhaarNumber;
+		this.accountNumber = accountNumber;
+		this.ifscCode = ifscCode;
+		this.panCardProof = panCardProof;
+		this.aadhaarCardProof = aadhaarCardProof;
+		this.passportPhoto = passportPhoto;
+		this.username = username;
+		this.password = password;
+	}
+
+	@Override
+	public String toString() {
+		return "CustomerSignup [id=" + id + ", name=" + name + ", dob=" + dob + ", gender=" + gender + ", email="
+				+ email + ", mobileNo=" + mobileNo + ", address=" + address + ", city=" + city + ", state=" + state
+				+ ", pincode=" + pincode + ", panNumber=" + panNumber + ", aadhaarNumber=" + aadhaarNumber
+				+ ", accountNumber=" + accountNumber + ", ifscCode=" + ifscCode + ", panCardProof=" + panCardProof
+				+ ", aadhaarCardProof=" + aadhaarCardProof + ", passportPhoto=" + passportPhoto + ", username="
+				+ username + ", password=" + password + "]";
+	}
 }
