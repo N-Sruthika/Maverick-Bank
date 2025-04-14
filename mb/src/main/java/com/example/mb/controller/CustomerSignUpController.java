@@ -79,8 +79,8 @@ public class CustomerSignUpController {
     public CustomerSignup getDetails(@PathVariable Long id) throws InvalidIdException {
         return customerSignupService.getDetails(id);
     }
-    @GetMapping("/api/get/ifsc/{ifscCode}")
-    public CustomerSignup getDetailsByIfsc(@PathVariable String ifscCode) throws InvalidIdException {
+    @GetMapping("/api/customer/signup/ifsc/{ifscCode}")
+    public CustomerSignup getCustomerSignupByIfsc(@PathVariable String ifscCode) throws InvalidIdException {
         return customerSignupService.getDetailsByIfsc(ifscCode);
     }
 }

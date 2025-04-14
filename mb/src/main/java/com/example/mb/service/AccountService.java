@@ -1,5 +1,6 @@
 package com.example.mb.service;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -50,8 +51,16 @@ public class AccountService {
         }
         return account;
     }
+    public BigDecimal getBalance(String accountNumber) throws InvalidAccountException {
+        Account account = accountRepository.findByAccountNumber(accountNumber);
+        if (account == null) {
+            throw new InvalidAccountException("No account found with account number: " + accountNumber);
+        }
+        return account.getBalance();
+    }
 
 
+	
 
 
 }

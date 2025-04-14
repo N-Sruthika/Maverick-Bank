@@ -1,7 +1,5 @@
 package com.example.mb.service;
 
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,12 +17,12 @@ public class CustomerService {
 	}
 
 	public Customer getById(Long id) throws InvalidIdException {
-		Optional<Customer> optional = customerRepository.findById(id);
-        if (optional.isPresent()) {
-            return optional.get();
+        Customer customer = customerRepository.findById(id);
+        if (customer != null) {
+            return customer;
         } else {
             throw new InvalidIdException("Customer not found with ID: " + id);
         }
-	}
+    }
 
 }

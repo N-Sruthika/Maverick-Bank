@@ -23,18 +23,23 @@ public class ServiceRequestService {
     private CustomerRepository customerRepo;
 
     public ServiceRequest raiseServiceRequest(Long customerId, ServiceRequest request) throws InvalidIdException {
-        Optional<Customer> optionalCustomer = customerRepo.findById(customerId);
-        if (!optionalCustomer.isPresent()) {
+        // Fetch customer by ID
+        Customer customer = customerRepo.findById(customerId);
+        
+        // Check if customer is null, meaning no customer found with that ID
+        if (customer == null) {
             throw new InvalidIdException("Invalid customer ID: " + customerId);
         }
 
-        Customer customer = optionalCustomer.get();
+        // Set customer, creation date, and initial status for the service request
         request.setCustomer(customer);
         request.setCreatedDate(LocalDate.now());
         request.setStatus("Pending");
 
+        // Save and return the service request
         return serviceRequestRepo.save(request);
     }
+
 
     public List<ServiceRequest> getRequestsByCustomerId(Long customerId) throws InvalidIdException {
         List<ServiceRequest> list = serviceRequestRepo.findByCustomerId(customerId);

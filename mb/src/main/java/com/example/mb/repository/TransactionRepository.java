@@ -10,4 +10,6 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long> 
 
 	List<Transaction> findByFromAccountId(Long accountId);
     // Custom query methods can be added here if needed
+
+	List<Transaction> findByFromAccount_AccountNumber(String accountNumber);
 }

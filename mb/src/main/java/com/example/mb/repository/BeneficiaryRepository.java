@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface BeneficiaryRepository extends JpaRepository<Beneficiary, Long> {
     List<Beneficiary> findByCustomerId(long customerId);
-    List<Beneficiary> findByAccountNumber(String accountNumber);
+    Beneficiary findByAccountNumber(String accountNumber);
 }

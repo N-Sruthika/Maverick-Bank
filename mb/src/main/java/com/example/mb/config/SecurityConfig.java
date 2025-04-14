@@ -39,6 +39,7 @@ public class SecurityConfig {
 				.requestMatchers("/api/get/ifsc/{ifsc}").permitAll()
 				.requestMatchers("/api/get/{id}").permitAll()
 				.requestMatchers("/api/account/add/{branchId}/{customerId}").permitAll()
+				.requestMatchers("/api/account/get/balance/{accountNumber}").permitAll()				
 				.requestMatchers("/api/beneficiary/add/{customerId}").hasAuthority("CUSTOMER")
 				.requestMatchers("/api/beneficiaries/customer/{customerId}").hasAnyAuthority("CUSTOMER", "ADMIN")
 				.requestMatchers("/api/beneficiary/{beneficiaryId}").hasAnyAuthority("CUSTOMER", "ADMIN")
@@ -51,11 +52,9 @@ public class SecurityConfig {
 				.requestMatchers("/api/transaction-limit/add").permitAll()
 				.requestMatchers("/api/transaction-limit/account/{accountNumber}").permitAll()
 				.requestMatchers("/api/transaction-limit/update/{accountId}").permitAll()
-				.requestMatchers("/api/transactions/upi").hasAuthority("CUSTOMER")  // UPI transaction
-                .requestMatchers("/api/transactions/bank-transfer").hasAuthority("CUSTOMER")  // Bank transfer
-                .requestMatchers("/api/transactions/history/{accountId}").hasAuthority("CUSTOMER")  // View transaction history for a specific account
-
-				   
+				.requestMatchers("/api/transactions/upi-transfer/{accountNumber}").permitAll() // UPI transaction
+			    .requestMatchers("/api/transactions/bank-transfer/{accountNumber}").permitAll() // Bank transfer
+			    .requestMatchers("/api/transactions/history/{accountId}").permitAll() // View transaction history for a specific account				   
 				.requestMatchers("/api/employees/**").hasAuthority("ADMIN")
 				.requestMatchers("/api/branches/**").permitAll()
 				.requestMatchers("/api/departments/**").permitAll()

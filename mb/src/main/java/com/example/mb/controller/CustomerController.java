@@ -1,7 +1,5 @@
 package com.example.mb.controller;
 
-import java.time.LocalDate;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,7 +22,7 @@ import com.example.mb.service.CustomerService;
 	    private BranchService branchService;
 
 	    @PostMapping("/api/customer/add/{bid}")
-	    public Customer addDetails(@PathVariable long bid, @RequestBody Customer customer) {
+	    public Customer addDetails(@PathVariable long bid, @RequestBody Customer customer) throws InvalidIdException {
 	        // Fetch the branch using the branchId (bid)
 	        Branch branch = branchService.getById(bid);
 
@@ -33,7 +31,7 @@ import com.example.mb.service.CustomerService;
 
 	        // If dob is not provided, set the current date
 	        if (customer.getDob() == null) {
-	            customer.setDob(LocalDate.now()); // or throw error if dob is required
+	            throw new InvalidIdException("Dod not found"); // or throw error if dob is required
 	        }
 
 	        // Save the customer using the service

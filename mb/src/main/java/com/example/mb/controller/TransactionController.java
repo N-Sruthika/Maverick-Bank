@@ -1,7 +1,5 @@
 package com.example.mb.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,9 +9,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.mb.model.BankTransfer;
+import com.example.mb.dto.BankTransferRequest;
+import com.example.mb.dto.UPITransactionRequest;
+import com.example.mb.exception.InsufficientBalanceException;
+import com.example.mb.exception.InvalidAccountException;
 import com.example.mb.model.Transaction;
-import com.example.mb.model.UPITransaction;
 import com.example.mb.service.TransactionService;
 
 @RestController
@@ -23,19 +23,31 @@ public class TransactionController {
     @Autowired
     private TransactionService transactionService;
 
-    @PostMapping("/upi")
-    public ResponseEntity<Transaction> makeUPITransaction(@RequestBody UPITransaction upiTransaction) {
-        Transaction transaction = transactionService.makeUPITransaction(upiTransaction);
+    // Make Bank Transfer
+    @PostMapping("/bank-transfer/{accountNumber}")
+    public ResponseEntity<Transaction> makeBankTransfer(
+            @RequestBody BankTransferRequest request, 
+            @PathVariable String accountNumber) throws InvalidAccountException, InsufficientBalanceException {
+        
+        // Passing accountNumber to the service
+        Transaction transaction = transactionService.makeBankTransfer(request, accountNumber);
         return ResponseEntity.ok(transaction);
     }
 
-    @PostMapping("/bank-transfer")
-    public ResponseEntity<Transaction> makeBankTransfer(@RequestBody BankTransfer bankTransfer) {
-        Transaction transaction = transactionService.makeBankTransfer(bankTransfer);
+    // Make UPI Transfer
+    @PostMapping("/upi-transfer/{accountNumber}")
+    public ResponseEntity<Transaction> makeUPITransfer(
+            @RequestBody UPITransactionRequest request, 
+            @PathVariable String accountNumber) throws InvalidAccountException, InsufficientBalanceException {
+        
+        // Passing accountNumber to the service
+        Transaction transaction = transactionService.makeUPITransfer(request, accountNumber);
         return ResponseEntity.ok(transaction);
     }
-    @GetMapping("/history/{accountId}")
-    public List<Transaction> getTransactionHistory(@PathVariable Long accountId) {
-        return transactionService.getTransactionHistory(accountId);
+
+    // Get Transaction History
+    @GetMapping("/history/{accountNumber}")
+    public ResponseEntity<?> getTransactionHistory(@PathVariable String accountNumber) {
+        return ResponseEntity.ok(transactionService.getTransactionHistory(accountNumber));
     }
 }

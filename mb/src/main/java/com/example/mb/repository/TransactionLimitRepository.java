@@ -7,4 +7,5 @@ public interface TransactionLimitRepository extends JpaRepository<TransactionLim
      // Find transaction limit by account ID
 
 	TransactionLimit findByAccountId(Long accountId);
+	
 }

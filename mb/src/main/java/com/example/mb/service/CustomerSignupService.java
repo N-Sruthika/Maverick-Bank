@@ -1,7 +1,5 @@
 package com.example.mb.service;
 
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,27 +13,22 @@ public class CustomerSignupService {
     @Autowired
     private CustomerSignupRepository customerSignupRepository;
 
+    // Method to save a new customer signup
     public CustomerSignup add(CustomerSignup customerSignup) {
-        // Optional: Validation checks can be added here
         return customerSignupRepository.save(customerSignup);
     }
 
+    // Method to retrieve customer details by ID
     public CustomerSignup getDetails(Long id) throws InvalidIdException {
-        Optional<CustomerSignup> customer = customerSignupRepository.findById(id);
-        if (customer.isPresent()) {
-            return customer.get();
-        } else {
-            throw new InvalidIdException("Customer with ID " + id + " not found.");
-        }
+        return customerSignupRepository.findById(id).orElseThrow(() -> new InvalidIdException("Customer not found for id: " + id));
     }
 
-	public CustomerSignup getDetailsByIfsc(String ifscCode) throws InvalidIdException {
-		 Optional<CustomerSignup> customer = customerSignupRepository.findByIfscCode(ifscCode);
-	        if (customer.isPresent()) {
-	            return customer.get();
-	        } else {
-	            throw new InvalidIdException("Customer with ID  not found.");
-	        }
-	}
-	        
+    // Method to retrieve customer details by IFSC code
+    public CustomerSignup getDetailsByIfsc(String ifscCode) throws InvalidIdException {
+        CustomerSignup customerSignup = customerSignupRepository.findByIfscCode(ifscCode);
+        if (customerSignup == null) {
+            throw new InvalidIdException("Customer not found for IFSC code: " + ifscCode);
+        }
+        return customerSignup;
+    }
 }
