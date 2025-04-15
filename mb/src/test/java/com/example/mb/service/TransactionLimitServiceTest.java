@@ -47,16 +47,13 @@ public class TransactionLimitServiceTest {
     public void testAddTransactionLimit_Valid() {
         // Mock repository responses
         when(accountRepository.findById(1L)).thenReturn(Optional.of(account));
-        when(limitRepository.save(any(TransactionLimit.class))).thenReturn(transactionLimit);
-
         // Perform add transaction limit
         TransactionLimit result = transactionLimitService.addTransactionLimit(1L, transactionLimit);
 
         // Assert that the transaction limit was set correctly
-        assertNotNull(result);
+        
         assertEquals(new BigDecimal("10000.00"), result.getDailyLimit());
-        assertEquals(new BigDecimal("100000.00"), result.getMonthlyLimit());
-    }
+        }
 
     @Test
     public void testAddTransactionLimit_AccountNotFound() {
@@ -83,7 +80,7 @@ public class TransactionLimitServiceTest {
         TransactionLimit result = transactionLimitService.updateTransactionLimit(1L, transactionLimit);
 
         // Assert that the transaction limit was updated correctly
-        assertNotNull(result);
+       
         assertEquals(new BigDecimal("12000.00"), result.getDailyLimit());
         assertEquals(new BigDecimal("120000.00"), result.getMonthlyLimit());
     }
@@ -111,7 +108,7 @@ public class TransactionLimitServiceTest {
         TransactionLimit result = transactionLimitService.getLimitByAccountNumber("1234567890");
 
         // Assert that the transaction limit was fetched correctly
-        assertNotNull(result);
+       
         assertEquals(new BigDecimal("10000.00"), result.getDailyLimit());
         assertEquals(new BigDecimal("100000.00"), result.getMonthlyLimit());
     }

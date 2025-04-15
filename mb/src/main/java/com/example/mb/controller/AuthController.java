@@ -2,6 +2,8 @@ package com.example.mb.controller;
 
 import java.security.Principal;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -32,9 +34,10 @@ public class AuthController {
 	private AuthService authService;
 	@Autowired
 	private MyUserService myUserService;
-	
+	Logger logger =  LoggerFactory.getLogger("AuthController"); 
 	@PostMapping("/signup")
 	public User signUp(@RequestBody User user) throws InvalidUsernameException {
+		logger.info("Sign up in progress for User " + user.getUsername()); 
 		return authService.signUp(user);
 	}
 	
@@ -42,6 +45,7 @@ public class AuthController {
 	public UserDetails login(Principal principal) {
 		
 		String username = principal.getName();
+		logger.debug("Username given " + username);
 		return myUserService.loadUserByUsername(username);
 	}
 	@PostMapping("/token/generate")
@@ -57,6 +61,8 @@ public class AuthController {
 		dto.setToken(token);
 		dto.setUsername(user.getUsername());
 		dto.setExpiry(jwtUtil.extractExpiration(token).toString());
+		logger.info("Token generated for User " + user.getUsername()); 
+ 		logger.warn("Token will expiry On " + jwtUtil.extractExpiration(token).toString());
 		return dto; 
 	}
 	

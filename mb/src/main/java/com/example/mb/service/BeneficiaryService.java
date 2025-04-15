@@ -3,12 +3,14 @@ package com.example.mb.service;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.example.mb.exception.InvalidIdException;
 import com.example.mb.model.Beneficiary;
 import com.example.mb.repository.BeneficiaryRepository;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 @Service
 public class BeneficiaryService {
@@ -16,17 +18,22 @@ public class BeneficiaryService {
     @Autowired
     private BeneficiaryRepository beneficiaryRepository;
 
+    Logger logger = LoggerFactory.getLogger("BeneficiaryService");
+
     // Add a new beneficiary
     public Beneficiary addBeneficiary(Beneficiary beneficiary) {
-        return beneficiaryRepository.save(beneficiary);
+        Beneficiary saved = beneficiaryRepository.save(beneficiary);
+        logger.info("Added beneficiary with ID {}", saved.getId());
+        return saved;
     }
 
     // Get a beneficiary by ID
     public Beneficiary getBeneficiaryById(long beneficiaryId) throws InvalidIdException {
         Optional<Beneficiary> beneficiary = beneficiaryRepository.findById(beneficiaryId);
-        if (!beneficiary.isPresent()) {
+        if (beneficiary.isEmpty()) {
             throw new InvalidIdException("Beneficiary not found with ID: " + beneficiaryId);
         }
+        logger.info("Fetched beneficiary with ID {}", beneficiaryId);
         return beneficiary.get();
     }
 
@@ -36,15 +43,20 @@ public class BeneficiaryService {
         if (beneficiaries.isEmpty()) {
             throw new InvalidIdException("No beneficiaries found for customer ID: " + customerId);
         }
+        logger.info("Fetched {} beneficiaries for customer ID {}", beneficiaries.size(), customerId);
         return beneficiaries;
     }
 
     // Update an existing beneficiary
     public Beneficiary updateBeneficiary(Beneficiary beneficiary) {
-        return beneficiaryRepository.save(beneficiary); // Saving updates the existing beneficiary
-    }
-    public void deleteBeneficiary(long beneficiaryId) {
-        beneficiaryRepository.deleteById(beneficiaryId); // Deletes the beneficiary by ID
+        Beneficiary updated = beneficiaryRepository.save(beneficiary);
+        logger.info("Updated beneficiary with ID {}", updated.getId());
+        return updated;
     }
 
+    // Delete a beneficiary by ID
+    public void deleteBeneficiary(long beneficiaryId) {
+        beneficiaryRepository.deleteById(beneficiaryId);
+        logger.info("Deleted beneficiary with ID {}", beneficiaryId);
+    }
 }

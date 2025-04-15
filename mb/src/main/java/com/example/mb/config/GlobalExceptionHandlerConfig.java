@@ -2,6 +2,8 @@ package com.example.mb.config;
 
 import java.io.IOException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.web.ErrorResponse;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -12,9 +14,12 @@ import com.example.mb.exception.InvalidUsernameException;
 
 @RestControllerAdvice
 public class GlobalExceptionHandlerConfig {
+	Logger logger =  LoggerFactory.getLogger("GlobalExceptionHandlerConfig"); 
+	 
 
 	 @ExceptionHandler(InvalidIdException.class)
 	 public ErrorResponse invalidIDExceptionHandler(InvalidIdException e) {
+		 logger.error("Invalid ID given " + e.getMessage());
 		 return ErrorResponse.create
 				 			(e, 
 				 			HttpStatusCode.valueOf(400), 

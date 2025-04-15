@@ -1,8 +1,9 @@
 package com.example.mb.service;
 
-import com.example.mb.exception.InvalidIdException;
-import com.example.mb.model.CustomerSignup;
-import com.example.mb.repository.CustomerSignupRepository;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.when;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -10,10 +11,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import java.util.Optional;
-
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import com.example.mb.exception.InvalidIdException;
+import com.example.mb.model.CustomerSignup;
+import com.example.mb.repository.CustomerSignupRepository;
 
 public class CustomerSignupServiceTest {
 

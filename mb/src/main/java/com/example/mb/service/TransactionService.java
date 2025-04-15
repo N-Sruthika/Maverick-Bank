@@ -3,6 +3,8 @@ package com.example.mb.service;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,32 +30,27 @@ public class TransactionService {
     @Autowired private BankTransferRepository bankTransferRepository;
     @Autowired private UPITransactionRepository upiTransactionRepository;
     @Autowired private AccountRepository accountRepository;
-    @Autowired
-    private BeneficiaryRepository beneficiaryRepository;
+    @Autowired private BeneficiaryRepository beneficiaryRepository;
+
+    Logger logger = LoggerFactory.getLogger("TransactionService");
 
     // Method for making bank transfer
     public Transaction makeBankTransfer(BankTransferRequest request, String accountNumber) throws InvalidAccountException, InsufficientBalanceException {
-        // Fetch the sender's account using the authenticated user's account number
         Account fromAccount = accountRepository.findByAccountNumber(accountNumber);
 
-        // Check if the account exists (null check)
         if (fromAccount == null) {
             throw new InvalidAccountException("From Account not found");
         }
 
-        // Ensure sufficient balance for the transaction
         if (fromAccount.getBalance().compareTo(request.getAmount()) < 0) {
             throw new InsufficientBalanceException("Insufficient balance");
         }
 
-        // Fetch the beneficiary details based on account number
         Beneficiary beneficiary = beneficiaryRepository.findByAccountNumber(request.getAccountNumber());
-
         if (beneficiary == null) {
             throw new InvalidAccountException("Beneficiary account not found");
         }
 
-        // Create the Transaction entity
         Transaction transaction = new Transaction();
         transaction.setAmount(request.getAmount().doubleValue());
         transaction.setTransactionMode("BANK");
@@ -63,7 +60,6 @@ public class TransactionService {
         transaction.setFromAccount(fromAccount);
         transactionRepository.save(transaction);
 
-        // Create the BankTransfer entity and associate it with the transaction
         BankTransfer bankTransfer = new BankTransfer();
         bankTransfer.setTransaction(transaction);
         bankTransfer.setBeneficiaryAccountNumber(request.getAccountNumber());
@@ -73,33 +69,27 @@ public class TransactionService {
         bankTransfer.setBeneficiaryAccountType(request.getBeneficiaryAccountType());
         bankTransfer.setAmount(request.getAmount());
 
-        // Save the BankTransfer record
         bankTransferRepository.save(bankTransfer);
 
-        // Deduct the amount from the sender's balance
         fromAccount.setBalance(fromAccount.getBalance().subtract(request.getAmount()));
         accountRepository.save(fromAccount);
 
+        logger.info("Bank transfer completed for account {} to beneficiary {}", accountNumber, request.getAccountNumber());
         return transaction;
     }
 
-
     // Method for making UPI transfer
     public Transaction makeUPITransfer(UPITransactionRequest request, String accountNumber) throws InvalidAccountException, InsufficientBalanceException {
-        // Fetch the sender's account using the account number
         Account fromAccount = accountRepository.findByAccountNumber(accountNumber);
 
-        // Check if the account exists (null check)
         if (fromAccount == null) {
             throw new InvalidAccountException("From Account not found");
         }
 
-        // Ensure the sender has enough balance for the transaction
         if (fromAccount.getBalance().compareTo(request.getAmount()) < 0) {
             throw new InsufficientBalanceException("Insufficient balance for this transaction.");
         }
 
-        // Create and save the transaction record
         Transaction transaction = new Transaction();
         transaction.setAmount(request.getAmount().doubleValue());
         transaction.setTransactionMode("UPI");
@@ -109,22 +99,23 @@ public class TransactionService {
         transaction.setFromAccount(fromAccount);
         transactionRepository.save(transaction);
 
-        // Create and save the UPI transaction
         UPITransaction upi = new UPITransaction();
         upi.setTransaction(transaction);
         upi.setUpiId(request.getUpiId());
         upi.setAmount(request.getAmount().toPlainString());
         upiTransactionRepository.save(upi);
 
-        // Deduct the amount from the sender's balance
         fromAccount.setBalance(fromAccount.getBalance().subtract(request.getAmount()));
         accountRepository.save(fromAccount);
 
+        logger.info("UPI transfer completed for account {} to UPI ID {}", accountNumber, request.getUpiId());
         return transaction;
     }
 
     // Fetch transaction history by account number
     public List<Transaction> getTransactionHistory(String accountNumber) {
-        return transactionRepository.findByFromAccount_AccountNumber(accountNumber);
+        List<Transaction> transactions = transactionRepository.findByFromAccount_AccountNumber(accountNumber);
+        logger.info("Fetched transaction history for account {}", accountNumber);
+        return transactions;
     }
 }

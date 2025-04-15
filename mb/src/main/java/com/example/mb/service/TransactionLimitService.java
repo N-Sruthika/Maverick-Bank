@@ -4,6 +4,8 @@ import com.example.mb.model.TransactionLimit;
 import com.example.mb.model.Account;
 import com.example.mb.repository.TransactionLimitRepository;
 import com.example.mb.repository.AccountRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +20,8 @@ public class TransactionLimitService {
     @Autowired
     private AccountRepository accountRepository;
 
+    Logger logger = LoggerFactory.getLogger("TransactionLimitService");
+
     public TransactionLimit addTransactionLimit(Long accountId, TransactionLimit request) {
         Optional<Account> optionalAccount = accountRepository.findById(accountId);
         if (optionalAccount.isEmpty()) {
@@ -29,7 +33,9 @@ public class TransactionLimitService {
         limit.setDailyLimit(request.getDailyLimit());
         limit.setMonthlyLimit(request.getMonthlyLimit());
 
-        return limitRepository.save(limit);
+        TransactionLimit savedLimit = limitRepository.save(limit);
+        logger.info("Transaction limit added for account ID {}", accountId);
+        return savedLimit;
     }
 
     public TransactionLimit updateTransactionLimit(Long id, TransactionLimit request) {
@@ -42,23 +48,23 @@ public class TransactionLimitService {
         existing.setDailyLimit(request.getDailyLimit());
         existing.setMonthlyLimit(request.getMonthlyLimit());
 
-        return limitRepository.save(existing);
+        TransactionLimit updatedLimit = limitRepository.save(existing);
+        logger.info("Transaction limit updated for ID {}", id);
+        return updatedLimit;
     }
 
     public TransactionLimit getLimitByAccountNumber(String accountNumber) {
-        // Retrieve the account based on the account number
         Account account = accountRepository.findByAccountNumber(accountNumber);
         if (account == null) {
             throw new RuntimeException("Account not found with number: " + accountNumber);
         }
 
-        // Retrieve the transaction limit for the found account
         TransactionLimit limit = limitRepository.findByAccountId(account.getId());
-
         if (limit == null) {
             throw new RuntimeException("TransactionLimit not set for this account.");
         }
 
+        logger.info("Fetched transaction limit for account number {}", accountNumber);
         return limit;
     }
 }

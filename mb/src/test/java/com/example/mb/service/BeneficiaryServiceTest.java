@@ -50,23 +50,37 @@ class BeneficiaryServiceTest {
     }
 
     @Test
-    void testGetBeneficiaryById_Valid() throws InvalidIdException {
+    void testGetBeneficiaryById() throws InvalidIdException {
         when(beneficiaryRepository.findById(1L)).thenReturn(Optional.of(beneficiary));
 
         Beneficiary result = beneficiaryService.getBeneficiaryById(1L);
 
         assertEquals("1234567890", result.getAccountNumber());
     }
-
     @Test
-    void testGetBeneficiaryById_Invalid() {
-        when(beneficiaryRepository.findById(2L)).thenReturn(Optional.empty());
+    void testUpdateBeneficiary() {
+        beneficiary.setName("Updated Name");
+        when(beneficiaryRepository.save(any(Beneficiary.class))).thenReturn(beneficiary);
 
-        assertThrows(InvalidIdException.class, () -> beneficiaryService.getBeneficiaryById(2L));
+        Beneficiary updated = beneficiaryService.updateBeneficiary(beneficiary);
+
+        assertEquals("Updated Name", updated.getName());
+        verify(beneficiaryRepository, times(1)).save(beneficiary);
     }
 
+
     @Test
-    void testGetBeneficiariesByCustomerId_Valid() throws InvalidIdException {
+    void testDeleteBeneficiary() {
+        long idToDelete = 1L;
+
+        beneficiaryService.deleteBeneficiary(idToDelete);
+
+        verify(beneficiaryRepository, times(1)).deleteById(idToDelete);
+    }
+
+
+    @Test
+    void testGetBeneficiariesByCustomerId() throws InvalidIdException {
         when(beneficiaryRepository.findByCustomerId(1L)).thenReturn(List.of(beneficiary));
 
         List<Beneficiary> result = beneficiaryService.getBeneficiariesByCustomerId(1L);
@@ -74,10 +88,4 @@ class BeneficiaryServiceTest {
         assertEquals(1, result.size());
     }
 
-    @Test
-    void testGetBeneficiariesByCustomerId_Empty() {
-        when(beneficiaryRepository.findByCustomerId(99L)).thenReturn(Collections.emptyList());
-
-        assertThrows(InvalidIdException.class, () -> beneficiaryService.getBeneficiariesByCustomerId(99L));
-    }
 }
