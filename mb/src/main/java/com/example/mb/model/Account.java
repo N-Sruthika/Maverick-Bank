@@ -31,6 +31,9 @@ public class Account {
 
     @ManyToOne
     private Customer customer;
+    
+    @OneToOne
+    private TransactionLimit transactionLimit;
 
     // Getters and Setters
 
@@ -96,5 +99,13 @@ public class Account {
 
     public void setCustomer(Customer customer) {
         this.customer = customer;
+    }
+    
+    public TransactionLimit getTransactionLimit() {
+        return transactionLimit;
+    }
+
+    public void setTransactionLimit(TransactionLimit transactionLimit) {
+        this.transactionLimit = transactionLimit;
     }
 }

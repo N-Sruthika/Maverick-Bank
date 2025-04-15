@@ -38,7 +38,7 @@ public class ServiceRequest {
     @Column
     private LocalDate createdDate;
 
-    
+    // Getters and Setters
 
     public Long getId() {
         return id;
