@@ -9,18 +9,20 @@ public class Department {
     public enum Role {
         CSR,           // Customer Service Representative
         DLM,           // Document Loan Manager
-        BRANCH_MANAGER
+        BRANCH_MANAGER,
+        REGIONAL_MANAGER
     }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true)
+    // Store the enum as a string in the database using EnumType.STRING
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private Role role;
 
     // Getters and Setters
-
     public Long getId() {
         return id;
     }
