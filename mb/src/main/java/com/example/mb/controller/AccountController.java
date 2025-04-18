@@ -4,7 +4,6 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -39,95 +38,55 @@ public class AccountController {
     public Account addAccount(@PathVariable long branchId, 
     						  @PathVariable long customerId, 
     						  @RequestBody Account account) throws InvalidIdException {
-        // Fetch the branch using the branchId
-        Branch branch = branchService.getById(branchId);
-        if (branch == null) {
-            throw new IllegalArgumentException("Invalid branchId: " + branchId); // Handle invalid branch
-        }
+        
+        Branch branch = branchService.getById(branchId);      
         Customer customer = customerService.getById(customerId);
-        if (customer == null) {
-            throw new IllegalArgumentException("Invalid customerId: " + customerId); // Handle invalid customer
-        }
-
-        // Set the branch and customer for the account
         account.setBranch(branch);
-        account.setCustomer(customer);
-
-        // If balance is not provided, set default value
-        if (account.getBalance() == null) {
-            account.setBalance(BigDecimal.ZERO); // Default balance set to 0
-        }
-
-        // Save the account using the service
-        return  accountService.createAccount(account);
-
-       
+        account.setCustomer(customer);       
+        return  accountService.createAccount(account);      
     }
     @GetMapping("/api/account/{accountId}")
-    public Account getAccountById(@PathVariable long accountId) throws InvalidAccountException {
-        // Fetch the account by ID
-        Account account = accountService.getAccountById(accountId);
-        if (account == null) {
-            throw new IllegalArgumentException("Account not found with ID: " + accountId);
-        }
-        return account;
+    public Account getAccountById(@PathVariable long accountId) throws InvalidAccountException {       
+        return accountService.getAccountById(accountId);      
+        
     }
     
     @GetMapping("/api/accounts/customer/{customerId}")
-    public List<Account> getAccountsByCustomerId(@PathVariable long customerId) {
-        // Fetch all accounts for a customer by customerId
-        List<Account> accounts = accountService.getAccountsByCustomerId(customerId);
-        if (accounts.isEmpty()) {
-            throw new IllegalArgumentException("No accounts found for customer ID: " + customerId);
-        }
-        return accounts;
+    public List<Account> getAccountsByCustomerId(@PathVariable long customerId) throws InvalidAccountException {
+    	 return accountService.getAccountsByCustomerId(customerId);
+        
     }
+    
     @PutMapping("/api/account/update/{accountId}")
     public Account updateAccount(@PathVariable long accountId, @RequestBody Account updatedAccount) throws InvalidAccountException {
-        // Fetch the existing account by ID
         Account existingAccount = accountService.getAccountById(accountId);
-        if (existingAccount == null) {
-            throw new IllegalArgumentException("Account not found with ID: " + accountId);
-        }
-
-        // Update account details
-        existingAccount.setAccountType(updatedAccount.getAccountType());
-        existingAccount.setBalance(updatedAccount.getBalance());
+           existingAccount.setAccountType(updatedAccount.getAccountType());
         existingAccount.setStatus(updatedAccount.getStatus());
-        existingAccount.setIfscCode(updatedAccount.getIfscCode());
-
-        // Save updated account and return it
         return accountService.updateAccount(existingAccount);
     }
+    
     @DeleteMapping("/api/account/deactivate/{accountId}")
-    public String deactivateAccount(@PathVariable long accountId) throws InvalidAccountException {
-        // Fetch the account by ID
-        Account account = accountService.getAccountById(accountId);
-        if (account == null) {
-            throw new IllegalArgumentException("Account not found with ID: " + accountId);
-        }
-
-        // Deactivate the account by changing its status
+    public Account deactivateAccount(@PathVariable long accountId) throws InvalidAccountException {
+        Account account = accountService.getAccountById(accountId);       
         account.setStatus("Deactivated");
-        accountService.updateAccount(account);
-
-        return "Account deactivated successfully.";
+        return accountService.updateAccount(account);
+        
     }
+    // Call service to get the account details based on the account number
     @GetMapping("/find/{accountNumber}")
     public Account getAccountByAccountNumber(@PathVariable String accountNumber) {
-        // Call service to get the account details based on the account number
+      
         return accountService.getAccountByAccountNumber(accountNumber);
     }
+    
+    // Return balance in the response
     @GetMapping("/api/account/get/balance/{accountNumber}")
-    public ResponseEntity<?> getBalanceByAccountNumber(@PathVariable String accountNumber) throws InvalidAccountException {
-        BigDecimal account = accountService.getBalance(accountNumber); // Getting balance directly
-        return ResponseEntity.ok(account);  // Return balance in the response
+    public BigDecimal getBalanceByAccountNumber(@PathVariable String accountNumber) throws InvalidAccountException {
+    	 return accountService.getBalance(accountNumber); // Getting balance directly
+
     }
-
-
+    
 }
-
-
 
 
 

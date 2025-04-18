@@ -83,4 +83,5 @@ public class CustomerSignUpController {
     public CustomerSignup getCustomerSignupByIfsc(@PathVariable String ifscCode) throws InvalidIdException {
         return customerSignupService.getDetailsByIfsc(ifscCode);
     }
+    
 }

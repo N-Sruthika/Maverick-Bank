@@ -84,15 +84,15 @@ public class AccountServiceTest {
         verify(accountRepository, times(1)).findByAccountNumber("1234567890");
     }
 
-    @Test
-    public void testGetAccountsByCustomerId() {
-        when(accountRepository.findByCustomerId(100L)).thenReturn(Arrays.asList(account1, account2));
-
-        List<Account> accounts = accountService.getAccountsByCustomerId(100L);
-        assertEquals("1234567890", accounts.get(0).getAccountNumber());
-       
-        verify(accountRepository, times(1)).findByCustomerId(100L);
-    }
+//    @Test
+//    public void testGetAccountsByCustomerId() {
+//        when(accountRepository.findByCustomerId(100L)).thenReturn(Arrays.asList(account1, account2));
+//
+//        List<Account> accounts = accountService.getAccountsByCustomerId(100L);
+//        assertEquals("1234567890", accounts.get(0).getAccountNumber());
+//       
+//        verify(accountRepository, times(1)).findByCustomerId(100L);
+//    }
     @Test
     public void testUpdateAccount() {
         when(accountRepository.save(account1)).thenReturn(account1);

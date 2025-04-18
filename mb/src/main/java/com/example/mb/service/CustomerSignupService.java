@@ -21,9 +21,10 @@ public class CustomerSignupService {
 
     // Method to save a new customer signup
     public CustomerSignup add(CustomerSignup customerSignup) {
-        CustomerSignup saved = customerSignupRepository.save(customerSignup);
-        logger.info("Added customer signup with ID {}", saved.getId());
-        return saved;
+    	logger.info("Added customer signup with ID");
+    	 return  customerSignupRepository.save(customerSignup);
+        
+       
     }
 
     // Method to retrieve customer details by ID
@@ -37,11 +38,12 @@ public class CustomerSignupService {
 
     // Method to retrieve customer details by IFSC code
     public CustomerSignup getDetailsByIfsc(String ifscCode) throws InvalidIdException {
-        CustomerSignup customerSignup = customerSignupRepository.findByIfscCode(ifscCode);
-        if (customerSignup == null) {
-            throw new InvalidIdException("Customer not found for IFSC code: " + ifscCode);
-        }
+        Optional<CustomerSignup> optional = customerSignupRepository.findByIfscCode(ifscCode);
+        if(optional.isEmpty())
+        	throw new InvalidIdException("Invalid ifsc code!!");
         logger.info("Fetched customer signup with IFSC code {}", ifscCode);
-        return customerSignup;
+        return optional.get();
     }
+
+	
 }

@@ -21,18 +21,17 @@ public class BeneficiaryService {
     Logger logger = LoggerFactory.getLogger("BeneficiaryService");
 
     // Add a new beneficiary
-    public Beneficiary addBeneficiary(Beneficiary beneficiary) {
-        Beneficiary saved = beneficiaryRepository.save(beneficiary);
-        logger.info("Added beneficiary with ID {}", saved.getId());
-        return saved;
+    public Beneficiary addBeneficiary(Beneficiary beneficiary) {      
+        logger.info("Added beneficiary successfully");
+        return  beneficiaryRepository.save(beneficiary);
     }
 
     // Get a beneficiary by ID
     public Beneficiary getBeneficiaryById(long beneficiaryId) throws InvalidIdException {
         Optional<Beneficiary> beneficiary = beneficiaryRepository.findById(beneficiaryId);
-        if (beneficiary.isEmpty()) {
-            throw new InvalidIdException("Beneficiary not found with ID: " + beneficiaryId);
-        }
+        if (beneficiary.isEmpty()) 
+            throw new InvalidIdException("Beneficiary not found with your ID");
+        
         logger.info("Fetched beneficiary with ID {}", beneficiaryId);
         return beneficiary.get();
     }
@@ -40,9 +39,9 @@ public class BeneficiaryService {
     // Get all beneficiaries for a customer by customerId
     public List<Beneficiary> getBeneficiariesByCustomerId(long customerId) throws InvalidIdException {
         List<Beneficiary> beneficiaries = beneficiaryRepository.findByCustomerId(customerId);
-        if (beneficiaries.isEmpty()) {
-            throw new InvalidIdException("No beneficiaries found for customer ID: " + customerId);
-        }
+        if (beneficiaries.isEmpty()) 
+            throw new InvalidIdException("No beneficiaries found for the customer ID");
+        
         logger.info("Fetched {} beneficiaries for customer ID {}", beneficiaries.size(), customerId);
         return beneficiaries;
     }
@@ -55,8 +54,11 @@ public class BeneficiaryService {
     }
 
     // Delete a beneficiary by ID
-    public void deleteBeneficiary(long beneficiaryId) {
-        beneficiaryRepository.deleteById(beneficiaryId);
-        logger.info("Deleted beneficiary with ID {}", beneficiaryId);
-    }
+
+	public String deleteBeneficiaryById(long beneficiaryId) {
+		 logger.info("Deleted beneficiary");
+		 beneficiaryRepository.deleteById(beneficiaryId);
+		return "Deleted successfully";
+		 
+	}
 }
