@@ -67,6 +67,20 @@ public class BeneficiaryController {
     public String deleteBeneficiaryById(@PathVariable long beneficiaryId) throws InvalidIdException {
         return beneficiaryService.deleteBeneficiaryById(beneficiaryId);  // Pass only ID to service
     }
-
-
+ // GET method to return total number of beneficiaries
+    @GetMapping("/api/beneficiaries/count")
+    public int getTotalNumberOfBeneficiaries() {
+        return beneficiaryService.getTotalBeneficiariesCount();
+    }
+ // GET method to get number of beneficiaries for a specific customer
+    @GetMapping("/api/beneficiaries/count/{customerId}")
+    public int getBeneficiaryCountByCustomerId(@PathVariable long customerId) {
+        return beneficiaryService.countByCustomerId(customerId);
+    }
+ // GET method to fetch beneficiary name and bank name by customer ID
+    @GetMapping("/api/beneficiaries/details/{customerId}")
+    public List<Beneficiary> getBeneficiaryNamesAndBankNames(@PathVariable long customerId) throws InvalidIdException {
+        List<Beneficiary> beneficiaries = beneficiaryService.getBeneficiariesByCustomerId(customerId);
+        return beneficiaries; // This will return the full Beneficiary object
+    }
 }

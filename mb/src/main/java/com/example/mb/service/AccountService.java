@@ -65,6 +65,13 @@ public class AccountService {
 		Account account= accountRepository.findBalanceByAccountNumber(accountNumber);
 		return account.getBalance();
 	}
+
+
+
+	public int countActiveAccountsByCustomer(long customerId) {
+	    return accountRepository.countByCustomerIdAndStatus(customerId, "Active");
+	}
+
 	
 	 
 
