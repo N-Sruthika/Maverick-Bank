@@ -53,13 +53,19 @@ public class SecurityConfig {
 				.requestMatchers("/api/account/update/{accountId}").hasAuthority("CUSTOMER")
 				.requestMatchers("/api/account/deactivate/{accountId}").hasAuthority("CUSTOMER")
 				.requestMatchers("/find/{accountNumber}").hasAuthority("CUSTOMER")
+				.requestMatchers("/api/accounts/active/count/{customerId}").hasAuthority("CUSTOMER")
 				
-				//beneficiary
+				
+				
+				//beneficiary 
 				.requestMatchers("/api/beneficiary/add/{customerId}").hasAuthority("CUSTOMER")
 				.requestMatchers("/api/beneficiaries/customer/{customerId}").hasAnyAuthority("CUSTOMER", "ADMIN")
 				.requestMatchers("/api/beneficiary/{beneficiaryId}").hasAnyAuthority("CUSTOMER")
 				.requestMatchers("/api/beneficiary/update/{beneficiaryid}").hasAuthority("CUSTOMER")
 				.requestMatchers("/api/beneficiary/delete/{beneficiaryid}").hasAuthority("CUSTOMER")
+				.requestMatchers("/api/beneficiaries/count").hasAuthority("CUSTOMER")
+				.requestMatchers("/api/beneficiaries/count/{customerId}").hasAuthority("CUSTOMER")
+				.requestMatchers("/api/beneficiaries/details/{customerId}").hasAuthority("CUSTOMER")
 				
 				//service request				
 				.requestMatchers("/api/service-request/raise/{customerId}").hasAuthority("CUSTOMER")

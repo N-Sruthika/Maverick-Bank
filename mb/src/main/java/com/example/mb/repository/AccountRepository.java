@@ -14,4 +14,6 @@ public interface AccountRepository extends JpaRepository<Account, Long> {
 
 	Account findBalanceByAccountNumber(String accountNumber);
 
+	int countByCustomerIdAndStatus(long customerId, String string);
+
 }

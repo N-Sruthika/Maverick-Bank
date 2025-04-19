@@ -85,6 +85,13 @@ public class AccountController {
     	 return accountService.getBalance(accountNumber); // Getting balance directly
 
     }
+ // GET method to get number of active accounts for a specific customer
+    @GetMapping("/api/accounts/active/count/{customerId}")
+    public int getActiveAccountsCountByCustomer(@PathVariable long customerId) {
+        return accountService.countActiveAccountsByCustomer(customerId);
+    }
+
+   
     
 }
 

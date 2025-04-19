@@ -3,14 +3,14 @@ package com.example.mb.service;
 import java.util.List;
 import java.util.Optional;
 
-import com.example.mb.exception.InvalidIdException;
-import com.example.mb.model.Beneficiary;
-import com.example.mb.repository.BeneficiaryRepository;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.example.mb.exception.InvalidIdException;
+import com.example.mb.model.Beneficiary;
+import com.example.mb.repository.BeneficiaryRepository;
 
 @Service
 public class BeneficiaryService {
@@ -61,4 +61,23 @@ public class BeneficiaryService {
 		return "Deleted successfully";
 		 
 	}
+
+	public int getTotalBeneficiariesCount() {
+	    return (int) beneficiaryRepository.count();
+	}
+
+	public int countByCustomerId(long customerId) {
+	    return beneficiaryRepository.countByCustomerId(customerId);
+	}
+
+	public List<Beneficiary> getBeneficiaryNamesAndBankNames(long customerId) throws InvalidIdException {
+	    List<Beneficiary> beneficiaries = beneficiaryRepository.findByCustomerId(customerId);
+	    if (beneficiaries.isEmpty()) 
+	        throw new InvalidIdException("No beneficiaries found for the customer ID");
+	    return beneficiaries;
+	}
+
+
+	
+
 }
