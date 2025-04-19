@@ -1,5 +1,7 @@
 package com.example.mb.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -14,6 +16,11 @@ public class AuthService {
 	private AuthRepository authRepository;
 	@Autowired
 	private BCryptPasswordEncoder bcrypt;
+	@Autowired
+	private BCryptPasswordEncoder encoder;
+	
+	Logger logger=LoggerFactory.getLogger("UserService");
+
 	
 	public User signUp(User user) throws InvalidUsernameException {
 		//check if Username is unique 
@@ -34,5 +41,15 @@ public class AuthService {
 		
 		return authRepository.save(user);
 	}
-	
+	public void reset(String username, User user) {
+		//find the user by using the username from the db 
+	   User user1=authRepository.findByUsername(username);
+	   //bcrypt the new password
+	   String password = encoder.encode(user.getPassword());
+	   //update the old password with new password
+	   user1.setPassword(password);
+	   logger.info("The password is reseted for user "+ username);
+	   //save the user
+	   authRepository.save(user1);
+	}
 }
