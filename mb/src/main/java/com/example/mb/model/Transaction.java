@@ -22,9 +22,11 @@ public class Transaction {
     private Double amount;
     private String transactionType; // UPI or BANK
     private String status;
+
     private String transactionMode;
     private LocalDateTime transactionDate;
    
+
 	public Long getId() {
 		return id;
 	}
@@ -55,7 +57,7 @@ public class Transaction {
 	public void setStatus(String status) {
 		this.status = status;
 	}
-	
+
 	public String getTransactionMode() {
 		return transactionMode;
 	}
@@ -68,6 +70,7 @@ public class Transaction {
 	public void setTransactionDate(LocalDateTime transactionDate) {
 		this.transactionDate = transactionDate;
 	}
+
 	public Transaction(Long id, Account fromAccount, Double amount, String transactionType, String status,
 			String purpose, String description, String transactionMode, LocalDateTime transactionDate) {
 		super();
@@ -112,5 +115,6 @@ public class Transaction {
 				&& Objects.equals(transactionMode, other.transactionMode)
 				&& Objects.equals(transactionType, other.transactionType);
 	}
+
     // Getters & Setters
 }
