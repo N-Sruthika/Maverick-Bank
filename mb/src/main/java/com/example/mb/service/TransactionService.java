@@ -30,6 +30,7 @@ public class TransactionService {
     @Autowired private UPITransactionRepository upiTransactionRepository;
     @Autowired private AccountRepository accountRepository;
     @Autowired private BeneficiaryRepository beneficiaryRepository;
+    
 
     Logger logger = LoggerFactory.getLogger("TransactionService");
 
@@ -115,12 +116,12 @@ public class TransactionService {
         logger.info("UPI transfer completed for account {} to UPI ID {}", accountNumber, upiTransaction.getUpiId());
         return transaction;
     }
-
-
-    // Fetch transaction history by account number
     public List<Transaction> getTransactionHistory(String accountNumber) {
+        // Fetching transactions by account number from the repository
         List<Transaction> transactions = transactionRepository.findByFromAccount_AccountNumber(accountNumber);
-        logger.info("Fetched transaction history for account {}", accountNumber);
+        
+        // You can skip manually setting the account number now, as it's already present in the Transaction entity
         return transactions;
     }
+
 }

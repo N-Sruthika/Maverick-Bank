@@ -13,3 +13,5 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long> 
 
 	List<Transaction> findByFromAccount_AccountNumber(String accountNumber);
 }
+
+

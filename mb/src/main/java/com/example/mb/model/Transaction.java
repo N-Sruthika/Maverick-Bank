@@ -1,8 +1,13 @@
 package com.example.mb.model;
 
-import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Objects;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 
 @Entity
 public class Transaction {
@@ -17,10 +22,9 @@ public class Transaction {
     private Double amount;
     private String transactionType; // UPI or BANK
     private String status;
-    private String purpose;
-    private String description;
     private String transactionMode;
     private LocalDateTime transactionDate;
+   
 	public Long getId() {
 		return id;
 	}
@@ -51,18 +55,7 @@ public class Transaction {
 	public void setStatus(String status) {
 		this.status = status;
 	}
-	public String getPurpose() {
-		return purpose;
-	}
-	public void setPurpose(String purpose) {
-		this.purpose = purpose;
-	}
-	public String getDescription() {
-		return description;
-	}
-	public void setDescription(String description) {
-		this.description = description;
-	}
+	
 	public String getTransactionMode() {
 		return transactionMode;
 	}
@@ -83,8 +76,6 @@ public class Transaction {
 		this.amount = amount;
 		this.transactionType = transactionType;
 		this.status = status;
-		this.purpose = purpose;
-		this.description = description;
 		this.transactionMode = transactionMode;
 		this.transactionDate = transactionDate;
 	}
@@ -95,8 +86,6 @@ public class Transaction {
 		this.amount = amount;
 		this.transactionType = transactionType;
 		this.status = status;
-		this.purpose = purpose;
-		this.description = description;
 		this.transactionMode = transactionMode;
 		this.transactionDate = transactionDate;
 	}
@@ -106,8 +95,7 @@ public class Transaction {
 	}
 	@Override
 	public int hashCode() {
-		return Objects.hash(amount, description, fromAccount, id, purpose, status, transactionDate, transactionMode,
-				transactionType);
+		return Objects.hash(amount, fromAccount, id, status, transactionDate, transactionMode, transactionType);
 	}
 	@Override
 	public boolean equals(Object obj) {
@@ -118,13 +106,11 @@ public class Transaction {
 		if (getClass() != obj.getClass())
 			return false;
 		Transaction other = (Transaction) obj;
-		return Objects.equals(amount, other.amount) && Objects.equals(description, other.description)
-				&& Objects.equals(fromAccount, other.fromAccount) && Objects.equals(id, other.id)
-				&& Objects.equals(purpose, other.purpose) && Objects.equals(status, other.status)
+		return Objects.equals(amount, other.amount) && Objects.equals(fromAccount, other.fromAccount)
+				&& Objects.equals(id, other.id) && Objects.equals(status, other.status)
 				&& Objects.equals(transactionDate, other.transactionDate)
 				&& Objects.equals(transactionMode, other.transactionMode)
 				&& Objects.equals(transactionType, other.transactionType);
 	}
-
     // Getters & Setters
 }
