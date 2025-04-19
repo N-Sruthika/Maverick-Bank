@@ -1,6 +1,7 @@
 package com.example.mb.service;
 
 import com.example.mb.model.TransactionLimit;
+import com.example.mb.exception.InvalidIdException;
 import com.example.mb.model.Account;
 import com.example.mb.repository.TransactionLimitRepository;
 import com.example.mb.repository.AccountRepository;
@@ -24,47 +25,39 @@ public class TransactionLimitService {
 
     public TransactionLimit addTransactionLimit(Long accountId, TransactionLimit request) {
         Optional<Account> optionalAccount = accountRepository.findById(accountId);
-        if (optionalAccount.isEmpty()) {
+        if (optionalAccount.isEmpty())
             throw new RuntimeException("Account not found with ID: " + accountId);
-        }
-
-        TransactionLimit limit = new TransactionLimit();
-        limit.setAccount(optionalAccount.get());
-        limit.setDailyLimit(request.getDailyLimit());
-        limit.setMonthlyLimit(request.getMonthlyLimit());
-
-        TransactionLimit savedLimit = limitRepository.save(limit);
+        Account account = optionalAccount.get();
+        request.setAccount(account);
         logger.info("Transaction limit added for account ID {}", accountId);
-        return savedLimit;
+        return limitRepository.save(request);
     }
 
-    public TransactionLimit updateTransactionLimit(Long id, TransactionLimit request) {
-        Optional<TransactionLimit> optionalLimit = limitRepository.findById(id);
-        if (optionalLimit.isEmpty()) {
-            throw new RuntimeException("TransactionLimit not found with ID: " + id);
+    public TransactionLimit updateTransactionLimit(Long id, TransactionLimit newLimit) throws InvalidIdException {
+        Optional<TransactionLimit> optionalOldLimit = limitRepository.findById(id);
+        if (optionalOldLimit.isEmpty()) {
+            throw new InvalidIdException("TransactionLimit not found with ID: " + id);
         }
 
-        TransactionLimit existing = optionalLimit.get();
-        existing.setDailyLimit(request.getDailyLimit());
-        existing.setMonthlyLimit(request.getMonthlyLimit());
+        TransactionLimit oldLimit = optionalOldLimit.get();
 
-        TransactionLimit updatedLimit = limitRepository.save(existing);
+        if (newLimit.getDailyLimit() != null) {
+            oldLimit.setDailyLimit(newLimit.getDailyLimit());
+        }
+        if (newLimit.getMonthlyLimit() != null) {
+            oldLimit.setMonthlyLimit(newLimit.getMonthlyLimit());
+        }
+
         logger.info("Transaction limit updated for ID {}", id);
-        return updatedLimit;
+        return limitRepository.save(oldLimit);
     }
+
 
     public TransactionLimit getLimitByAccountNumber(String accountNumber) {
         Account account = accountRepository.findByAccountNumber(accountNumber);
-        if (account == null) {
-            throw new RuntimeException("Account not found with number: " + accountNumber);
-        }
-
-        TransactionLimit limit = limitRepository.findByAccountId(account.getId());
-        if (limit == null) {
-            throw new RuntimeException("TransactionLimit not set for this account.");
-        }
-
         logger.info("Fetched transaction limit for account number {}", accountNumber);
-        return limit;
+        return limitRepository.findByAccount(account);
     }
+
+
 }

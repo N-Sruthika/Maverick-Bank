@@ -1,5 +1,8 @@
 package com.example.mb.service;
 
+import java.util.List;
+import java.util.Optional;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,17 +21,25 @@ public class CustomerService {
     Logger logger = LoggerFactory.getLogger("CustomerService");
 
     public Customer add(Customer customer) {
-        Customer saved = customerRepository.save(customer);
-        logger.info("Added customer with ID {}", saved.getId());
-        return saved;
+    	logger.info("Added customer successfully");
+        return customerRepository.save(customer);      
     }
 
     public Customer getById(Long id) throws InvalidIdException {
-        Customer customer = customerRepository.findById(id);
-        if (customer == null) {
+        Optional<Customer> optional = customerRepository.findById(id);
+        if (optional.isEmpty()) 
             throw new InvalidIdException("Customer not found with ID: " + id);
-        }
         logger.info("Fetched customer with ID {}", id);
-        return customer;
+        return optional.get();
     }
+
+	public Customer getByUsername(String username) {
+		logger.info("Fetched customer with username");
+		return customerRepository.findByUsername(username);
+	}
+
+	public List<Customer> getAllCustomerDetails(long bid) {
+	    return customerRepository.findByBranchId(bid);
+	}
+
 }

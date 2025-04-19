@@ -1,5 +1,6 @@
 package com.example.mb.controller;
 
+import com.example.mb.exception.InvalidIdException;
 import com.example.mb.model.TransactionLimit;
 import com.example.mb.service.TransactionLimitService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,7 @@ public class TransactionLimitController {
     }
 
     @PutMapping("/update/{id}")
-    public TransactionLimit updateLimit(@PathVariable Long id, @RequestBody TransactionLimit request) {
+    public TransactionLimit updateLimit(@PathVariable Long id, @RequestBody TransactionLimit request) throws InvalidIdException {
         return transactionLimitService.updateTransactionLimit(id, request);
     }
 

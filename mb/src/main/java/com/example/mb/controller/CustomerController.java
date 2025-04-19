@@ -1,5 +1,7 @@
 package com.example.mb.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,29 +22,31 @@ import com.example.mb.service.CustomerService;
 	    private CustomerService customerService;
 	    @Autowired
 	    private BranchService branchService;
-
+        //method to add customer with corresponding branch
 	    @PostMapping("/api/customer/add/{bid}")
-	    public Customer addDetails(@PathVariable long bid, @RequestBody Customer customer) throws InvalidIdException {
-	        // Fetch the branch using the branchId (bid)
-	        Branch branch = branchService.getById(bid);
-
-	        // Set the branch for the customer
+	    public Customer addCustomer(@PathVariable long bid, @RequestBody Customer customer) throws InvalidIdException {
+	        Branch branch = branchService.getById(bid);        
 	        customer.setBranch(branch);
-
-	        // If dob is not provided, set the current date
-	        if (customer.getDob() == null) {
-	            throw new InvalidIdException("Dod not found"); // or throw error if dob is required
-	        }
-
-	        // Save the customer using the service
-	        Customer savedCustomer = customerService.add(customer);
-
-	        // Return the saved customer
-	        return savedCustomer;
+	        return customerService.add(customer);
 	    }
-	    @GetMapping("/api/get/{id}")
+
+	    
+	    //method to get customer by customerid
+	    @GetMapping("/api/get/profile/{id}")
 	    public Customer getCustomerById(@PathVariable Long id) throws InvalidIdException {
 	        return customerService.getById(id);
 	    }
-	}
+	    
+	    //get by username
+	    @GetMapping("/api/get/details/{username}")
+	    public Customer getDetailsByUsername(@PathVariable String username) {	    	
+	    	return  customerService.getByUsername(username);	
+	    	
+	    }
+	    @GetMapping("/api/getall/customer/{bid}")
+	    public List<Customer> getAllCustomerDetails(@PathVariable long bid) {
+	        return customerService.getAllCustomerDetails(bid);
+	    }
+
+}
 

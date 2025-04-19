@@ -18,8 +18,7 @@ public class ServiceRequestController {
 
     // POST: Raise a new request
     @PostMapping("/raise/{customerId}")
-    public ServiceRequest raiseRequest(@PathVariable Long customerId, @RequestBody ServiceRequest request)
-            throws InvalidIdException {
+    public ServiceRequest raiseRequest(@PathVariable Long customerId, @RequestBody ServiceRequest request) throws InvalidIdException {
         return serviceRequestService.raiseServiceRequest(customerId, request);
     }
 
@@ -38,7 +37,7 @@ public class ServiceRequestController {
     // DELETE: Delete request by ID
     @DeleteMapping("/delete/{requestId}")
     public String deleteRequest(@PathVariable Long requestId) throws InvalidIdException {
-        serviceRequestService.deleteRequest(requestId);
-        return "Service request deleted successfully.";
+    	return serviceRequestService.deleteRequest(requestId);
+       
     }
 }

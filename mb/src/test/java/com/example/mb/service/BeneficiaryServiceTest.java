@@ -73,7 +73,7 @@ class BeneficiaryServiceTest {
     void testDeleteBeneficiary() {
         long idToDelete = 1L;
 
-        beneficiaryService.deleteBeneficiary(idToDelete);
+        beneficiaryService.updateBeneficiary(idToDelete);
 
         verify(beneficiaryRepository, times(1)).deleteById(idToDelete);
     }

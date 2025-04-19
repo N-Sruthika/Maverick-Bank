@@ -34,24 +34,44 @@ public class SecurityConfig {
 				.requestMatchers("/api/auth/token/generate").permitAll()	
 				.requestMatchers("/api/auth/user/details").authenticated()
 				.requestMatchers("/api/auth/signup").permitAll()
+                //Customersignup				
 				.requestMatchers("/api/newuser/signup").permitAll()
+				.requestMatchers("api/customer/signup/ifsc/{ifscCode}").hasAuthority("CUSTOMER")			
+				.requestMatchers("/api/getall/{id}").hasAuthority("CUSTOMER")
+				
+				//customer profile			
 				.requestMatchers("/api/customer/add/{bid}").hasAnyAuthority("ADMIN")
-				.requestMatchers("/api/get/ifsc/{ifsc}").hasAuthority("CUSTOMER")
-				.requestMatchers("/api/get/{id}").hasAuthority("CUSTOMER")
+				.requestMatchers("/api/get/profile/{id}").hasAuthority("CUSTOMER")
+				.requestMatchers("/api/get/details/{username}").hasAuthority("CUSTOMER")
+				.requestMatchers("/api/getall/customer/{bid}").hasAuthority("CUSTOMER")
+				
+				//account					
 				.requestMatchers("/api/account/add/{branchId}/{customerId}").hasAuthority("ADMIN")
-				.requestMatchers("/api/account/get/balance/{accountNumber}").hasAuthority("CUSTOMER")				
-				.requestMatchers("/api/beneficiary/add/{customerId}").hasAuthority("ADMIN")
+				.requestMatchers("/api/account/get/balance/{accountNumber}").hasAuthority("CUSTOMER")
+				.requestMatchers("/api/account/{accountId}").hasAuthority("CUSTOMER")
+				.requestMatchers("/api/accounts/customer/{customerId}").hasAuthority("CUSTOMER")
+				.requestMatchers("/api/account/update/{accountId}").hasAuthority("CUSTOMER")
+				.requestMatchers("/api/account/deactivate/{accountId}").hasAuthority("CUSTOMER")
+				.requestMatchers("/find/{accountNumber}").hasAuthority("CUSTOMER")
+				
+				//beneficiary
+				.requestMatchers("/api/beneficiary/add/{customerId}").hasAuthority("CUSTOMER")
 				.requestMatchers("/api/beneficiaries/customer/{customerId}").hasAnyAuthority("CUSTOMER", "ADMIN")
 				.requestMatchers("/api/beneficiary/{beneficiaryId}").hasAnyAuthority("CUSTOMER")
-				.requestMatchers("/api/beneficiary/update/{id}").hasAuthority("CUSTOMER")
-				.requestMatchers("/api/beneficiary/delete/{id}").hasAuthority("CUSTOMER")
+				.requestMatchers("/api/beneficiary/update/{beneficiaryid}").hasAuthority("CUSTOMER")
+				.requestMatchers("/api/beneficiary/delete/{beneficiaryid}").hasAuthority("CUSTOMER")
+				
+				//service request				
 				.requestMatchers("/api/service-request/raise/{customerId}").hasAuthority("CUSTOMER")
 				.requestMatchers("/api/service-request/customer/{customerId}").hasAnyAuthority("CUSTOMER", "ADMIN")
 				.requestMatchers("/api/service-request/{requestId}").permitAll()
 				.requestMatchers("/api/service-request/delete/{requestId}").permitAll()
-				.requestMatchers("/api/transaction-limit/add").hasAnyAuthority("EMPLOYEE", "ADMIN")
+				
+				//transaction limit
+				.requestMatchers("/api/transaction-limit/add/{accountId}").hasAnyAuthority("EMPLOYEE", "ADMIN")
 				.requestMatchers("/api/transaction-limit/account/{accountNumber}").permitAll()
 				.requestMatchers("/api/transaction-limit/update/{accountId}").hasAnyAuthority("EMPLOYEE", "ADMIN")
+				
 				.requestMatchers("/api/transactions/upi-transfer/{accountNumber}").hasAuthority("CUSTOMER") // UPI transaction
 			    .requestMatchers("/api/transactions/bank-transfer/{accountNumber}").hasAuthority("CUSTOMER") // Bank transfer
 			    .requestMatchers("/api/transactions/history/{accountId}").hasAuthority("CUSTOMER") // View transaction history for a specific account				   
