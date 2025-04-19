@@ -2,6 +2,7 @@ package com.example.mb.model;
 
 import jakarta.persistence.*;
 import java.math.BigDecimal;
+import java.util.Objects;
 
 @Entity
 @Table(name = "bank_transfer")
@@ -97,4 +98,58 @@ public class BankTransfer {
     public void setTransaction(Transaction transaction) {
         this.transaction = transaction;
     }
+
+	public BankTransfer(Long id, String beneficiaryName, String beneficiaryAccountNumber, String beneficiaryIfsc,
+			String beneficiaryBankName, String beneficiaryAccountType, BigDecimal amount, Transaction transaction) {
+		super();
+		this.id = id;
+		this.beneficiaryName = beneficiaryName;
+		this.beneficiaryAccountNumber = beneficiaryAccountNumber;
+		this.beneficiaryIfsc = beneficiaryIfsc;
+		this.beneficiaryBankName = beneficiaryBankName;
+		this.beneficiaryAccountType = beneficiaryAccountType;
+		this.amount = amount;
+		this.transaction = transaction;
+	}
+
+	public BankTransfer(String beneficiaryName, String beneficiaryAccountNumber, String beneficiaryIfsc,
+			String beneficiaryBankName, String beneficiaryAccountType, BigDecimal amount, Transaction transaction) {
+		super();
+		this.beneficiaryName = beneficiaryName;
+		this.beneficiaryAccountNumber = beneficiaryAccountNumber;
+		this.beneficiaryIfsc = beneficiaryIfsc;
+		this.beneficiaryBankName = beneficiaryBankName;
+		this.beneficiaryAccountType = beneficiaryAccountType;
+		this.amount = amount;
+		this.transaction = transaction;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(amount, beneficiaryAccountNumber, beneficiaryAccountType, beneficiaryBankName,
+				beneficiaryIfsc, beneficiaryName, id, transaction);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		BankTransfer other = (BankTransfer) obj;
+		return Objects.equals(amount, other.amount)
+				&& Objects.equals(beneficiaryAccountNumber, other.beneficiaryAccountNumber)
+				&& Objects.equals(beneficiaryAccountType, other.beneficiaryAccountType)
+				&& Objects.equals(beneficiaryBankName, other.beneficiaryBankName)
+				&& Objects.equals(beneficiaryIfsc, other.beneficiaryIfsc)
+				&& Objects.equals(beneficiaryName, other.beneficiaryName) && Objects.equals(id, other.id)
+				&& Objects.equals(transaction, other.transaction);
+	}
+
+	public BankTransfer() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 }

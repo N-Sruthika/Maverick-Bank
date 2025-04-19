@@ -54,6 +54,7 @@ public class SecurityConfig {
 				.requestMatchers("/api/account/deactivate/{accountId}").hasAuthority("CUSTOMER")
 				.requestMatchers("/find/{accountNumber}").hasAuthority("CUSTOMER")
 				
+				
 				//beneficiary
 				.requestMatchers("/api/beneficiary/add/{customerId}").hasAuthority("CUSTOMER")
 				.requestMatchers("/api/beneficiaries/customer/{customerId}").hasAnyAuthority("CUSTOMER", "ADMIN")

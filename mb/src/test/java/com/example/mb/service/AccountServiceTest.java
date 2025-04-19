@@ -1,11 +1,13 @@
 package com.example.mb.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -34,107 +36,83 @@ public class AccountServiceTest {
     @Mock
     private AccountRepository accountRepository;
 
-    private Account account1;
-    private Account account2;
-    private Customer customer;
+    private Customer c1, c2;
+    private Account a1, a2, a3;
     private Branch branch;
 
     @BeforeEach
-    public void setup() {
-        branch = new Branch();
-        branch.setId(1L);
-        branch.setBranchName("Main Branch");
+    public void init() {
+        // Initialize Branch instance
+        branch = new Branch("Main Branch", "123 Main St");
+        branch.setId(1L);  // Manually set ID for testing
 
-        customer = new Customer();
-        customer.setId(100L);
-        customer.setName("John Doe");
+       
+        // Initialize Customer instances
+        c1 = new Customer(1L, "Customer One", "customer1", "111111", "customer1@example.com", "123 Street", LocalDate.of(1990, 1, 1), 
+                          "Bachelors", "Engineer", "Single", "ABCDE1234F", "123456789012", branch);
+        c2 = new Customer(2L, "Customer Two", "customer2", "222222", "customer2@example.com", "456 Street", LocalDate.of(1985, 5, 20), 
+                          "Masters", "Doctor", "Married", "FGHIJ5678G", "234567890123", branch);
 
-        account1 = new Account();
-        account1.setId(1L);
-        account1.setAccountNumber("1234567890");
-        account1.setBalance(new BigDecimal("5000.00"));
-        account1.setCustomer(customer);
-        account1.setBranch(branch);
-
-        account2 = new Account();
-        account2.setId(2L);
-        account2.setAccountNumber("0987654321");
-        account2.setBalance(new BigDecimal("10000.00"));
-        account2.setCustomer(customer);
-        account2.setBranch(branch);
-    }
-    @Test
-    public void testCreateAccount() {
-        when(accountRepository.save(account1)).thenReturn(account1);
-
-        Account savedAccount = accountService.createAccount(account1);
-
-        assertEquals("1234567890", savedAccount.getAccountNumber());
-        verify(accountRepository, times(1)).save(account1);
-    }
-    
-
-    @Test
-    public void testGetBalance_ValidAccount() throws InvalidAccountException {
-        when(accountRepository.findByAccountNumber("1234567890")).thenReturn(account1);
-
-        BigDecimal balance = accountService.getBalance("1234567890");
-
-        assertEquals(new BigDecimal("5000.00"), balance);
-        verify(accountRepository, times(1)).findByAccountNumber("1234567890");
+        // Initialize Account instances
+        a1 = new Account(1L, "ACC123", "IFSC001", "SAVINGS", new BigDecimal("1000.00"), "ACTIVE", branch, c1);
+        a2 = new Account(2L, "ACC456", "IFSC002", "CURRENT", new BigDecimal("2000.00"), "ACTIVE", branch, c1);
+        a3 = new Account(3L, "ACC789", "IFSC003", "SAVINGS", new BigDecimal("3000.00"), "INACTIVE", branch, c2);
     }
 
-//    @Test
-//    public void testGetAccountsByCustomerId() {
-//        when(accountRepository.findByCustomerId(100L)).thenReturn(Arrays.asList(account1, account2));
-//
-//        List<Account> accounts = accountService.getAccountsByCustomerId(100L);
-//        assertEquals("1234567890", accounts.get(0).getAccountNumber());
-//       
-//        verify(accountRepository, times(1)).findByCustomerId(100L);
-//    }
     @Test
-    public void testUpdateAccount() {
-        when(accountRepository.save(account1)).thenReturn(account1);
-
-        Account updatedAccount = accountService.updateAccount(account1);
-
-        assertEquals("1234567890", updatedAccount.getAccountNumber());
-        verify(accountRepository, times(1)).save(account1);
+    public void createAccountTest() {
+        when(accountRepository.save(a1)).thenReturn(a1);
+        assertEquals(a1, accountService.createAccount(a1));
+        verify(accountRepository, times(1)).save(a1);
     }
 
-
     @Test
-    public void testGetAccountById() throws InvalidAccountException {
-        when(accountRepository.findById(1L)).thenReturn(Optional.of(account1));
-
-        Account result = accountService.getAccountById(1L);
-
-        assertEquals("1234567890", result.getAccountNumber());
+    public void getAccountByIdTest_validId() throws InvalidAccountException {
+        when(accountRepository.findById(1L)).thenReturn(Optional.of(a1));
+        assertEquals(a1, accountService.getAccountById(1L));
         verify(accountRepository, times(1)).findById(1L);
     }
+
     @Test
-    public void testGetAccountByAccountNumber_Valid() {
-        when(accountRepository.findByAccountNumber("1234567890")).thenReturn(account1);
-
-        Account result = accountService.getAccountByAccountNumber("1234567890");
-
-        assertEquals("1234567890", result.getAccountNumber());
-        verify(accountRepository, times(1)).findByAccountNumber("1234567890");
+    public void getAccountByIdTest_invalidId() {
+        when(accountRepository.findById(99L)).thenReturn(Optional.empty());
+        assertThrows(InvalidAccountException.class, () -> accountService.getAccountById(99L));
+        verify(accountRepository, times(1)).findById(99L);
     }
 
     @Test
-    public void testGetAccountByAccountNumber_Invalid() {
-        when(accountRepository.findByAccountNumber("9999999999")).thenReturn(null);
-
-        try {
-            accountService.getAccountByAccountNumber("9999999999");
-        } catch (RuntimeException e) {
-            assertEquals("Account not found for account number: 9999999999", e.getMessage());
-            verify(accountRepository, times(1)).findByAccountNumber("9999999999");
-        }
+    public void getAccountsByCustomerIdTest_validId() throws InvalidAccountException {
+        List<Account> accounts = Arrays.asList(a1, a2);
+        when(accountRepository.findByCustomerId(1L)).thenReturn(accounts);
+        assertEquals(accounts, accountService.getAccountsByCustomerId(1L));
+        verify(accountRepository, times(1)).findByCustomerId(1L);
     }
 
+    @Test
+    public void getAccountsByCustomerIdTest_invalidId() {
+        when(accountRepository.findByCustomerId(5L)).thenReturn(Arrays.asList());
+        assertThrows(InvalidAccountException.class, () -> accountService.getAccountsByCustomerId(5L));
+        verify(accountRepository, times(1)).findByCustomerId(5L);
+    }
 
-    
+    @Test
+    public void updateAccountTest() {
+        when(accountRepository.save(a3)).thenReturn(a3);
+        assertEquals(a3, accountService.updateAccount(a3));
+        verify(accountRepository, times(1)).save(a3);
+    }
+
+    @Test
+    public void getAccountByAccountNumberTest() {
+        when(accountRepository.findByAccountNumber("ACC123")).thenReturn(a1);
+        assertEquals(a1, accountService.getAccountByAccountNumber("ACC123"));
+        verify(accountRepository, times(1)).findByAccountNumber("ACC123");
+    }
+
+    @Test
+    public void getBalanceTest() {
+        when(accountRepository.findBalanceByAccountNumber("ACC123")).thenReturn(a1);
+        assertEquals(new BigDecimal("1000.00"), accountService.getBalance("ACC123"));
+        verify(accountRepository, times(1)).findBalanceByAccountNumber("ACC123");
+    }
 }

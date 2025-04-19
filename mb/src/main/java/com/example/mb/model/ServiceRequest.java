@@ -2,6 +2,7 @@ package com.example.mb.model;
 
 import jakarta.persistence.*;
 import java.time.LocalDate;
+import java.util.Objects;
 
 @Entity
 @Table(name = "service_request")
@@ -103,4 +104,54 @@ public class ServiceRequest {
     public void setCreatedDate(LocalDate createdDate) {
         this.createdDate = createdDate;
     }
+
+	public ServiceRequest(Long id, Category category, String subject, String message, String attachmentUrl,
+			String status, Customer customer, LocalDate createdDate) {
+		super();
+		this.id = id;
+		this.category = category;
+		this.subject = subject;
+		this.message = message;
+		this.attachmentUrl = attachmentUrl;
+		this.status = status;
+		this.customer = customer;
+		this.createdDate = createdDate;
+	}
+
+	public ServiceRequest(Category category, String subject, String message, String attachmentUrl, String status,
+			Customer customer, LocalDate createdDate) {
+		super();
+		this.category = category;
+		this.subject = subject;
+		this.message = message;
+		this.attachmentUrl = attachmentUrl;
+		this.status = status;
+		this.customer = customer;
+		this.createdDate = createdDate;
+	}
+
+	public ServiceRequest() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(attachmentUrl, category, createdDate, customer, id, message, status, subject);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		ServiceRequest other = (ServiceRequest) obj;
+		return Objects.equals(attachmentUrl, other.attachmentUrl) && category == other.category
+				&& Objects.equals(createdDate, other.createdDate) && Objects.equals(customer, other.customer)
+				&& Objects.equals(id, other.id) && Objects.equals(message, other.message)
+				&& Objects.equals(status, other.status) && Objects.equals(subject, other.subject);
+	}
 }

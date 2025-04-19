@@ -65,10 +65,7 @@ public class AccountService {
 		Account account= accountRepository.findBalanceByAccountNumber(accountNumber);
 		return account.getBalance();
 	}
-
-    
-
-
-    
+	
+	 
 
 }

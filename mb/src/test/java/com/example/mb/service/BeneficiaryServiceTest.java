@@ -1,91 +1,91 @@
 package com.example.mb.service;
 
-import com.example.mb.exception.InvalidIdException;
-import com.example.mb.model.Beneficiary;
-import com.example.mb.model.Customer;
-import com.example.mb.repository.BeneficiaryRepository;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+import java.time.LocalDate;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.*;
-import java.util.*;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import com.example.mb.exception.InvalidIdException;
+import com.example.mb.model.Beneficiary;
+import com.example.mb.model.Branch;  // Ensure that Branch is imported
+import com.example.mb.model.Customer;
+import com.example.mb.repository.BeneficiaryRepository;
 
-class BeneficiaryServiceTest {
-
-    @Mock
-    private BeneficiaryRepository beneficiaryRepository;
+@ExtendWith(MockitoExtension.class)
+public class BeneficiaryServiceTest {
 
     @InjectMocks
     private BeneficiaryService beneficiaryService;
 
-    private Beneficiary beneficiary;
-    private Customer customer;
+    @Mock
+    private BeneficiaryRepository beneficiaryRepository;
 
+    private Customer c1, c2;
+    private Beneficiary b1, b2, b3;
+    private Branch branch;  // Add branch as a field
+    
     @BeforeEach
-    void setUp() {
-        MockitoAnnotations.openMocks(this);
+    public void init() {
+        // Initialize Branch instance
+        branch = new Branch("Main Branch", "123 Main St");  // Create branch object
+        branch.setId(1L);  // Set branch ID for testing
+        
+        // Initialize Customer instances
+        c1 = new Customer(1L, "Customer One", "customer1", "111111", "customer1@example.com", "123 Street", LocalDate.of(1990, 1, 1), 
+                          "Bachelors", "Engineer", "Single", "ABCDE1234F", "123456789012", branch);
+        c2 = new Customer(2L, "Customer Two", "customer2", "222222", "customer2@example.com", "456 Street", LocalDate.of(1985, 5, 20), 
+                          "Masters", "Doctor", "Married", "FGHIJ5678G", "234567890123", branch);
 
-        customer = new Customer();
-        customer.setId(1L);
-
-        beneficiary = new Beneficiary();
-        beneficiary.setId(1L);
-        beneficiary.setName("John Doe");
-        beneficiary.setAccountNumber("1234567890");
-        beneficiary.setBankName("Test Bank");
-        beneficiary.setIfsc("TEST0001");
-        beneficiary.setCustomer(customer);
+        // Initialize Beneficiary instances
+        b1 = new Beneficiary(1L, "John Doe", "1234567890", "IFSC001", "Bank A", c1);
+        b2 = new Beneficiary(2L, "Jane Smith", "0987654321", "IFSC002", "Bank B", c1);
+        b3 = new Beneficiary(3L, "Mary Johnson", "1122334455", "IFSC003", "Bank C", c2);
     }
 
     @Test
-    void testAddBeneficiary() {
-        when(beneficiaryRepository.save(any(Beneficiary.class))).thenReturn(beneficiary);
-
-        Beneficiary result = beneficiaryService.addBeneficiary(beneficiary);
-
-        assertEquals("John Doe", result.getName());
-        verify(beneficiaryRepository, times(1)).save(beneficiary);
+    public void addBeneficiaryTest() {
+        when(beneficiaryRepository.save(b1)).thenReturn(b1);
+        assertEquals(b1, beneficiaryService.addBeneficiary(b1));
+        verify(beneficiaryRepository, times(1)).save(b1);
     }
 
     @Test
-    void testGetBeneficiaryById() throws InvalidIdException {
-        when(beneficiaryRepository.findById(1L)).thenReturn(Optional.of(beneficiary));
-
-        Beneficiary result = beneficiaryService.getBeneficiaryById(1L);
-
-        assertEquals("1234567890", result.getAccountNumber());
+    public void getBeneficiaryByIdTest_validId() throws InvalidIdException {
+        when(beneficiaryRepository.findById(1L)).thenReturn(Optional.of(b1));
+        assertEquals(b1, beneficiaryService.getBeneficiaryById(1L));
+        verify(beneficiaryRepository, times(1)).findById(1L);
     }
-    @Test
-    void testUpdateBeneficiary() {
-        beneficiary.setName("Updated Name");
-        when(beneficiaryRepository.save(any(Beneficiary.class))).thenReturn(beneficiary);
-
-        Beneficiary updated = beneficiaryService.updateBeneficiary(beneficiary);
-
-        assertEquals("Updated Name", updated.getName());
-        verify(beneficiaryRepository, times(1)).save(beneficiary);
-    }
-
 
     @Test
-    void testDeleteBeneficiary() {
-        long idToDelete = 1L;
-
-        beneficiaryService.updateBeneficiary(idToDelete);
-
-        verify(beneficiaryRepository, times(1)).deleteById(idToDelete);
+    public void getBeneficiariesByCustomerIdTest_validId() throws InvalidIdException {
+        List<Beneficiary> beneficiaries = Arrays.asList(b1, b2);
+        when(beneficiaryRepository.findByCustomerId(1L)).thenReturn(beneficiaries);
+        assertEquals(beneficiaries, beneficiaryService.getBeneficiariesByCustomerId(1L));
+        verify(beneficiaryRepository, times(1)).findByCustomerId(1L);
     }
-
+    @Test
+    public void updateBeneficiaryTest() {
+        when(beneficiaryRepository.save(b3)).thenReturn(b3);
+        assertEquals(b3, beneficiaryService.updateBeneficiary(b3));
+        verify(beneficiaryRepository, times(1)).save(b3);
+    }
 
     @Test
-    void testGetBeneficiariesByCustomerId() throws InvalidIdException {
-        when(beneficiaryRepository.findByCustomerId(1L)).thenReturn(List.of(beneficiary));
-
-        List<Beneficiary> result = beneficiaryService.getBeneficiariesByCustomerId(1L);
-
-        assertEquals(1, result.size());
+    public void deleteBeneficiaryTest() {
+        String result = beneficiaryService.deleteBeneficiaryById(1L);
+        assertEquals("Deleted successfully", result);
+        verify(beneficiaryRepository, times(1)).deleteById(1L);
     }
-
 }

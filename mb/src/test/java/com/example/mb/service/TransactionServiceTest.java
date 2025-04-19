@@ -1,29 +1,28 @@
-package com.example.mb.service;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.example.mb.dto.UPITransactionRequest;
 import com.example.mb.exception.InsufficientBalanceException;
 import com.example.mb.exception.InvalidAccountException;
 import com.example.mb.model.Account;
+import com.example.mb.model.BankTransfer;
 import com.example.mb.model.Transaction;
+import com.example.mb.model.UPITransaction;
 import com.example.mb.repository.AccountRepository;
+import com.example.mb.repository.BankTransferRepository;
 import com.example.mb.repository.TransactionRepository;
 import com.example.mb.repository.UPITransactionRepository;
 
+@ExtendWith(MockitoExtension.class)
 public class TransactionServiceTest {
 
     @InjectMocks
@@ -36,81 +35,85 @@ public class TransactionServiceTest {
     private TransactionRepository transactionRepository;
 
     @Mock
+    private BankTransferRepository bankTransferRepository;
+
+    @Mock
     private UPITransactionRepository upiTransactionRepository;
 
-    private Account account;
+    private Account fromAccount;
+    private BankTransfer bankTransfer;
+    private Transaction transaction;
 
     @BeforeEach
-    public void setup() {
-        MockitoAnnotations.openMocks(this); // Initialize mocks
-
-        // Sample account with balance
-        account = new Account();
-        account.setAccountNumber("1234567890");
-        account.setBalance(new BigDecimal("5000.00"));
+    void setUp() {
+       
+        Branch branch = mock(Branch.class); // Mocking Branch
+        Customer customer = mock(Customer.class); // Mocking Customer
+        
+        // Initialize Account with mocked Branch and Customer
+        fromAccount = new Account("FROM123", "IFSC123", "Saving", BigDecimal.valueOf(10000), "Active", branch, customer);
+        
+        // Initialize the Transaction object
+        transaction = new Transaction(, 5000.0, "BANK", "TRANSFER", "COMPLETED", "Payment for services", "Transfer to beneficiary account", "Online", LocalDateTime.now());
+        
+        // Initialize the BankTransfer with the transaction
+        bankTransfer = new BankTransfer("Beneficiary", "BENEF123", "IFSC123", "Bank XYZ", "Saving", BigDecimal.valueOf(5000), transaction);
     }
 
     @Test
-    public void testMakeUPITransfer_Valid() throws InvalidAccountException, InsufficientBalanceException {
-        UPITransactionRequest request = new UPITransactionRequest();
-        request.setAmount(new BigDecimal("1000.00"));
-        request.setUpiId("upixyz123");
+    public void testMakeBankTransferSuccess() throws InvalidAccountException, InsufficientBalanceException {
+        // Arrange
+        when(accountRepository.findByAccountNumber("FROM123")).thenReturn(fromAccount);
+        when(bankTransferRepository.save(any(BankTransfer.class))).thenReturn(bankTransfer);
+        when(transactionRepository.save(any(Transaction.class))).thenReturn(transaction);
 
-        when(accountRepository.findByAccountNumber("1234567890")).thenReturn(account);
+        // Act
+        Transaction result = transactionService.makeBankTransfer(bankTransfer, "FROM123");
 
-        Transaction transaction = transactionService.makeUPITransfer(request, "1234567890");
-
-        BigDecimal expectedAmount = new BigDecimal("1000.00").setScale(2);
-        BigDecimal actualAmount = new BigDecimal(transaction.getAmount()).setScale(2);
-
-        assertEquals(expectedAmount, actualAmount);
-
-        verify(accountRepository, times(1)).findByAccountNumber("1234567890");
-        verify(transactionRepository, times(1)).save(any(Transaction.class));
+        // Assert
+        assertEquals("COMPLETED", result.getStatus());
+        assertEquals(BigDecimal.valueOf(5000), fromAccount.getBalance()); // Ensure the balance is updated
+        verify(accountRepository, times(1)).save(fromAccount); // Verify that the account is saved with updated balance
     }
 
     @Test
-    public void testMakeUPITransfer_InsufficientBalance() {
-        UPITransactionRequest request = new UPITransactionRequest();
-        request.setAmount(new BigDecimal("6000.00")); // More than balance
-        request.setUpiId("upixyz123");
+    public void testMakeUPITransferSuccess() throws InvalidAccountException, InsufficientBalanceException {
+        // Arrange
+        when(accountRepository.findByAccountNumber("FROM123")).thenReturn(fromAccount);
+        when(transactionRepository.save(any(Transaction.class))).thenReturn(transaction);
+        
+        UPITransaction upiTransaction = new UPITransaction(transaction, "5000", "dummy@upi");
+        when(upiTransactionRepository.save(any(UPITransaction.class))).thenReturn(upiTransaction);
 
-        when(accountRepository.findByAccountNumber("1234567890")).thenReturn(account);
+        // Act
+        Transaction result = transactionService.makeUPITransfer(transaction, "FROM123");
 
+        // Assert
+        assertEquals("COMPLETED", result.getStatus());
+        assertEquals(BigDecimal.valueOf(5000), fromAccount.getBalance());
+        verify(accountRepository, times(1)).save(fromAccount); // Verify the balance update
+    }
+
+    @Test
+    public void testMakeBankTransferInsufficientBalance() {
+        // Arrange
+        fromAccount.setBalance(BigDecimal.valueOf(1000)); // Less than transfer amount
+        when(accountRepository.findByAccountNumber("FROM123")).thenReturn(fromAccount);
+
+        // Act & Assert
         assertThrows(InsufficientBalanceException.class, () -> {
-            transactionService.makeUPITransfer(request, "1234567890");
+            transactionService.makeBankTransfer(bankTransfer, "FROM123");
         });
-
-        verify(accountRepository, times(1)).findByAccountNumber("1234567890");
     }
 
     @Test
-    public void testMakeUPITransfer_InvalidAccount() {
-        UPITransactionRequest request = new UPITransactionRequest();
-        request.setAmount(new BigDecimal("1000.00"));
-        request.setUpiId("upixyz123");
+    public void testMakeUPITransferInvalidAccount() {
+        // Arrange
+        when(accountRepository.findByAccountNumber("FROM123")).thenReturn(null); // Invalid account
 
-        when(accountRepository.findByAccountNumber("1234567890")).thenReturn(null); // Simulate invalid account
-
+        // Act & Assert
         assertThrows(InvalidAccountException.class, () -> {
-            transactionService.makeUPITransfer(request, "1234567890");
+            transactionService.makeUPITransfer(transaction, "FROM123");
         });
-
-        verify(accountRepository, times(1)).findByAccountNumber("1234567890");
-    }
-
-    @Test
-    public void testMakeUPITransfer_SavesTransactionCorrectly() throws InvalidAccountException, InsufficientBalanceException {
-        UPITransactionRequest request = new UPITransactionRequest();
-        request.setAmount(new BigDecimal("1000.00"));
-        request.setUpiId("upixyz123");
-
-        when(accountRepository.findByAccountNumber("1234567890")).thenReturn(account);
-
-        Transaction transaction = transactionService.makeUPITransfer(request, "1234567890");
-
-        assertEquals("1000.00", new BigDecimal(transaction.getAmount()).setScale(2).toString());
-
-        verify(transactionRepository, times(1)).save(any(Transaction.class));
     }
 }

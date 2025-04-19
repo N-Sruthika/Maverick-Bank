@@ -1,5 +1,7 @@
 package com.example.mb.model;
 
+import java.util.Objects;
+
 import jakarta.persistence.*;
 
 @Entity
@@ -74,4 +76,47 @@ public class Beneficiary {
     public void setCustomer(Customer customer) {
         this.customer = customer;
     }
+
+	public Beneficiary(Long id, String name, String accountNumber, String ifsc, String bankName, Customer customer) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.accountNumber = accountNumber;
+		this.ifsc = ifsc;
+		this.bankName = bankName;
+		this.customer = customer;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(accountNumber, bankName, customer, id, ifsc, name);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Beneficiary other = (Beneficiary) obj;
+		return Objects.equals(accountNumber, other.accountNumber) && Objects.equals(bankName, other.bankName)
+				&& Objects.equals(customer, other.customer) && Objects.equals(id, other.id)
+				&& Objects.equals(ifsc, other.ifsc) && Objects.equals(name, other.name);
+	}
+
+	public Beneficiary() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	public Beneficiary(String name, String accountNumber, String ifsc, String bankName, Customer customer) {
+		super();
+		this.name = name;
+		this.accountNumber = accountNumber;
+		this.ifsc = ifsc;
+		this.bankName = bankName;
+		this.customer = customer;
+	}
 }

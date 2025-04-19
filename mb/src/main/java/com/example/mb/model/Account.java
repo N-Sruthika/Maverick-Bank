@@ -2,6 +2,7 @@ package com.example.mb.model;
 
 import jakarta.persistence.*;
 import java.math.BigDecimal;
+import java.util.Objects;
 
 @Entity
 @Table(name = "account")
@@ -97,4 +98,54 @@ public class Account {
     public void setCustomer(Customer customer) {
         this.customer = customer;
     }
+
+	public Account() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	public Account(Long id, String accountNumber, String ifscCode, String accountType, BigDecimal balance,
+			String status, Branch branch, Customer customer) {
+		super();
+		this.id = id;
+		this.accountNumber = accountNumber;
+		this.ifscCode = ifscCode;
+		this.accountType = accountType;
+		this.balance = balance;
+		this.status = status;
+		this.branch = branch;
+		this.customer = customer;
+	}
+
+	public Account(String accountNumber, String ifscCode, String accountType, BigDecimal balance, String status,
+			Branch branch, Customer customer) {
+		super();
+		this.accountNumber = accountNumber;
+		this.ifscCode = ifscCode;
+		this.accountType = accountType;
+		this.balance = balance;
+		this.status = status;
+		this.branch = branch;
+		this.customer = customer;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(accountNumber, accountType, balance, branch, customer, id, ifscCode, status);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Account other = (Account) obj;
+		return Objects.equals(accountNumber, other.accountNumber) && Objects.equals(accountType, other.accountType)
+				&& Objects.equals(balance, other.balance) && Objects.equals(branch, other.branch)
+				&& Objects.equals(customer, other.customer) && Objects.equals(id, other.id)
+				&& Objects.equals(ifscCode, other.ifscCode) && Objects.equals(status, other.status);
+	}
 }

@@ -1,5 +1,7 @@
 package com.example.mb.model;
 
+import java.util.Objects;
+
 import jakarta.persistence.*;
 
 @Entity
@@ -45,6 +47,44 @@ public class UPITransaction {
 
 	public void setTransaction(Transaction transaction) {
 		this.transaction = transaction;
+	}
+
+	public UPITransaction(Long id, String upiId, String amount, Transaction transaction) {
+		super();
+		this.id = id;
+		this.upiId = upiId;
+		this.amount = amount;
+		this.transaction = transaction;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(amount, id, transaction, upiId);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		UPITransaction other = (UPITransaction) obj;
+		return Objects.equals(amount, other.amount) && Objects.equals(id, other.id)
+				&& Objects.equals(transaction, other.transaction) && Objects.equals(upiId, other.upiId);
+	}
+
+	public UPITransaction(String upiId, String amount, Transaction transaction) {
+		super();
+		this.upiId = upiId;
+		this.amount = amount;
+		this.transaction = transaction;
+	}
+
+	public UPITransaction() {
+		super();
+		// TODO Auto-generated constructor stub
 	}
 
     // Getters & Setters
