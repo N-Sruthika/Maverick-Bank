@@ -13,6 +13,7 @@ public class MyUserService implements UserDetailsService{
 
 	@Autowired
 	private AuthRepository authRepository;
+	
 	/*
 	 * As soon as my class MyUserService implement UserDetailsService, 
 	 * it becomes UserDetailsService as per inheritance is-a relation rule
@@ -35,4 +36,6 @@ public class MyUserService implements UserDetailsService{
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		return authRepository.findByUsername(username);
 	}
+
+	
 }
