@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Personal Loan - MBI</title>
+    <!-- Bootstrap CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+    />
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Font Awesome Icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+      }
+      .banner {
+        background: linear-gradient(to right, #f39c12, #e74c3c);
+        color: white;
+        padding: 30px;
+        text-align: center;
+        position: relative;
+      }
+      .apply-btn {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        background: red;
+        color: white;
+        padding: 10px 20px;
+        border-radius: 5px;
+        text-decoration: none;
+      }
+      .nav-tabs {
+        display: flex;
+        justify-content: space-around;
+        background: #f8f9fa;
+        padding: 10px;
+        border-radius: 5px;
+      }
+      .nav-tabs .nav-item .nav-link {
+        font-size: 16px;
+        font-weight: bold;
+        color: #e74c3c;
+        transition: 0.3s;
+      }
+      .nav-tabs .nav-item .nav-link:hover {
+        background: #e74c3c;
+        color: white;
+        border-radius: 5px;
+      }
+      .tab-content {
+        display: none;
+        padding: 20px;
+        background: #f8f9fa;
+        border-radius: 5px;
+        margin-top: 10px;
+      }
+      .icon-box {
+        display: flex;
+        align-items: center;
+        margin: 10px 0;
+      }
+      .icon-box i {
+        font-size: 30px;
+        color: #e74c3c;
+        margin-right: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Banner -->
+    <div class="banner">
+      <h2>Personal Loan</h2>
+      <a href="Personal-Loan-Apply.html" class="apply-btn">Apply Online</a>
+    </div>
+
+    <!-- Navigation Tabs -->
+    <div class="container">
+      <ul class="nav nav-tabs" id="loanTabs">
+        <li class="nav-item">
+          <a class="nav-link" id="featuresTab">Features</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" id="eligibilityTab">Eligibility</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" id="quantumTab">Quantum of Loan</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" id="interestTab">Interest Rates & Repayment</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" id="knowMoreTab">Know More</a>
+        </li>
+      </ul>
+
+      <!-- Features Content -->
+      <div class="tab-content" id="featuresContent">
+        <p>
+          Maverick Bank of India (MBI) offers instant personal loans to meet
+          your financial needs without any collateral. With competitive interest
+          rates and quick approval, MBI ensures a seamless experience for
+          fulfilling your personal requirements.
+        </p>
+        <p>
+          <strong>Key Highlights:</strong>
+        </p>
+        <ul>
+          <li>Eligible for individuals (21+ years).</li>
+          <li>Maximum finance: Up to ₹50 lakhs.</li>
+          <li>Interest rates start at just 9.99% per annum.</li>
+          <li>Hassle-free financing with repayment tenure up to 5 years.</li>
+        </ul>
+        <p>Q: What documents are required?</p>
+        <p>A: Aadhaar, PAN, Income Proof, and Bank Statements.</p>
+        <p>
+          For Detailed FAQs,
+          <a href="Personal-Loan-FAQs.html">please click here</a>.
+        </p>
+      </div>
+
+      <!-- Eligibility Content -->
+      <div class="tab-content" id="eligibilityContent">
+        <p><strong>Eligibility Criteria:</strong></p>
+        <ul>
+          <li>Minimum age: 21 years.</li>
+          <li>Applicant must have a stable income source.</li>
+          <li>Minimum annual income: ₹2 lakhs.</li>
+          <li>Credit score: 650+.</li>
+        </ul>
+        <p>
+          Loan amount depends on the applicant's income, credit score, and
+          repayment capacity.
+        </p>
+      </div>
+
+      <!-- Quantum of Loan Content -->
+      <div class="tab-content" id="quantumContent">
+        <p><strong>Loan Amount:</strong> Up to ₹50 lakhs.</p>
+        <p>
+          <strong>Example:</strong> For an individual earning ₹10 lakhs
+          annually, you can avail up to ₹20 lakhs as a loan.
+        </p>
+        <p><strong>Minimum Loan Amount:</strong> ₹50,000.</p>
+        <p>
+          <strong>Maximum Loan Amount:</strong> ₹50 lakhs (subject to
+          eligibility).
+        </p>
+      </div>
+
+      <!-- Interest Rates & Repayment Content -->
+      <div class="tab-content" id="interestContent">
+        <p><strong>Interest Rates & Repayment Period:</strong></p>
+        <p>Interest Rates: Starting from 9.99% per annum.</p>
+        <p>Repayment Tenure: Flexible tenure ranging from 1 year to 5 years.</p>
+        <p>Option to repay in Equated Monthly Installments (EMIs).</p>
+      </div>
+
+      <!-- Know More Content -->
+      <div class="tab-content" id="knowMoreContent">
+        <p>
+          <strong>Purpose:</strong> Personal expenses such as travel, education,
+          medical emergencies, weddings, or debt consolidation.
+        </p>
+        <p>
+          <strong>Security:</strong> No collateral required (Unsecured Loan).
+        </p>
+        <p><strong>Special Benefits:</strong></p>
+        <ul>
+          <li>No prepayment penalty after 6 months of loan disbursal.</li>
+          <li>Flexible repayment options tailored to your financial needs.</li>
+          <li>Minimal documentation required.</li>
+        </ul>
+        <p><strong>Documents Required:</strong></p>
+        <ul>
+          <li>Aadhaar Card</li>
+          <li>PAN Card</li>
+          <li>Income Proof (Salary Slip/IT Returns)</li>
+          <li>Bank Statements (last 3 months)</li>
+          <li>Passport-size Photograph</li>
+        </ul>
+      </div>
+    </div>
+
+    <script>
+      // Tab Switching Logic
+      document.querySelectorAll(".nav-link").forEach((item) => {
+        item.addEventListener("mouseover", function () {
+          document
+            .querySelectorAll(".tab-content")
+            .forEach((tab) => (tab.style.display = "none"));
+          const targetId = this.id.replace("Tab", "Content");
+          document.getElementById(targetId).style.display = "block";
+        });
+      });
+
+      // Default Tab (Features)
+      document.getElementById("featuresTab").click();
+    </script>
+  </body>
+</html>

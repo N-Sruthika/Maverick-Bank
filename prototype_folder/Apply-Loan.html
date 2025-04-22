@@ -1,0 +1,1390 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Loan Services - Maverick Bank</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+    />
+    <style>
+      /* Global Styles */
+      body {
+        font-family: "Poppins", sans-serif;
+        background: linear-gradient(135deg, #008aad, #002244);
+        color: white;
+        margin: 0;
+        padding: 0;
+      }
+
+      /* Header Styling */
+      .header {
+        background: rgba(0, 138, 173, 0.9);
+        text-align: center;
+        padding: 20px 0;
+        font-size: 24px;
+        font-weight: bold;
+        box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
+      }
+
+      /* Sidebar Styling */
+      .sidebar {
+        width: 250px;
+        background: rgba(0, 138, 173, 0.9);
+        position: fixed;
+        top: 80px;
+        bottom: 0;
+        overflow-y: auto;
+        padding: 20px;
+        border-radius: 0 15px 15px 0;
+      }
+
+      .sidebar ul {
+        list-style: none;
+        padding: 0;
+      }
+
+      .sidebar li {
+        margin-bottom: 15px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-size: 18px;
+        padding: 10px;
+        border-radius: 5px;
+      }
+
+      .sidebar li:hover {
+        background: rgba(255, 255, 255, 0.2);
+        transform: scale(1.05);
+      }
+
+      /* Main Content Styling */
+      .main-content {
+        margin-left: 270px;
+        padding: 40px;
+      }
+
+      .card {
+        border: none;
+        border-radius: 15px;
+        text-align: center;
+        background: rgba(255, 255, 255, 0.1);
+        transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        color: white;
+      }
+
+      .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0px 10px 20px rgba(255, 255, 255, 0.2);
+      }
+
+      .btn-primary {
+        background: #ffcc00;
+        border: none;
+        color: black;
+        transition: all 0.3s ease;
+        font-weight: bold;
+      }
+
+      .btn-primary:hover {
+        background: #e6b800;
+      }
+
+      /* Footer Styling */
+      .footer {
+        background: rgba(0, 138, 173, 0.9);
+        color: white;
+        text-align: center;
+        padding: 15px 0;
+        position: relative;
+        bottom: 0;
+        width: 100%;
+        box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+      }
+
+      .footer p {
+        font-size: 14px;
+        margin: 0;
+      }
+
+      .footer a {
+        color: #bbdefb;
+        text-decoration: none;
+        font-weight: bold;
+      }
+
+      .footer a:hover {
+        text-decoration: underline;
+      }
+
+      /* Responsive Design */
+      @media (max-width: 768px) {
+        .main-content {
+          margin-left: 0;
+        }
+        .sidebar {
+          position: static;
+          width: 100%;
+        }
+      }
+
+      /* Modal Styling */
+      .modal-content {
+        background: rgba(0, 138, 173, 0.9);
+        color: white;
+        border: none;
+        border-radius: 15px;
+      }
+
+      .modal-header {
+        border-bottom: none;
+      }
+
+      .modal-body {
+        font-size: 16px;
+      }
+
+      .modal-footer {
+        border-top: none;
+      }
+
+      .loan-detail {
+        margin-bottom: 15px;
+      }
+
+      .loan-detail label {
+        font-weight: bold;
+        display: inline-block;
+        min-width: 200px;
+      }
+
+      .loan-detail span {
+        font-size: 18px;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Header -->
+    <div class="header">Maverick Bank - Loan Services</div>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <ul>
+        <li data-bs-toggle="modal" data-bs-target="#trackLoanModal">
+          Track Loan
+        </li>
+
+        <li data-bs-toggle="modal" data-bs-target="#emiScheduleModal">
+          LoanEMI Schedule
+        </li>
+
+        <li data-bs-toggle="modal" data-bs-target="#prepayForecloseModal">
+          Prepay/Foreclose
+        </li>
+        <li data-bs-toggle="modal" data-bs-target="#paymentHistoryModal">
+          Payment History
+        </li>
+        <li data-bs-toggle="modal" data-bs-target="#closedLoansModal">
+          Closed Loans
+        </li>
+        <li data-bs-toggle="modal" data-bs-target="#activeLoansModal">
+          Active Loans
+        </li>
+      </ul>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+      <h1 class="text-center mb-5">🏦 Explore Loan Options</h1>
+      <div class="row g-4">
+        <div class="col-md-4">
+          <div
+            class="card p-4 h-100 d-flex flex-column justify-content-between"
+          >
+            <div>
+              <h5 class="mb-3">Personal Loan</h5>
+              <p class="mb-4">For emergencies, medical, travel, etc.</p>
+            </div>
+            <button
+              class="btn btn-primary w-100"
+              onclick="redirectToLoanPage('personal')"
+            >
+              Apply Now
+            </button>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div
+            class="card p-4 h-100 d-flex flex-column justify-content-between"
+          >
+            <div>
+              <h5 class="mb-3">Home Loan</h5>
+              <p class="mb-4">Buy or renovate your house.</p>
+            </div>
+            <button
+              class="btn btn-primary w-100"
+              onclick="redirectToLoanPage('home')"
+            >
+              Apply Now
+            </button>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div
+            class="card p-4 h-100 d-flex flex-column justify-content-between"
+          >
+            <div>
+              <h5 class="mb-3">Vehicle Loan</h5>
+              <p class="mb-4">Get your dream vehicle.</p>
+            </div>
+            <button
+              class="btn btn-primary w-100"
+              onclick="redirectToLoanPage('vehicle')"
+            >
+              Apply Now
+            </button>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div
+            class="card p-4 h-100 d-flex flex-column justify-content-between"
+          >
+            <div>
+              <h5 class="mb-3">Education Loan</h5>
+              <p class="mb-4">Fund your higher studies.</p>
+            </div>
+            <button
+              class="btn btn-primary w-100"
+              onclick="redirectToLoanPage('education')"
+            >
+              Apply Now
+            </button>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div
+            class="card p-4 h-100 d-flex flex-column justify-content-between"
+          >
+            <div>
+              <h5 class="mb-3">Business Loan</h5>
+              <p class="mb-4">Grow your business ventures.</p>
+            </div>
+            <button
+              class="btn btn-primary w-100"
+              onclick="redirectToLoanPage('business')"
+            >
+              Apply Now
+            </button>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div
+            class="card p-4 h-100 d-flex flex-column justify-content-between"
+          >
+            <div>
+              <h5 class="mb-3">Gold Loan</h5>
+              <p class="mb-4">Quick cash against gold assets.</p>
+            </div>
+            <button
+              class="btn btn-primary w-100"
+              onclick="redirectToLoanPage('gold')"
+            >
+              Apply Now
+            </button>
+          </div>
+        </div>
+      </div>
+      <!-- EMI Schedule Modal -->
+      <div
+        class="modal fade"
+        id="emiScheduleModal"
+        tabindex="-1"
+        aria-labelledby="emiScheduleModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="emiScheduleModalLabel">
+                EMI Schedule
+              </h5>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+                style="filter: invert(1)"
+              ></button>
+            </div>
+            <div class="modal-body">
+              <div class="loan-detail">
+                <label>Loan Account Number:</label>
+                <span>#LN12345</span>
+              </div>
+              <div class="loan-detail">
+                <label>Upcoming EMI Due Date:</label>
+                <span>2023-11-01</span>
+              </div>
+              <div class="loan-detail">
+                <label>Amount to be Paid:</label>
+                <span>$937.50</span>
+              </div>
+              <div class="loan-detail">
+                <label>Total Outstanding Loan Amount:</label>
+                <span>$42,000</span>
+              </div>
+              <div class="mt-3">
+                <button
+                  class="btn btn-primary w-100"
+                  data-bs-toggle="modal"
+                  data-bs-target="#paymentOptionsModal"
+                >
+                  Pay Now
+                </button>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-bs-dismiss="modal"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Payment Options Modal -->
+      <div
+        class="modal fade"
+        id="paymentOptionsModal"
+        tabindex="-1"
+        aria-labelledby="paymentOptionsModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="paymentOptionsModalLabel">
+                Payment Options
+              </h5>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+                style="filter: invert(1)"
+              ></button>
+            </div>
+            <div class="modal-body">
+              <p class="mb-3">
+                Select a payment method to pay your EMI of
+                <strong>$937.50</strong>.
+              </p>
+              <form id="paymentForm" class="needs-validation" novalidate>
+                <!-- Loan Account Number Field -->
+                <div class="mb-3">
+                  <label for="loanAccountNumber" class="form-label"
+                    >Loan Account Number:</label
+                  >
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="loanAccountNumber"
+                    placeholder="Enter your loan account number (e.g., #LN12345)"
+                    required
+                  />
+                  <div class="invalid-feedback">
+                    Loan account number is required.
+                  </div>
+                </div>
+                <!-- Payment Method Selection -->
+                <div class="mb-3">
+                  <label for="paymentMethod" class="form-label"
+                    >Payment Method:</label
+                  >
+                  <select class="form-select" id="paymentMethod" required>
+                    <option value="">Choose...</option>
+                    <option value="net-banking">Net Banking</option>
+                    <option value="upi">UPI</option>
+                    <option value="credit-card">Credit Card</option>
+                  </select>
+                  <div class="invalid-feedback">
+                    Please select a payment method.
+                  </div>
+                </div>
+                <!-- Dynamic Payment Details -->
+                <div id="paymentDetails" class="d-none">
+                  <!-- Net Banking Fields -->
+                  <div class="mb-3" id="netBankingFields">
+                    <label for="netBankingUserId" class="form-label"
+                      >Net Banking User ID:</label
+                    >
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="netBankingUserId"
+                      placeholder="Enter your net banking user ID"
+                      required
+                    />
+                    <div class="invalid-feedback">User ID is required.</div>
+                    <label for="netBankingPassword" class="form-label mt-2"
+                      >Net Banking Password:</label
+                    >
+                    <input
+                      type="password"
+                      class="form-control"
+                      id="netBankingPassword"
+                      placeholder="Enter your net banking password"
+                      required
+                    />
+                    <div class="invalid-feedback">Password is required.</div>
+                  </div>
+                  <!-- UPI Fields -->
+                  <div class="mb-3" id="upiFields">
+                    <label for="upiId" class="form-label">UPI ID:</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="upiId"
+                      placeholder="Enter your UPI ID (e.g., user@bank)"
+                      required
+                    />
+                    <div class="invalid-feedback">UPI ID is required.</div>
+                    <label for="upiPin" class="form-label mt-2">UPI PIN:</label>
+                    <input
+                      type="password"
+                      class="form-control"
+                      id="upiPin"
+                      placeholder="Enter your UPI PIN"
+                      required
+                    />
+                    <div class="invalid-feedback">UPI PIN is required.</div>
+                  </div>
+                  <!-- Credit Card Fields -->
+                  <div class="mb-3" id="creditCardFields">
+                    <label for="creditCardNumber" class="form-label"
+                      >Credit Card Number:</label
+                    >
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="creditCardNumber"
+                      placeholder="Enter your credit card number (e.g., 1234 5678 9012 3456)"
+                      required
+                    />
+                    <div class="invalid-feedback">
+                      Credit card number is required.
+                    </div>
+                    <label for="expiryDate" class="form-label mt-2"
+                      >Expiry Date:</label
+                    >
+                    <input
+                      type="month"
+                      class="form-control"
+                      id="expiryDate"
+                      required
+                    />
+                    <div class="invalid-feedback">Expiry date is required.</div>
+                    <label for="cvv" class="form-label mt-2">CVV:</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="cvv"
+                      placeholder="Enter CVV (e.g., 123)"
+                      required
+                    />
+                    <div class="invalid-feedback">CVV is required.</div>
+                  </div>
+                </div>
+                <!-- Submit Button -->
+                <button type="submit" class="btn btn-primary w-100">
+                  Submit Payment
+                </button>
+              </form>
+              <!-- Success Message -->
+              <div id="successMessage" class="mt-4 text-center d-none">
+                <h6 class="text-success">Payment Successful!</h6>
+                <!-- <p>
+                  Your EMI of <strong>$937.50</strong> has been paid
+                  successfully.
+                </p> -->
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-bs-dismiss="modal"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Prepay/Foreclose Loan Modal -->
+      <div
+        class="modal fade"
+        id="prepayForecloseModal"
+        tabindex="-1"
+        aria-labelledby="prepayForecloseModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="prepayForecloseModalLabel">
+                Prepay / Foreclose Loan
+              </h5>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+                style="filter: invert(1)"
+              ></button>
+            </div>
+            <div class="modal-body">
+              <div class="loan-detail">
+                <label>Outstanding Loan Balance:</label>
+                <span>$42,000</span>
+              </div>
+              <div class="loan-detail">
+                <label>Prepayment Option:</label>
+                <select class="form-select" id="prepaymentOption">
+                  <option value="partial">Partial Prepayment</option>
+                  <option value="full">Full Prepayment (Foreclosure)</option>
+                </select>
+              </div>
+              <div
+                class="loan-detail"
+                id="prepaymentAmountSection"
+                style="display: none"
+              >
+                <label>Prepayment Amount:</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  id="prepaymentAmount"
+                  placeholder="Enter amount"
+                />
+              </div>
+              <div class="loan-detail">
+                <label>Prepayment Charges:</label>
+                <span id="prepaymentCharges">$200</span>
+              </div>
+              <div class="loan-detail">
+                <label>New Outstanding Balance:</label>
+                <span id="newOutstandingBalance">$41,800</span>
+              </div>
+              <div class="loan-detail">
+                <label>Impact on Loan Tenure:</label>
+                <span id="impactOnTenure">Reduced by 6 months</span>
+              </div>
+              <div class="loan-detail">
+                <label>Foreclosure Option:</label>
+                <span>Available</span>
+              </div>
+              <div class="loan-detail">
+                <label>Foreclosure Charges:</label>
+                <span>$500</span>
+              </div>
+              <div class="mt-3">
+                <button
+                  class="btn btn-primary w-100"
+                  data-bs-toggle="modal"
+                  data-bs-target="#paymentOptionsModal"
+                  onclick="updatePaymentDetails()"
+                >
+                  Pay Now
+                </button>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-bs-dismiss="modal"
+              >
+                Close
+              </button>
+              <button
+                type="button"
+                class="btn btn-primary"
+                onclick="calculatePrepayment()"
+              >
+                Calculate
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Payment Options Modal -->
+      <div
+        class="modal fade"
+        id="paymentOptionsModal"
+        tabindex="-1"
+        aria-labelledby="paymentOptionsModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="paymentOptionsModalLabel">
+                Payment Options
+              </h5>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+                style="filter: invert(1)"
+              ></button>
+            </div>
+            <div class="modal-body">
+              <!-- <p class="mb-3">Select a payment method</p> -->
+              <form id="paymentForm" class="needs-validation" novalidate>
+                <!-- Loan Account Number Field -->
+                <div class="mb-3">
+                  <label for="loanAccountNumber" class="form-label"
+                    >Loan Account Number:</label
+                  >
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="loanAccountNumber"
+                    placeholder="Enter your loan account number (e.g., #LN12345)"
+                    required
+                  />
+                  <div class="invalid-feedback">
+                    Loan account number is required.
+                  </div>
+                </div>
+                <!-- Payment Method Selection -->
+                <div class="mb-3">
+                  <label for="paymentMethod" class="form-label"
+                    >Payment Method:</label
+                  >
+                  <select class="form-select" id="paymentMethod" required>
+                    <option value="">Choose...</option>
+                    <option value="net-banking">Net Banking</option>
+                    <option value="upi">UPI</option>
+                    <option value="credit-card">Credit Card</option>
+                  </select>
+                  <div class="invalid-feedback">
+                    Please select a payment method.
+                  </div>
+                </div>
+                <!-- Dynamic Payment Details -->
+                <div id="paymentDetails" class="d-none">
+                  <!-- Net Banking Fields -->
+                  <div class="mb-3" id="netBankingFields">
+                    <label for="netBankingUserId" class="form-label"
+                      >Net Banking User ID:</label
+                    >
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="netBankingUserId"
+                      placeholder="Enter your net banking user ID"
+                      required
+                    />
+                    <div class="invalid-feedback">User ID is required.</div>
+                    <label for="netBankingPassword" class="form-label mt-2"
+                      >Net Banking Password:</label
+                    >
+                    <input
+                      type="password"
+                      class="form-control"
+                      id="netBankingPassword"
+                      placeholder="Enter your net banking password"
+                      required
+                    />
+                    <div class="invalid-feedback">Password is required.</div>
+                  </div>
+                  <!-- UPI Fields -->
+                  <div class="mb-3" id="upiFields">
+                    <label for="upiId" class="form-label">UPI ID:</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="upiId"
+                      placeholder="Enter your UPI ID (e.g., user@bank)"
+                      required
+                    />
+                    <div class="invalid-feedback">UPI ID is required.</div>
+                    <label for="upiPin" class="form-label mt-2">UPI PIN:</label>
+                    <input
+                      type="password"
+                      class="form-control"
+                      id="upiPin"
+                      placeholder="Enter your UPI PIN"
+                      required
+                    />
+                    <div class="invalid-feedback">UPI PIN is required.</div>
+                  </div>
+                  <!-- Credit Card Fields -->
+                  <div class="mb-3" id="creditCardFields">
+                    <label for="creditCardNumber" class="form-label"
+                      >Credit Card Number:</label
+                    >
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="creditCardNumber"
+                      placeholder="Enter your credit card number (e.g., 1234 5678 9012 3456)"
+                      required
+                    />
+                    <div class="invalid-feedback">
+                      Credit card number is required.
+                    </div>
+                    <label for="expiryDate" class="form-label mt-2"
+                      >Expiry Date:</label
+                    >
+                    <input
+                      type="month"
+                      class="form-control"
+                      id="expiryDate"
+                      required
+                    />
+                    <div class="invalid-feedback">Expiry date is required.</div>
+                    <label for="cvv" class="form-label mt-2">CVV:</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="cvv"
+                      placeholder="Enter CVV (e.g., 123)"
+                      required
+                    />
+                    <div class="invalid-feedback">CVV is required.</div>
+                  </div>
+                </div>
+                <!-- Submit Button -->
+                <button type="submit" class="btn btn-primary w-100">
+                  Submit Payment
+                </button>
+              </form>
+              <!-- Success Message -->
+              <div id="successMessage" class="mt-4 text-center d-none">
+                <h6 class="text-success">Payment Successful!</h6>
+                <p>
+                  Your prepayment/foreclosure amount of
+                  <strong id="successPaymentAmount">$42,200</strong> has been
+                  paid successfully.
+                </p>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-bs-dismiss="modal"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Payment History Modal -->
+      <div
+        class="modal fade"
+        id="paymentHistoryModal"
+        tabindex="-1"
+        aria-labelledby="paymentHistoryModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="paymentHistoryModalLabel">
+                Payment History
+              </h5>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+                style="filter: invert(1)"
+              ></button>
+            </div>
+            <div class="modal-body">
+              <!-- Payment History Table -->
+              <table class="table table-hover">
+                <thead>
+                  <tr>
+                    <th scope="col">Date</th>
+                    <th scope="col">Amount Paid</th>
+                    <th scope="col">Payment Mode</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>2023-10-01</td>
+                    <td>$937.50</td>
+                    <td>Net Banking</td>
+                  </tr>
+                  <tr>
+                    <td>2023-09-01</td>
+                    <td>$937.50</td>
+                    <td>UPI</td>
+                  </tr>
+                  <tr>
+                    <td>2023-08-01</td>
+                    <td>$937.50</td>
+                    <td>Credit Card</td>
+                  </tr>
+                  <tr>
+                    <td>2023-07-01</td>
+                    <td>$937.50</td>
+                    <td>Net Banking</td>
+                  </tr>
+                  <tr>
+                    <td>2023-06-01</td>
+                    <td>$937.50</td>
+                    <td>UPI</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-bs-dismiss="modal"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Closed Loans Modal -->
+      <div
+        class="modal fade"
+        id="closedLoansModal"
+        tabindex="-1"
+        aria-labelledby="closedLoansModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="closedLoansModalLabel">
+                Closed Loans
+              </h5>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+                style="filter: invert(1)"
+              ></button>
+            </div>
+            <div class="modal-body">
+              <!-- Closed Loans Table -->
+              <table class="table table-hover">
+                <thead>
+                  <tr>
+                    <th scope="col">Loan ID</th>
+                    <th scope="col">Loan Type</th>
+                    <th scope="col">Total Interest Paid</th>
+                    <th scope="col">Final Payment Date</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>#LN12345</td>
+                    <td>Personal Loan</td>
+                    <td>$5,000</td>
+                    <td>2023-09-30</td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>#LN67890</td>
+                    <td>Home Loan</td>
+                    <td>$20,000</td>
+                    <td>2022-12-15</td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>#LN11223</td>
+                    <td>Vehicle Loan</td>
+                    <td>$3,500</td>
+                    <td>2021-08-20</td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>#LN33445</td>
+                    <td>Education Loan</td>
+                    <td>$7,200</td>
+                    <td>2020-06-10</td>
+                    <td></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-bs-dismiss="modal"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Active Loans Modal -->
+      <div
+        class="modal fade"
+        id="activeLoansModal"
+        tabindex="-1"
+        aria-labelledby="activeLoansModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="activeLoansModalLabel">
+                Active Loans
+              </h5>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+                style="filter: invert(1)"
+              ></button>
+            </div>
+            <div class="modal-body">
+              <!-- Active Loans Table -->
+              <table class="table table-hover">
+                <thead>
+                  <tr>
+                    <th scope="col">Loan ID</th>
+                    <th scope="col">Outstanding Balance</th>
+                    <th scope="col">Next EMI Due Date</th>
+                    <th scope="col">Next EMI Amount</th>
+                    <th scope="col">Loan Start Date</th>
+                    <th scope="col">Loan End Date</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>#LN12345</td>
+                    <td>$42,000</td>
+                    <td>2023-11-01</td>
+                    <td>$937.50</td>
+                    <td>2023-01-01</td>
+                    <td>2027-12-31</td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>#LN67890</td>
+                    <td>$150,000</td>
+                    <td>2023-11-15</td>
+                    <td>$1,250.00</td>
+                    <td>2022-06-01</td>
+                    <td>2032-05-31</td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>#LN11223</td>
+                    <td>$10,000</td>
+                    <td>2023-12-01</td>
+                    <td>$250.00</td>
+                    <td>2023-03-01</td>
+                    <td>2025-02-28</td>
+                    <td></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-bs-dismiss="modal"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+      <p>
+        © 2025 Maverick Bank. All rights reserved. |
+        <a href="privacy-policy.html">Privacy Policy</a> |
+        <a href="terms.html">Terms of Use</a>
+      </p>
+    </div>
+
+    <!-- Track Loan Modal -->
+    <div
+      class="modal fade"
+      id="trackLoanModal"
+      tabindex="-1"
+      aria-labelledby="trackLoanModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="trackLoanModalLabel">
+              Track Your Loan
+            </h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+              style="filter: invert(1)"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <div class="loan-detail">
+              <label>Loan Type:</label>
+              <span>Vehicle -4-Wheeler</span>
+            </div>
+            <div class="loan-detail">
+              <label>Application Status:</label>
+              <span>Pending</span>
+            </div>
+            <div class="loan-detail">
+              <label>Applied Date:</label>
+              <span>2025-03-01</span>
+            </div>
+
+            <div class="loan-detail">
+              <label>Loan Amount Requested:</label>
+              <span>700000</span>
+            </div>
+            <!-- <div class="loan-detail">
+              <label>Sanctioned Amount:</label>
+              <span>$45,000</span>
+            </div> -->
+            <div class="loan-detail">
+              <label>Interest Rate:</label>
+              <span>8.5%</span>
+            </div>
+            <div class="loan-detail">
+              <label>Tenure:</label>
+              <span>5 Years</span>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      function redirectToLoanPage(loanType) {
+        const loanPages = {
+          personal: "Personal-Loan.html",
+          home: "Home-Loan.html",
+          vehicle: "Vehicle-Loan.html",
+          education: "Education-Loan.html",
+          business: "Business-Loan.html",
+          gold: "Gold-Loan.html",
+        };
+        window.location.href = loanPages[loanType] || "#";
+      }
+    </script>
+    <script>
+      // Function to calculate prepayment impact
+      function calculatePrepayment() {
+        const prepaymentOption =
+          document.getElementById("prepaymentOption").value;
+        const prepaymentAmountInput =
+          document.getElementById("prepaymentAmount");
+        const prepaymentChargesElement =
+          document.getElementById("prepaymentCharges");
+        const newOutstandingBalanceElement = document.getElementById(
+          "newOutstandingBalance"
+        );
+        const impactOnTenureElement = document.getElementById("impactOnTenure");
+
+        // Mock data
+        let outstandingBalance = 42000; // Initial outstanding balance
+        let prepaymentCharges = 200; // Fixed prepayment charges
+        let foreclosureCharges = 500; // Fixed foreclosure charges
+
+        if (prepaymentOption === "partial") {
+          const prepaymentAmount = parseFloat(prepaymentAmountInput.value);
+          if (isNaN(prepaymentAmount) || prepaymentAmount <= 0) {
+            alert("Please enter a valid prepayment amount.");
+            return;
+          }
+
+          // Calculate new outstanding balance
+          const newOutstandingBalance =
+            outstandingBalance - prepaymentAmount + prepaymentCharges;
+
+          // Update UI
+          prepaymentChargesElement.textContent = `$${prepaymentCharges}`;
+          newOutstandingBalanceElement.textContent = `$${newOutstandingBalance.toFixed(
+            2
+          )}`;
+          impactOnTenureElement.textContent = `Reduced by ${Math.ceil(
+            prepaymentAmount / 750
+          )} months`;
+        } else if (prepaymentOption === "full") {
+          // Full prepayment (foreclosure)
+          const newOutstandingBalance = outstandingBalance + foreclosureCharges;
+
+          // Update UI
+          prepaymentChargesElement.textContent = `$${foreclosureCharges}`;
+          newOutstandingBalanceElement.textContent = `$${newOutstandingBalance.toFixed(
+            2
+          )}`;
+          impactOnTenureElement.textContent = "Loan fully closed";
+        }
+      }
+
+      // Show/hide prepayment amount input based on selected option
+      document
+        .getElementById("prepaymentOption")
+        .addEventListener("change", function () {
+          const prepaymentAmountSection = document.getElementById(
+            "prepaymentAmountSection"
+          );
+          if (this.value === "partial") {
+            prepaymentAmountSection.style.display = "block";
+          } else {
+            prepaymentAmountSection.style.display = "none";
+          }
+        });
+    </script>
+
+    <script>
+      // Show Payment Details Based on Selected Method
+      document
+        .getElementById("paymentMethod")
+        .addEventListener("change", function () {
+          const selectedMethod = this.value;
+          const paymentDetails = document.getElementById("paymentDetails");
+
+          // Hide all fields initially
+          document.getElementById("netBankingFields").classList.add("d-none");
+          document.getElementById("upiFields").classList.add("d-none");
+          document.getElementById("creditCardFields").classList.add("d-none");
+
+          // Show relevant fields based on payment method
+          if (selectedMethod === "net-banking") {
+            document
+              .getElementById("netBankingFields")
+              .classList.remove("d-none");
+          } else if (selectedMethod === "upi") {
+            document.getElementById("upiFields").classList.remove("d-none");
+          } else if (selectedMethod === "credit-card") {
+            document
+              .getElementById("creditCardFields")
+              .classList.remove("d-none");
+          }
+
+          // Show payment details container
+          paymentDetails.classList.remove("d-none");
+        });
+
+      // Handle Form Submission
+      document
+        .getElementById("paymentForm")
+        .addEventListener("submit", function (event) {
+          event.preventDefault();
+
+          // Validate form
+          if (!this.checkValidity()) {
+            event.stopPropagation();
+            this.classList.add("was-validated");
+            return;
+          }
+
+          // Simulate payment processing
+          setTimeout(() => {
+            // Hide form and show success message
+            document.getElementById("paymentForm").classList.add("d-none");
+            document
+              .getElementById("successMessage")
+              .classList.remove("d-none");
+          }, 1000);
+        });
+    </script>
+    <script>
+      // Function to calculate prepayment impact
+      function calculatePrepayment() {
+        const prepaymentOption =
+          document.getElementById("prepaymentOption").value;
+        const prepaymentAmountInput =
+          document.getElementById("prepaymentAmount");
+        const prepaymentChargesElement =
+          document.getElementById("prepaymentCharges");
+        const newOutstandingBalanceElement = document.getElementById(
+          "newOutstandingBalance"
+        );
+        const impactOnTenureElement = document.getElementById("impactOnTenure");
+
+        // Mock data
+        let outstandingBalance = 42000; // Initial outstanding balance
+        let prepaymentCharges = 200; // Fixed prepayment charges
+        let foreclosureCharges = 500; // Fixed foreclosure charges
+
+        if (prepaymentOption === "partial") {
+          const prepaymentAmount = parseFloat(prepaymentAmountInput.value);
+          if (isNaN(prepaymentAmount) || prepaymentAmount <= 0) {
+            alert("Please enter a valid prepayment amount.");
+            return;
+          }
+
+          // Calculate new outstanding balance
+          const newOutstandingBalance =
+            outstandingBalance - prepaymentAmount + prepaymentCharges;
+
+          // Update UI
+          prepaymentChargesElement.textContent = `$${prepaymentCharges}`;
+          newOutstandingBalanceElement.textContent = `$${newOutstandingBalance.toFixed(
+            2
+          )}`;
+          impactOnTenureElement.textContent = `Reduced by ${Math.ceil(
+            prepaymentAmount / 750
+          )} months`;
+        } else if (prepaymentOption === "full") {
+          // Full prepayment (foreclosure)
+          const newOutstandingBalance = outstandingBalance + foreclosureCharges;
+
+          // Update UI
+          prepaymentChargesElement.textContent = `$${foreclosureCharges}`;
+          newOutstandingBalanceElement.textContent = `$${newOutstandingBalance.toFixed(
+            2
+          )}`;
+          impactOnTenureElement.textContent = "Loan fully closed";
+        }
+      }
+
+      // Show/hide prepayment amount input based on selected option
+      document
+        .getElementById("prepaymentOption")
+        .addEventListener("change", function () {
+          const prepaymentAmountSection = document.getElementById(
+            "prepaymentAmountSection"
+          );
+          if (this.value === "partial") {
+            prepaymentAmountSection.style.display = "block";
+          } else {
+            prepaymentAmountSection.style.display = "none";
+          }
+        });
+
+      // Update Payment Details for Payment Options Modal
+      function updatePaymentDetails() {
+        const prepaymentOption =
+          document.getElementById("prepaymentOption").value;
+        const prepaymentAmountInput =
+          document.getElementById("prepaymentAmount");
+        const prepaymentChargesElement =
+          document.getElementById("prepaymentCharges");
+        const newOutstandingBalanceElement = document.getElementById(
+          "newOutstandingBalance"
+        );
+
+        let paymentAmount = 0;
+
+        if (prepaymentOption === "partial") {
+          const prepaymentAmount = parseFloat(prepaymentAmountInput.value);
+          const prepaymentCharges = parseFloat(
+            prepaymentChargesElement.textContent.replace("$", "")
+          );
+          paymentAmount = prepaymentAmount + prepaymentCharges;
+        } else if (prepaymentOption === "full") {
+          const foreclosureCharges = parseFloat(
+            prepaymentChargesElement.textContent.replace("$", "")
+          );
+          const outstandingBalance = parseFloat(
+            newOutstandingBalanceElement.textContent.replace("$", "")
+          );
+          paymentAmount = outstandingBalance + foreclosureCharges;
+        }
+
+        // Update payment amount display
+        document.getElementById(
+          "paymentAmountDisplay"
+        ).textContent = `$${paymentAmount.toFixed(2)}`;
+        document.getElementById(
+          "successPaymentAmount"
+        ).textContent = `$${paymentAmount.toFixed(2)}`;
+      }
+
+      // Show Payment Form Based on Selected Method
+      document
+        .getElementById("paymentMethod")
+        .addEventListener("change", function () {
+          const selectedMethod = this.value;
+          const paymentDetails = document.getElementById("paymentDetails");
+
+          // Hide all fields initially
+          document.getElementById("netBankingFields").classList.add("d-none");
+          document.getElementById("upiFields").classList.add("d-none");
+          document.getElementById("creditCardFields").classList.add("d-none");
+
+          // Show relevant fields based on payment method
+          if (selectedMethod === "net-banking") {
+            document
+              .getElementById("netBankingFields")
+              .classList.remove("d-none");
+          } else if (selectedMethod === "upi") {
+            document.getElementById("upiFields").classList.remove("d-none");
+          } else if (selectedMethod === "credit-card") {
+            document
+              .getElementById("creditCardFields")
+              .classList.remove("d-none");
+          }
+
+          // Show payment details container
+          paymentDetails.classList.remove("d-none");
+        });
+
+      // Handle Form Submission
+      document
+        .getElementById("paymentForm")
+        .addEventListener("submit", function (event) {
+          event.preventDefault();
+
+          // Validate form
+          if (!this.checkValidity()) {
+            event.stopPropagation();
+            this.classList.add("was-validated");
+            return;
+          }
+
+          // Simulate payment processing
+          setTimeout(() => {
+            // Hide form and show success message
+            document.getElementById("paymentForm").classList.add("d-none");
+            document
+              .getElementById("successMessage")
+              .classList.remove("d-none");
+          }, 1000);
+        });
+    </script>
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>

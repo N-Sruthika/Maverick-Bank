@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Business Loan - MBI</title>
+    <!-- Bootstrap CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+    />
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Font Awesome Icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+      }
+      .banner {
+        background: linear-gradient(to right, #008aadc7, #007bff);
+        color: white;
+        padding: 30px;
+        text-align: center;
+        position: relative;
+      }
+      .apply-btn {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        background: red;
+        color: white;
+        padding: 10px 20px;
+        border-radius: 5px;
+        text-decoration: none;
+      }
+      .nav-tabs {
+        display: flex;
+        justify-content: space-around;
+        background: #f8f9fa;
+        padding: 10px;
+        border-radius: 5px;
+      }
+      .nav-tabs .nav-item .nav-link {
+        font-size: 16px;
+        font-weight: bold;
+        color: #007bff;
+        transition: 0.3s;
+      }
+      .nav-tabs .nav-item .nav-link:hover {
+        background: #007bff;
+        color: white;
+        border-radius: 5px;
+      }
+      .tab-content {
+        display: none;
+        padding: 20px;
+        background: #f8f9fa;
+        border-radius: 5px;
+        margin-top: 10px;
+      }
+      .icon-box {
+        display: flex;
+        align-items: center;
+        margin: 10px 0;
+      }
+      .icon-box i {
+        font-size: 30px;
+        color: #007bff;
+        margin-right: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Banner -->
+    <div class="banner">
+      <h2>Business Loan</h2>
+      <a href="Business-Loan-Apply.html" class="apply-btn">Apply Online</a>
+    </div>
+
+    <!-- Navigation Tabs -->
+    <div class="container">
+      <ul class="nav nav-tabs" id="loanTabs">
+        <li class="nav-item">
+          <a class="nav-link" id="featuresTab">Features</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" id="eligibilityTab">Eligibility</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" id="quantumTab">Quantum of Loan</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" id="interestTab">Interest Rates & Repayment</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" id="knowMoreTab">Know More</a>
+        </li>
+      </ul>
+
+      <!-- Features Content -->
+      <div class="tab-content" id="featuresContent">
+        <p>
+          Maverick Bank of India (MBI) offers business loans tailored to meet
+          your entrepreneurial needs. Whether you're expanding your business,
+          purchasing equipment, or managing working capital, MBI provides
+          flexible and competitive loan solutions to help your business grow.
+        </p>
+        <p>
+          <strong>Key Highlights:</strong>
+        </p>
+        <ul>
+          <li>Eligible for individuals and businesses.</li>
+          <li>Maximum loan amount up to ₹50 lakhs.</li>
+          <li>Interest rates starting at just 10.50%.</li>
+          <li>Hassle-free financing with repayment tenure up to 5 years.</li>
+        </ul>
+        <p>Q: What documents are required?</p>
+        <p>
+          A: PAN Card, Aadhaar, GST Certificate, Last 2 years' ITR, Bank
+          Statements (last 6 months), and Proof of Business Existence.
+        </p>
+        <p>
+          For Detailed FAQs,
+          <a href="Business-Loan-FAQs.html">please click here</a>.
+        </p>
+      </div>
+
+      <!-- Eligibility Content -->
+      <div class="tab-content" id="eligibilityContent">
+        <p><strong>Eligibility Criteria:</strong></p>
+        <ul>
+          <li>Minimum age: 21 years.</li>
+          <li>
+            Applicant must be a business owner or self-employed professional.
+          </li>
+          <li>Minimum annual turnover: ₹5 lakhs.</li>
+          <li>Credit score: 750+.</li>
+        </ul>
+        <p>
+          Income should be stable and verifiable through IT returns or audited
+          financial statements.
+        </p>
+      </div>
+
+      <!-- Quantum of Loan Content -->
+      <div class="tab-content" id="quantumContent">
+        <p>
+          <strong>Working Capital Loans:</strong> Up to 80% of the total
+          business requirement.
+        </p>
+        <p>
+          <strong>Equipment Financing:</strong> Up to 90% of the equipment cost.
+        </p>
+        <p>
+          <strong>Business Expansion:</strong> Customized loan amounts based on
+          business needs and creditworthiness.
+        </p>
+      </div>
+
+      <!-- Interest Rates & Repayment Content -->
+      <div class="tab-content" id="interestContent">
+        <p><strong>Interest Rates & Repayment Period:</strong></p>
+        <p>
+          Working Capital Loan: Repayable in up to 36 equated monthly
+          installments.
+        </p>
+        <p>Equipment Financing: Repayable in up to 60 monthly installments.</p>
+        <p>
+          Business Expansion Loan: Flexible repayment options based on cash
+          flow.
+        </p>
+      </div>
+
+      <!-- Know More Content -->
+      <div class="tab-content" id="knowMoreContent">
+        <p>
+          <strong>Purpose:</strong> Funding for business expansion, working
+          capital, equipment purchase, or other business-related expenses.
+        </p>
+        <p>
+          <strong>Co-applicants:</strong> Spouse, Business Partner, or Family
+          Member (Income can be combined).
+        </p>
+        <p>
+          <strong>Security:</strong> Collateral may be required for larger loan
+          amounts.
+        </p>
+        <p><strong>Special Concession:</strong></p>
+        <ul>
+          <li>CIBIL Score 750-799: Concession 0.25%.</li>
+          <li>CIBIL Score 800+: Concession 0.50%.</li>
+        </ul>
+        <p><strong>Documents Required:</strong></p>
+        <ul>
+          <li>Application form</li>
+          <li>Last 2 years' IT returns</li>
+          <li>GST Certificate</li>
+          <li>Bank statements (last 6 months)</li>
+          <li>Proof of Business Existence</li>
+        </ul>
+      </div>
+    </div>
+
+    <script>
+      // Tab Switching Logic
+      document.querySelectorAll(".nav-link").forEach((item) => {
+        item.addEventListener("mouseover", function () {
+          document
+            .querySelectorAll(".tab-content")
+            .forEach((tab) => (tab.style.display = "none"));
+          const targetId = this.id.replace("Tab", "Content");
+          document.getElementById(targetId).style.display = "block";
+        });
+      });
+
+      // Default Tab (Features)
+      document.getElementById("featuresTab").click();
+    </script>
+  </body>
+</html>

@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vehicle Loan FAQs</title>
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <!-- Font Awesome Icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+    />
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+      /* Global Styles */
+      body {
+        font-family: Arial, sans-serif;
+        background: linear-gradient(to bottom, #5c86c7, #3b5998);
+        margin: 0;
+        padding: 0;
+      }
+
+      /* Header Bar */
+      .header-bar {
+        background: #003366;
+        color: white;
+        text-align: center;
+        font-size: 1.5rem;
+        font-weight: bold;
+        padding: 15px 0;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: 1000;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      }
+
+      /* FAQ Container */
+      .faq-container {
+        margin-top: 70px; /* Space for header bar */
+        padding: 0;
+        max-width: 100%;
+        background: #fff;
+      }
+
+      /* FAQ Items */
+      .faq-item {
+        border-bottom: 1px solid #ddd;
+        padding: 10px 0;
+      }
+
+      .faq-question {
+        font-weight: bold;
+        cursor: pointer;
+        color: #007bff;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px;
+        background: #f8f9fa;
+        border-radius: 5px;
+        transition: background 0.3s;
+      }
+
+      .faq-question:hover {
+        background: #e2e6ea;
+      }
+
+      .faq-answer {
+        display: none;
+        padding: 10px;
+        color: #333;
+        background: #f1f1f1;
+        border-radius: 5px;
+        margin-top: 5px;
+      }
+
+      .toggle-icon {
+        font-weight: bold;
+      }
+
+      /* Back Link */
+      .back-link {
+        display: block;
+        text-align: center;
+        margin-top: 20px;
+        font-size: 16px;
+        color: #007bff;
+        text-decoration: none;
+        transition: color 0.3s ease-in-out;
+      }
+
+      .back-link:hover {
+        color: #0056b3;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Header Bar -->
+    <div class="header-bar">Maverick Bank</div>
+
+    <!-- FAQ Content -->
+    <div class="faq-container">
+      <h2 style="text-align: center; color: #003366; margin-top: 20px">
+        FAQs on Vehicle Loans
+      </h2>
+      <div class="faq-item">
+        <div class="faq-question">
+          1. Who is eligible for a vehicle loan?
+          <span class="toggle-icon">+</span>
+        </div>
+        <div class="faq-answer">
+          Individuals (employed or self-employed) and organizations operating
+          for at least two years.
+        </div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question">
+          2. What type of vehicles can be purchased?
+          <span class="toggle-icon">+</span>
+        </div>
+        <div class="faq-answer">
+          New two-wheelers & four-wheelers (including electric) and old
+          four-wheelers.
+        </div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question">
+          3. What is the minimum down payment?
+          <span class="toggle-icon">+</span>
+        </div>
+        <div class="faq-answer">
+          <ul>
+            <li>New Car - 10% on-road price</li>
+            <li>Old Car - 25% on-road price</li>
+            <li>Two-wheeler - 10% on-road price</li>
+          </ul>
+        </div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question">
+          4. What is the age & income criteria?
+          <span class="toggle-icon">+</span>
+        </div>
+        <div class="faq-answer">
+          Min age: 18 years, Max age: 70 years (loan must be repaid before 75).
+          Salary slips or IT returns required.
+        </div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question">
+          5. Can I refinance my vehicle?
+          <span class="toggle-icon">+</span>
+        </div>
+        <div class="faq-answer">No, refinance is not available.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question">
+          6. Can old vehicles be purchased?
+          <span class="toggle-icon">+</span>
+        </div>
+        <div class="faq-answer">
+          Only old four-wheelers (excluding non-electric) can be financed.
+        </div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question">
+          7. What is the repayment tenure?
+          <span class="toggle-icon">+</span>
+        </div>
+        <div class="faq-answer">
+          <ul>
+            <li>New car - 84 months</li>
+            <li>Old car - 84 EMI (max 8 years at closure)</li>
+            <li>New two-wheeler - 72 months</li>
+          </ul>
+        </div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question">
+          8. What is the maximum loan amount?
+          <span class="toggle-icon">+</span>
+        </div>
+        <div class="faq-answer">
+          90% of on-road price for new vehicles, 75% of market value for old
+          four-wheelers.
+        </div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question">
+          9. Is a guarantor mandatory?
+          <span class="toggle-icon">+</span>
+        </div>
+        <div class="faq-answer">No.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question">
+          10. Can the vehicle loan be prepaid?
+          <span class="toggle-icon">+</span>
+        </div>
+        <div class="faq-answer">Yes, prepayment is allowed.</div>
+      </div>
+      <a href="vehicle-loan.html" class="back-link"
+        >Back to Vehicle Loan Page</a
+      >
+    </div>
+
+    <script>
+      // Toggle FAQ Answers
+      $(document).ready(function () {
+        $(".faq-question").click(function () {
+          $(this).next(".faq-answer").slideToggle();
+          $(this)
+            .find(".toggle-icon")
+            .text($(this).next(".faq-answer").is(":visible") ? "−" : "+");
+        });
+      });
+    </script>
+  </body>
+</html>

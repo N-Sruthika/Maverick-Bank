@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vehicle Loan - MBI</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+      }
+      .banner {
+        background: linear-gradient(to right, #008aadc7, #007bff);
+        color: white;
+        padding: 30px;
+        text-align: center;
+        position: relative;
+      }
+      .apply-btn {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        background: red;
+        color: white;
+        padding: 10px 20px;
+        border-radius: 5px;
+        text-decoration: none;
+      }
+      .nav-tabs {
+        display: flex;
+        justify-content: space-around;
+        background: #f8f9fa;
+        padding: 10px;
+        border-radius: 5px;
+      }
+      .nav-tabs .nav-item .nav-link {
+        font-size: 16px;
+        font-weight: bold;
+        color: #007bff;
+        transition: 0.3s;
+      }
+      .nav-tabs .nav-item .nav-link:hover {
+        background: #007bff;
+        color: white;
+        border-radius: 5px;
+      }
+      .tab-content {
+        display: none;
+        padding: 20px;
+        background: #f8f9fa;
+        border-radius: 5px;
+        margin-top: 10px;
+      }
+      .icon-box {
+        display: flex;
+        align-items: center;
+        margin: 10px 0;
+      }
+      .icon-box i {
+        font-size: 30px;
+        color: #007bff;
+        margin-right: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="banner">
+      <h2>Vehicle Loan</h2>
+
+      <a href="Vehicle-Loan-Apply.html" class="apply-btn">Apply Online</a>
+    </div>
+
+    <div class="container">
+      <ul class="nav nav-tabs" id="loanTabs">
+        <li class="nav-item">
+          <a class="nav-link" id="featuresTab">Features</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" id="eligibilityTab">Eligibility</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" id="quantumTab">Quantum of Loan</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" id="interestTab">Interest Rates & Repayment</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" id="knowMoreTab">Know More</a>
+        </li>
+      </ul>
+
+      <!-- Features Content -->
+      <div class="tab-content" id="featuresContent">
+        <p>
+          Maverick Bank of India (MBI) offers vehicle loan which caters your
+          requirement of driving home your dream car or bike. If you are looking
+          to purchase a new car, a used car, or a two-wheeler, MBI is the right
+          place with the perfect loan solution for you. The bank provides
+          competitive interest rates, making your vehicle purchase affordable in
+          a stress-free atmosphere. MBI ensures a straightforward, convenient,
+          and hassle-free loan process.
+        </p>
+        <p>
+          <strong>Key Highlights:</strong>
+        </p>
+        <ul>
+          <li>Eligible for individuals (18+ years).</li>
+          <li>Maximum finance: 90% for new vehicles, 75% for old vehicles.</li>
+          <li>Interest rates start at just 8.85%.</li>
+          <li>
+            Hassle-free financing with up to 7 years repayment for new cars.
+          </li>
+        </ul>
+        <p>Q: What documents are required?</p>
+        <p>
+          A: Aadhaar, Pan, DL, Salaried person to be in service for 2 years and
+          to produce last three months salary and business person last two years
+          IT returns.
+        </p>
+
+        <p>
+          For Detailed FAQs,
+          <a href="Vehicle-Loan-FAQs.html">please click here</a>.
+        </p>
+      </div>
+
+      <!-- Eligibility Content -->
+      <div class="tab-content" id="eligibilityContent">
+        <p><strong>Permanent Employment in a...</strong></p>
+        <ul>
+          <li>Government Office</li>
+          <li>Public Sector Undertaking</li>
+          <li>Reputed Private Enterprise</li>
+          <li>Self-employed Professional</li>
+        </ul>
+        <p>
+          Income should be more than Rs. 8000 for car loans and Rs. 5000 for
+          two-wheeler loans.
+        </p>
+      </div>
+
+      <!-- Quantum of Loan Content -->
+      <div class="tab-content" id="quantumContent">
+        <p>
+          <strong>New Car / New Electric Car:</strong> 90% of the cost of the
+          vehicle.
+        </p>
+        <p>
+          <strong>Old Cars:</strong> 75% of the market value of the vehicle.
+        </p>
+        <p><strong>2 Wheelers:</strong> 90% of the cost of the vehicle.</p>
+      </div>
+
+      <!-- Interest Rates & Repayment Content -->
+      <div class="tab-content" id="interestContent">
+        <p><strong>Interest Rates & Repayment Period:</strong></p>
+        <p>New Car: Repayable in up to 84 equated monthly installments.</p>
+        <p>Used Car: Max 84 months, less age of the vehicle.</p>
+        <p>New Two-Wheeler: Repayable in up to 72 monthly installments.</p>
+      </div>
+
+      <!-- Know More Content -->
+      <div class="tab-content" id="knowMoreContent">
+        <p>
+          <strong>Purpose:</strong> Purchase of New/Old Car (not older than 5
+          years) and New Two-Wheelers.
+        </p>
+        <p>
+          <strong>Co-applicants:</strong> Spouse, Son, Daughter, Father, Mother
+          (Income can be combined).
+        </p>
+        <p><strong>Security:</strong> Hypothecation of the vehicle.</p>
+        <p><strong>Special Concession:</strong></p>
+        <ul>
+          <li>CIBIL Score 750-799: Concession 0.25%.</li>
+          <li>CIBIL Score 800+: Concession 0.50%.</li>
+        </ul>
+        <p><strong>Documents Required:</strong></p>
+        <ul>
+          <li>Application form</li>
+          <li>Salary certificate / IT return</li>
+          <li>Quotation/proforma invoice for new vehicles</li>
+          <li>
+            Valuation certificate from two reputed auto dealers for used cars
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <script>
+      document.querySelectorAll(".nav-link").forEach((item) => {
+        item.addEventListener("mouseover", function () {
+          document
+            .querySelectorAll(".tab-content")
+            .forEach((tab) => (tab.style.display = "none"));
+          const targetId = this.id.replace("Tab", "Content");
+          document.getElementById(targetId).style.display = "block";
+        });
+      });
+    </script>
+  </body>
+</html>

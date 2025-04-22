@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Personal Loan FAQs</title>
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <!-- Font Awesome Icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+    />
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+      /* Global Styles */
+      body {
+        font-family: Arial, sans-serif;
+        background: linear-gradient(to bottom, #5c86c7, #3b5998);
+        margin: 0;
+        padding: 0;
+      }
+
+      /* Header Bar */
+      .header-bar {
+        background: #003366;
+        color: white;
+        text-align: center;
+        font-size: 1.5rem;
+        font-weight: bold;
+        padding: 15px 0;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: 1000;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      }
+
+      /* FAQ Container */
+      .faq-container {
+        margin-top: 70px; /* Space for header bar */
+        padding: 0;
+        max-width: 100%;
+        background: #fff;
+      }
+
+      /* FAQ Items */
+      .faq-item {
+        border-bottom: 1px solid #ddd;
+        padding: 10px 0;
+      }
+
+      .faq-question {
+        font-weight: bold;
+        cursor: pointer;
+        color: #007bff;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px;
+        background: #f8f9fa;
+        border-radius: 5px;
+        transition: background 0.3s;
+      }
+
+      .faq-question:hover {
+        background: #e2e6ea;
+      }
+
+      .faq-answer {
+        display: none;
+        padding: 10px;
+        color: #333;
+        background: #f1f1f1;
+        border-radius: 5px;
+        margin-top: 5px;
+      }
+
+      .toggle-icon {
+        font-weight: bold;
+      }
+
+      /* Back Link */
+      .back-link {
+        display: block;
+        text-align: center;
+        margin-top: 20px;
+        font-size: 16px;
+        color: #007bff;
+        text-decoration: none;
+        transition: color 0.3s ease-in-out;
+      }
+
+      .back-link:hover {
+        color: #0056b3;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Header Bar -->
+    <div class="header-bar">Maverick Bank</div>
+
+    <!-- FAQ Content -->
+    <div class="faq-container">
+      <h2 style="text-align: center; color: #003366; margin-top: 20px">
+        FAQs on Personal Loans
+      </h2>
+      <div class="faq-item">
+        <div class="faq-question">
+          1. Who is eligible for a personal loan?
+          <span class="toggle-icon">+</span>
+        </div>
+        <div class="faq-answer">
+          Individuals aged 21–60 years with a stable income source (salaried or
+          self-employed).
+        </div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question">
+          2. What is the minimum and maximum loan amount?
+          <span class="toggle-icon">+</span>
+        </div>
+        <div class="faq-answer">
+          Minimum ₹50,000 and maximum ₹20 lakhs, depending on eligibility.
+        </div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question">
+          3. What is the repayment tenure?
+          <span class="toggle-icon">+</span>
+        </div>
+        <div class="faq-answer">
+          Flexible tenure ranging from 12 months to 60 months (1–5 years).
+        </div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question">
+          4. Is collateral required?
+          <span class="toggle-icon">+</span>
+        </div>
+        <div class="faq-answer">
+          No, personal loans are unsecured and do not require collateral.
+        </div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question">
+          5. What is the interest rate?
+          <span class="toggle-icon">+</span>
+        </div>
+        <div class="faq-answer">
+          Interest rates start at 10.99% per annum, depending on the applicant's
+          profile and loan amount.
+        </div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question">
+          6. Can I prepay the personal loan?
+          <span class="toggle-icon">+</span>
+        </div>
+        <div class="faq-answer">
+          Yes, prepayment is allowed after completing 6 EMIs without any
+          penalty.
+        </div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question">
+          7. What documents are required?
+          <span class="toggle-icon">+</span>
+        </div>
+        <div class="faq-answer">
+          <ul>
+            <li>PAN Card</li>
+            <li>Aadhaar Card</li>
+            <li>Bank Statements (last 6 months)</li>
+            <li>Salary Slips (last 3 months) for salaried individuals</li>
+            <li>IT Returns (last 2 years) for self-employed individuals</li>
+          </ul>
+        </div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question">
+          8. What is the processing fee?
+          <span class="toggle-icon">+</span>
+        </div>
+        <div class="faq-answer">
+          A nominal processing fee of up to 2% of the loan amount is applicable.
+        </div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question">
+          9. How long does it take to get the loan approved?
+          <span class="toggle-icon">+</span>
+        </div>
+        <div class="faq-answer">
+          Loan approval and disbursal typically take 1–3 business days after
+          document submission.
+        </div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question">
+          10. Can I apply jointly with a co-applicant?
+          <span class="toggle-icon">+</span>
+        </div>
+        <div class="faq-answer">
+          Yes, you can apply jointly with a co-applicant to increase
+          eligibility.
+        </div>
+      </div>
+      <a href="personal-loan.html" class="back-link"
+        >Back to Personal Loan Page</a
+      >
+    </div>
+
+    <script>
+      // Toggle FAQ Answers
+      $(document).ready(function () {
+        $(".faq-question").click(function () {
+          $(this).next(".faq-answer").slideToggle();
+          $(this)
+            .find(".toggle-icon")
+            .text($(this).next(".faq-answer").is(":visible") ? "−" : "+");
+        });
+      });
+    </script>
+  </body>
+</html>
