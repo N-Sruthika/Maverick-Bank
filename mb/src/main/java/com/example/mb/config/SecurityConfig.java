@@ -32,7 +32,7 @@ public class SecurityConfig {
 		.csrf(csrf->csrf.disable())
 			.authorizeHttpRequests((authorize) -> authorize
 				.requestMatchers("/api/auth/token/generate").permitAll()	
-				.requestMatchers("/api/auth/user/details").authenticated()
+				.requestMatchers("/api/auth/user/details").permitAll()
 				.requestMatchers("/api/auth/signup").permitAll()
 				.requestMatchers("/api/reset").permitAll()
 	              
@@ -49,24 +49,24 @@ public class SecurityConfig {
 				
 				//account					
 				.requestMatchers("/api/account/add/{branchId}/{customerId}").hasAuthority("ADMIN")
-				.requestMatchers("/api/account/get/balance/{accountNumber}").hasAuthority("CUSTOMER")
-				.requestMatchers("/api/account/{accountId}").hasAuthority("CUSTOMER")
+				.requestMatchers("/api/account/get/balance/{accountNumber}").permitAll()
+				.requestMatchers("/api/account/{accountId}").permitAll()
 				.requestMatchers("/api/accounts/customer/{customerId}").hasAuthority("CUSTOMER")
 				.requestMatchers("/api/account/update/{accountId}").hasAuthority("CUSTOMER")
 				.requestMatchers("/api/account/deactivate/{accountId}").hasAuthority("CUSTOMER")
 				.requestMatchers("/find/{accountNumber}").hasAuthority("CUSTOMER")
-				.requestMatchers("/api/accounts/active/count/{customerId}").hasAuthority("CUSTOMER")
+				.requestMatchers("/api/accounts/active/count/{customerId}").permitAll()
 				
 				
 				
 				//beneficiary 
-				.requestMatchers("/api/beneficiary/add/{customerId}").hasAuthority("CUSTOMER")
-				.requestMatchers("/api/beneficiaries/customer/{customerId}").hasAnyAuthority("CUSTOMER", "ADMIN")
+				.requestMatchers("/api/beneficiary/add/{customerId}").permitAll()
+				.requestMatchers("/api/beneficiaries/customer/{customerId}").permitAll()
 				.requestMatchers("/api/beneficiary/{beneficiaryId}").hasAnyAuthority("CUSTOMER")
 				.requestMatchers("/api/beneficiary/update/{beneficiaryid}").hasAuthority("CUSTOMER")
-				.requestMatchers("/api/beneficiary/delete/{beneficiaryid}").hasAuthority("CUSTOMER")
+				.requestMatchers("/api/beneficiary/delete/{beneficiaryid}").permitAll()
 				.requestMatchers("/api/beneficiaries/count").hasAuthority("CUSTOMER")
-				.requestMatchers("/api/beneficiaries/count/{customerId}").hasAuthority("CUSTOMER")
+				.requestMatchers("/api/beneficiaries/count/{customerId}").permitAll()
 				.requestMatchers("/api/beneficiaries/details/{customerId}").hasAuthority("CUSTOMER")
 				
 				//service request				
@@ -82,12 +82,15 @@ public class SecurityConfig {
 				
 				.requestMatchers("/api/transactions/upi-transfer/{accountNumber}").hasAuthority("CUSTOMER") // UPI transaction
 			    .requestMatchers("/api/transactions/bank-transfer/{accountNumber}").hasAuthority("CUSTOMER") // Bank transfer
-			    .requestMatchers("/api/transactions/history/{accountId}").hasAuthority("CUSTOMER") // View transaction history for a specific account				   
+			    .requestMatchers("/api/transactions/history/{accountId}").hasAuthority("CUSTOMER")
+			    .requestMatchers("/api/transactions/account/history/{aid}").permitAll()
+			    // View transaction history for a specific account				/account/history/{aid}   
 				.requestMatchers("/api/employees/**").hasAuthority("ADMIN")
 				.requestMatchers("/api/branches/**").permitAll()
 				.requestMatchers("/api/departments/**").permitAll()
 				
 				.anyRequest().authenticated()
+				
 			)
 			.sessionManagement(session-> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 			.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)

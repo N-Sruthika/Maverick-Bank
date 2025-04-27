@@ -43,7 +43,10 @@ public class JwtFilter extends OncePerRequestFilter{
 		 * using userSecurityService, i will fetch user details by username
 		 * role..
 		 * */
-		final String authorizationHeader = request.getHeader("Authorization");
+		 final String authorizationHeader = request.getHeader("Authorization");
+		 //final String authorizationHeader = "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJBYmkiLCJleHAiOjE3NDU3NTEzODgsImlhdCI6MTc0NTY2NDk4OH0.jjgUs-Rv3qtRIH9ymEwe3PC8EnktIZ53CegJ8dtvknM";
+		// System.out.println("Auth Header " + authorizationHeader);
+
 		
 		 String username = null;
 	     String jwt = null;

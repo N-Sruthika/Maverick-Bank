@@ -3,6 +3,7 @@ package com.example.mb.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,6 +19,7 @@ import com.example.mb.service.TransactionService;
 
 @RestController
 @RequestMapping("/api/transactions")
+@CrossOrigin(origins = {"http://localhost:5173"})
 public class TransactionController {
 
     @Autowired
@@ -43,5 +45,9 @@ public class TransactionController {
     @GetMapping("/history/{accountNumber}")
     public List<Transaction> getTransactionHistory(@PathVariable String accountNumber) {
         return transactionService.getTransactionHistory(accountNumber);
+    }
+    @GetMapping("/account/history/{aid}")
+    public List<Transaction> getTransactionHistoryByAccountId(@PathVariable int aid) {
+        return transactionService.getTransactionHistoryByAccountId(aid);
     }
 }

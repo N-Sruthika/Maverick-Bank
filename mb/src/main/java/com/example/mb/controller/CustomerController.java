@@ -3,6 +3,7 @@ package com.example.mb.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,8 +16,9 @@ import com.example.mb.model.Customer;
 import com.example.mb.service.BranchService;
 import com.example.mb.service.CustomerService;
 
-	@RestController
-	public class CustomerController {
+@RestController
+
+public class CustomerController {
 
 	    @Autowired
 	    private CustomerService customerService;
