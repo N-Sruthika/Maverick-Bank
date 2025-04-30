@@ -1,0 +1,234 @@
+/* Account Page Styles - Matches accounts.html + Extra styles merged */
+
+body, html {
+    background: #f4f6fb;
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Arial, sans-serif;
+  }
+  
+  .app-container {
+    display: flex;
+    min-height: 100vh;
+  }
+  
+  .sidebar {
+    width: 220px;
+    background: linear-gradient(135deg, #00338d 0%, #002266 100%);
+    color: #fff;
+    min-height: 100vh;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+  }
+  .logo-container {
+    padding: 32px 0 12px 0;
+    text-align: center;
+  }
+  .nav-section {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: 0 0 0 0;
+  }
+  .nav-section a {
+    color: #fff;
+    text-decoration: none;
+    padding: 16px 32px;
+    font-size: 16px;
+    border-left: 4px solid transparent;
+    transition: background 0.2s, border-color 0.2s;
+  }
+  .nav-section a.active, .nav-section a:hover {
+    background: #e8f0fe;
+    color: #00338d;
+    border-left: 4px solid #00338d;
+  }
+  
+  .main-area {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 36px 0 0 0;
+  }
+  
+  .top-bar {
+    width: 100%;
+    max-width: 1100px;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    padding: 18px 32px;
+    margin-bottom: 24px;
+    font-size: 20px;
+    font-weight: 500;
+    color: #00338d;
+  }
+  
+  .account-content {
+    display: grid;
+    grid-template-columns: 2.5fr 1fr;
+    gap: 32px;
+    width: 100%;
+    max-width: 1100px;
+  }
+  
+  .account-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+  }
+  
+  .card {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+    border: 1px solid #e7eaf0;
+    padding: 0;
+    transition: box-shadow 0.2s;
+  }
+  .card:hover {
+    box-shadow: 0 4px 24px rgba(0,0,0,0.10);
+  }
+  .card-header {
+    background: none;
+    color: #00338d;
+    border-radius: 12px 12px 0 0;
+    padding: 22px 32px 10px 32px;
+    text-align: left;
+    font-size: 22px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    border-bottom: 1px solid #e7eaf0;
+  }
+  .card-body {
+    padding: 24px 32px 24px 32px;
+    font-size: 17px;
+    color: #222;
+    min-height: 120px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+  }
+  
+  .quick-actions-card {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    padding: 28px 24px;
+    min-width: 260px;
+    margin-top: 0;
+    height: fit-content;
+    border: 1px solid #e7eaf0;
+  }
+  .quick-actions-card h4 {
+    margin-bottom: 18px;
+    color: #00338d;
+    font-weight: 600;
+    font-size: 18px;
+  }
+  .quick-links {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .quick-links a {
+    background: #f4f6fb;
+    border-radius: 8px;
+    padding: 12px 18px;
+    color: #00338d;
+    font-weight: 500;
+    text-decoration: none;
+    font-size: 16px;
+    transition: background 0.2s;
+  }
+  .quick-links a:hover {
+    background: #e0e6ed;
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 900px) {
+    .account-content {
+      grid-template-columns: 1fr;
+      gap: 0;
+    }
+    .quick-actions-card {
+      margin-top: 24px;
+    }
+  }
+  
+  .account-info {
+    margin-bottom: 16px;
+    display: flex;
+    justify-content: space-between;
+  }
+  .account-info-label {
+    color: #00338d;
+    font-weight: 500;
+  }
+  .account-balance {
+    font-size: 22px;
+    font-weight: 700;
+    color: #28a745;
+  }
+  .summary-line {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    font-size: 16px;
+  }
+  .transaction-list {
+    margin-top: 8px;
+  }
+  .transaction-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid #f0f0f0;
+  }
+  .transaction-details {
+    display: flex;
+    flex-direction: column;
+  }
+  .amount.credit {
+    color: #28a745;
+    font-weight: 600;
+  }
+  .amount.debit {
+    color: #dc3545;
+    font-weight: 600;
+  }
+  .date {
+    font-size: 13px;
+    color: #888;
+  }
+  .quick-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .quick-links a {
+    display: block;
+    background: #f4f6fb;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    padding: 12px 18px;
+    color: #00338d;
+    font-weight: 500;
+    text-decoration: none;
+    transition: background 0.2s;
+  }
+  .quick-links a:hover {
+    background: #e0e6ed;
+  }
+  .welcome-message {
+    font-size: 22px;
+    color: #00338d;
+    font-weight: 600;
+    margin-bottom: 18px;
+  }
+  

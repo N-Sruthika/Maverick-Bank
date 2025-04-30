@@ -1,0 +1,133 @@
+/* Card for Add Beneficiary form */
+.card {
+    padding: 20px;
+    margin-top: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+}
+
+/* Form styling */
+form {
+    display: block;  /* Ensures the form is block level, causing fields to stack vertically */
+    width: 100%;
+    gap: 20px;  /* Space between form fields */
+}
+
+/* Individual form group styling */
+.form-group {
+    display: flex;
+    flex-direction: column;  /* Stack label and input vertically */
+    width: 100%;
+}
+
+/* Label styling */
+label {
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 5px; /* Adds space between label and input */
+    color: #333;
+}
+
+/* Input styling */
+input.form-control {
+    padding: 12px;
+    font-size: 16px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    width: 100%; /* Ensure inputs take up full width inside their form group */
+    transition: border-color 0.3s ease;
+}
+
+/* Focus input styling */
+input.form-control:focus {
+    border-color: #00509e;
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 80, 158, 0.3);
+}
+
+/* Button styling */
+
+/* Modal body */
+.modal-body {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 500px;
+    margin: auto;
+}
+
+/* Form inside modal */
+.modal-body form {
+    display: block;  /* Ensures the form is displayed as a block, so fields are stacked vertically */
+    width: 100%;
+}
+
+/* Each form group inside the modal */
+.modal-body .form-group {
+    display: flex;
+    flex-direction: column;  /* Stacking label and input vertically */
+    width: 100%;
+}
+
+/* Label inside modal */
+.modal-body label {
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+/* Input inside modal */
+.modal-body input.form-control {
+    padding: 12px;
+    font-size: 16px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    width: 100%;  /* Ensure inputs fill the space */
+    transition: border-color 0.3s ease;
+}
+
+/* Focus styling for input inside modal */
+.modal-body input.form-control:focus {
+    border-color: #00509e;
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 80, 158, 0.3);
+}
+
+/* Button inside modal */
+.modal-body .btn-success {
+    background-color: #28a745;
+    border: none;
+    padding: 12px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    color: white;
+    font-weight: bold;
+    width: 100%;
+    transition: background-color 0.3s ease;
+}
+
+/* Button hover effect */
+.modal-body .btn-success:hover {
+    background-color: #218838;
+}
+
+/* Responsiveness for smaller screens */
+@media (max-width: 768px) {
+    .modal-body {
+        padding: 15px;
+        max-width: 90%;
+    }
+
+    /* Adjust the input field font-size on smaller screens */
+    input.form-control {
+        font-size: 14px;
+    }
+
+    .btn-success {
+        padding: 10px 15px;
+    }
+}

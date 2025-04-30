@@ -1,0 +1,85 @@
+.transaction-wrapper {
+  display: flex;
+ 
+  background-color: #f4f6fb;
+}
+
+.sidebar {
+  width: 250px;
+  background-color: #00509e;
+  padding: 20px;
+  box-sizing: border-box;
+  color: white;
+  height: 850px;
+}
+
+.sidebar h3 {
+  color: white;
+  margin-bottom: 20px;
+}
+
+.nav-link {
+  color: white;
+  text-decoration: none;
+  display: block;
+  margin: 10px 0;
+}
+
+.nav-link.active {
+  font-weight: bold;
+}
+
+.dashboard-content {
+  flex: 1;
+  padding: 32px;
+  box-sizing: border-box;
+}
+
+.card {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.card h2 {
+  margin-bottom: 20px;
+}
+.card-content form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group input {
+  padding: 10px;
+  font-size: 1rem;
+}
+/* button stylye populate */
+.transfer-buttons {
+  display: flex;
+  gap: 16px; /* space between buttons */
+  margin-bottom: 20px;
+}
+
+.transfer-btn {
+  padding: 10px 20px;
+  background-color: #00509e;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.transfer-btn:hover {
+  background-color: #003f7d;
+}
+
