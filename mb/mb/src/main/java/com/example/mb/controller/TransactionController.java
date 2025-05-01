@@ -46,8 +46,18 @@ public class TransactionController {
     public List<Transaction> getTransactionHistory(@PathVariable String accountNumber) {
         return transactionService.getTransactionHistory(accountNumber);
     }
-    @GetMapping("/account/history/{aid}")
+    @GetMapping("/account/history/account/id/{aid}")
     public List<Transaction> getTransactionHistoryByAccountId(@PathVariable int aid) {
         return transactionService.getTransactionHistoryByAccountId(aid);
     }
+    @GetMapping("/account/history/{cid}")
+    public List<Transaction> getTransactionHistoryByCustomerId(@PathVariable int cid) {
+        return transactionService.getTransactionHistoryByCustomerId(cid);
+    }
+    @GetMapping("/customer/{customerId}")
+    public List<Transaction> getTransactionsByCustomerId(@PathVariable Long customerId) {
+        return transactionService.getTransactionsByCustomerId(customerId);
+    }
+    
+
 }

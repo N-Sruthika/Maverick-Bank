@@ -68,99 +68,69 @@ function Profile() {
 
                 {/* Main Content */}
                 <div className="col-md-10 p-4">
-                    <h4>Profile</h4>
+  <h3 className="text-center mb-4">Profile</h3>
 
-                    <div className="card mb-4">
-                        <div className="card-body">
-                            <div className="container text-left">
-                                <div className="row">
-                                    
-                                    <div className="col">
-                                        <h5>Name</h5>
-                                        {customer ? customer.name : "Loading..."}
-                                    </div>
-                                    <div className="col">
-                                        <h5>Date of Birth</h5>
-                                        {customer ? customer.dob : "Loading..."}
-                                    </div>
-                                    <div className="col">
-                                        <h5>Email</h5>
-                                        {customer ? customer.email : "Loading..."}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+  <div className="profile-card">
+    <div className="profile-header text-center">
+      <h5 className="card-title">Customer Information</h5>
+    </div>
 
-                    <h5>Contact Information</h5>
-                    <div className="card mb-4">
-                        <div className="card-body">
-                            <div className="container text-left">
-                                <div className="row">
-                                    <div className="col">
-                                        <h5>Mobile No</h5>
-                                        {customer ? customer.mobileNo : "Loading..."}
-                                    </div>
-                                    <div className="col">
-                                        <h5>Address</h5>
-                                        {customer ? customer.address : "Loading..."}
-                                    </div>
-                                    <div className="col">
-                                        <h5>City</h5>
-                                        {customer ? customer.city : "Loading..."}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+    <div className="profile-body">
+      <div className="profile-item">
+        <strong>Name:</strong> {customer?.name || "Loading..."}
+      </div>
 
-                    <h5>Personal Information</h5>
-                    <div className="card mb-4">
-                        <div className="card-body">
-                            <div className="container text-left">
-                                <div className="row">
-                                    
-                                    <div className="col">
-                                        <h5>Gender</h5>
-                                        {customer ? customer.gender : "Loading..."}
-                                    </div>
-                                    <div className="col">
-                                        <h5>Pincode</h5>
-                                        {customer ? customer.pincode : "Loading..."}
-                                    </div>
-                                    <div className="col">
-                                        <h5>State</h5>
-                                        {customer ? customer.state : "Loading..."}
-                                    </div>
-                                    
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+      <div className="profile-item">
+        <strong>Date of Birth:</strong> {customer?.dob || "Loading..."}
+      </div>
 
-                    <h5>Account Information</h5>
-                    <div className="card mb-4">
-                        <div className="card-body">
-                            <div className="container text-left">
-                                <div className="row">
-                                    <div className="col">
-                                        <h5>Account Number</h5>
-                                        {customer ? customer.accountNumber : "Loading..."}
-                                    </div>
-                                    <div className="col">
-                                        <h5>IFSC Code</h5>
-                                        {customer ? customer.ifscCode : "Loading..."}
-                                    </div>
-                                    <div className="col">
-                                        <h5>PAN Number</h5>
-                                        {customer ? customer.panNumber : "Loading..."}
-                                    </div>
-                                    
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+      <div className="profile-item">
+        <strong>Email:</strong> {customer?.email || "Loading..."}
+      </div>
+
+      <div className="profile-item">
+        <strong>Mobile No:</strong> {customer?.mobileNo || "Loading..."}
+      </div>
+
+      <div className="profile-item">
+        <strong>Address:</strong> {customer?.address || "Loading..."}
+      </div>
+
+      <div className="profile-item">
+        <strong>City:</strong> {customer?.city || "Loading..."}
+      </div>
+
+      <div className="profile-item">
+        <strong>Gender:</strong> {customer?.gender || "Loading..."}
+      </div>
+
+      <div className="profile-item">
+        <strong>Pincode:</strong> {customer?.pincode || "Loading..."}
+      </div>
+
+      <div className="profile-item">
+        <strong>State:</strong> {customer?.state || "Loading..."}
+      </div>
+
+      <div className="profile-item">
+        <strong>Account Number:</strong> {customer?.accountNumber || "Loading..."}
+      </div>
+
+      <div className="profile-item">
+        <strong>IFSC Code:</strong> {customer?.ifscCode || "Loading..."}
+      </div>
+
+      <div className="profile-item">
+        <strong>PAN Number:</strong> {customer?.panNumber || "Loading..."}
+      </div>
+    </div>
+
+    <div className="text-center mt-4">
+      <button className="btn btn-primary btn-sm">Edit</button>
+    </div>
+  </div>
+</div>
+
             </div>
         </div>
     );

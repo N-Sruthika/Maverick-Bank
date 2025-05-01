@@ -14,11 +14,12 @@ body {
 .login-container, .right-section, .login-box {
   width: 100vw;
   height: 100vh;
-  min-width: 100vw;
+  min-width: 40%;
   min-height: 100vh;
   margin: 0;
-  padding: 0;
+  padding:0 ;
   box-sizing: border-box;
+  margin-top: 5%;
 }
 
 .logo {
@@ -107,7 +108,7 @@ body {
   border-radius: 0;
   box-shadow: none;
   padding: 48px 36px 36px 36px;
-  width: 100%;
+  width: 50%;
   height: 100vh;
   margin: 0;
   display: flex;
@@ -146,7 +147,7 @@ body {
 }
 
 .form-group input {
-  width: 100%;
+  width: 40%;
   padding: 12px;
   border: 1px solid #ddd;
   border-radius: 6px;

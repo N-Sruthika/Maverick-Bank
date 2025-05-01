@@ -106,7 +106,9 @@ public class TransactionService {
         UPITransaction upiTransaction = new UPITransaction();
         upiTransaction.setTransaction(transaction); // ✅ Now transaction has ID
         upiTransaction.setAmount(transaction.getAmount().toString());
-        upiTransaction.setUpiId("dummy@upi"); // or get it from a request field if needed
+        upiTransaction.setUpiId("dummy@upi");
+        
+        // or get it from a request field if needed
         upiTransactionRepository.save(upiTransaction);
 
         // Deduct balance from the sender's account
@@ -128,5 +130,15 @@ public class TransactionService {
 		
 		return transactionRepository.findById(aid);
 	}
+
+	public List<Transaction> getTransactionHistoryByCustomerId(int cid) {
+		// TODO Auto-generated method stub
+		return transactionRepository.findById(cid);
+	}
+
+	public List<Transaction> getTransactionsByCustomerId(Long customerId) {
+        return transactionRepository.findByFromAccountCustomerId(customerId);
+    }
+	
 
 }

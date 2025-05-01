@@ -10,6 +10,7 @@ function Dashboard() {
     const [totalActiveAccounts, setTotalActiveAccounts] = useState(null);
     const [transactionHistory, setTransactionHistory] = useState([]);
     const{cid } = useParams(); // Assuming you are passing accountNumber as a URL parameter
+    
     useEffect(() => {
         const getBalance = async () => {
             try {
@@ -46,7 +47,8 @@ function Dashboard() {
 
         const getTransactionHistory = async () => {
             try {
-                const response = await axios.get("http://localhost:8081/api/transactions/account/history/2");
+                let cid = localStorage.getItem('customerId');
+                const response = await axios.get(`http://localhost:8081/api/transactions/customer/${cid}`);
                 console.log(response.data);
                 setTransactionHistory(response.data);
             } catch (error) {

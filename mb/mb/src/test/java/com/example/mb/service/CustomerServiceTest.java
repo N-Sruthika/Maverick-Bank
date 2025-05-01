@@ -59,9 +59,9 @@ public class CustomerServiceTest {
 
     @Test
     public void getCustomerByUsernameTest() {
-        when(customerRepository.findByUsername("customer1")).thenReturn(c1);
-        assertEquals(c1, customerService.getByUsername("customer1"));
-        verify(customerRepository, times(1)).findByUsername("customer1");
+        when(customerRepository.findByUserUsername("customer1")).thenReturn(c1);
+        assertEquals(c1, customerService.getCustomerByUsername("customer1"));
+        verify(customerRepository, times(1)).findByUserUsername("customer1");
     }
 
     @Test

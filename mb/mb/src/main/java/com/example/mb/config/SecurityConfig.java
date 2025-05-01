@@ -76,7 +76,7 @@ public class SecurityConfig {
 				
 				//service request				
 				.requestMatchers("/api/service-request/raise/{customerId}").permitAll()
-				.requestMatchers("/api/service-request/customer/{customerId}").hasAnyAuthority("CUSTOMER", "ADMIN")
+				.requestMatchers("/api/service-request/customer/{customerId}").permitAll()
 				.requestMatchers("/api/service-request/{requestId}").permitAll()
 				.requestMatchers("/api/service-request/delete/{requestId}").permitAll()
 				
@@ -85,10 +85,14 @@ public class SecurityConfig {
 				.requestMatchers("/api/transaction-limit/account/{accountNumber}").permitAll()
 				.requestMatchers("/api/transaction-limit/update/{accountId}").hasAnyAuthority("EMPLOYEE", "ADMIN")
 				
-				.requestMatchers("/api/transactions/upi-transfer/{accountNumber}").hasAuthority("CUSTOMER") // UPI transaction
-			    .requestMatchers("/api/transactions/bank-transfer/{accountNumber}").hasAuthority("CUSTOMER") // Bank transfer
+				.requestMatchers("/api/transactions/upi-transfer/{accountNumber}").permitAll() // UPI transaction
+			    .requestMatchers("/api/transactions/bank-transfer/{accountNumber}").permitAll() // Bank transfer
 			    .requestMatchers("/api/transactions/history/{accountId}").hasAuthority("CUSTOMER")
-			    .requestMatchers("/api/transactions/account/history/{aid}").permitAll()
+			    .requestMatchers("/api/transactions/account/history/{cid}").permitAll()
+			    .requestMatchers("/api/transactions/account/history/account/id/{aid}").permitAll()
+			    .requestMatchers("/api/transactions/customer/{customerId}").permitAll()
+				   
+			      
 			    // View transaction history for a specific account				/account/history/{aid}   
 				.requestMatchers("/api/employees/**").hasAuthority("ADMIN")
 				.requestMatchers("/api/branches/**").permitAll()

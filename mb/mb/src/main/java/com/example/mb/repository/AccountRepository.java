@@ -17,6 +17,6 @@ public interface AccountRepository extends JpaRepository<Account, Long> {
 	int countByCustomerIdAndStatus(long customerId, String string);
 
 	Account findBalanceByCustomerId(int cid);
-
+	
 
 }
