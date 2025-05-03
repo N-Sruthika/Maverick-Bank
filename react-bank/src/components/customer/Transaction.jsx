@@ -18,8 +18,9 @@ function Transaction() {
     const { accounts } = useSelector((state) => state.accounts);
     const customerId = localStorage.getItem("customerId");
     
-    const userAccount = accounts.find(acc => acc.customer.id === customerId);
-    const userAccountNumber = userAccount ? userAccount.accountNumber : null;
+    const userAccount = accounts.find(acc => acc.customer.id === Number(customerId));
+
+     const userAccountNumber = userAccount ? userAccount.accountNumber : null;
     
     console.log("User Account Number:", userAccountNumber);
     
@@ -127,13 +128,16 @@ function Transaction() {
             {showTransferOptions === false ?
                 <div className="card">
                     <h5>Pay and see history</h5>
-                        <div className="text-center p-3">
+                        <div className="text p-3">
                            
                             <button className="btn btn-primary" onClick={() => setShowTransferOptions(true)}>
                                 One Time Transfer
                             </button>
                         </div>
-
+                        <div className="card-body">
+                            <p>History</p>
+                            
+                        </div>
                         
                     
                 </div>
@@ -142,8 +146,6 @@ function Transaction() {
                 
                     <div className="card">
                          <h5>Choose your paymethod</h5><br/>
-
-               
                        
                         <div className="transfer-buttons">
                             <button className="transfer-btn" onClick={() => populate('bank')}>Bank Transfer</button>

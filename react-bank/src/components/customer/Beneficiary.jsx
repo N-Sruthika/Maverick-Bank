@@ -90,9 +90,9 @@ function Beneficiary() {
             temp.push(sObj)
             setBeneficiary(temp)
             alert("Beneficiary updated successfully")
-            }
+        }
 
-            
+
         catch (error) {
             console.log(error)
         }
@@ -106,22 +106,26 @@ function Beneficiary() {
 
     return (
         <div>
-            <div className="container-fluid">
+           
                 <div className="row">
                     {/* Sidebar */}
-                    <div className="col-md-2 sidebar" style={{ backgroundColor: "#00509e" }}>
+                    <div className="sidebar">
+                        <div className="text-center mb-4">
+                            <h3 className="text-white">Maverick Bank</h3>
+                        </div>
                         <ul className="nav flex-column">
                             <li className="nav-item">
-                                <Link className="nav-link" to="/customer">Dashboard</Link>
+                                <Link className="nav-link " to="/customer">Dashboard</Link>
                             </li>
                             <li className="nav-item">
-                                <Link className="nav-link" to="/account">Accounts</Link>
+                                <Link className="nav-link " to="/account">Accounts</Link>
                             </li>
                             <li className="nav-item">
                                 <Link className="nav-link" to="/transaction">Transactions</Link>
                             </li>
                             <li className="nav-item">
-                                <Link to={`/beneficiary/${localStorage.getItem('customerId')}`} className="nav-link">Beneficiary</Link>
+                                <Link to={`/beneficiary/${customerId}`} className="nav-link active">Beneficiary</Link>
+
                             </li>
                             <li className="nav-item">
                                 <Link className="nav-link" to="/service-request">Service Request</Link>
@@ -130,10 +134,13 @@ function Beneficiary() {
                                 <Link className="nav-link" to="/profile">Profile</Link>
                             </li>
                             <li className="nav-item">
-                                <Link className="nav-link" to="#">Logout</Link>
+                                <Link className="nav-link" to="/">Logout</Link>
                             </li>
                         </ul>
                     </div>
+
+
+
 
                     {/* Main Content */}
                     <div className="col-md-10 p-4">
@@ -216,18 +223,18 @@ function Beneficiary() {
                         </div>
                     </div>
                 </div>
-            </div>
+           
 
             {/* Modals for updating beneficiaries */}
             {beneficiary.map((b) => (
                 <div key={b.id} className="modal fade" id={`update-${b.id}`} tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div className="modal-dialog">
                         <div className="modal-content">
-                        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            
+                            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+
                             <div className="modal-body">
                                 <h5 className="modal-title" id="exampleModalLabel">Update Beneficiary</h5>
-                                   <form onSubmit={($e) => updateBeneficiary($e,b.id)}>
+                                <form onSubmit={($e) => updateBeneficiary($e, b.id)}>
                                     <div className="mb-3">
                                         <label>Account Number</label>
                                         <input type="text" className="form-control" id="accountNumber" value={accountNumber}

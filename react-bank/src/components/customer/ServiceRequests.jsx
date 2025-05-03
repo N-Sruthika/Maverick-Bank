@@ -78,7 +78,7 @@ function ServiceRequests() {
   }, []);
 
   return (
-    <div className="container-fluid">
+    
       <div className="row">
         {/* Sidebar */}
         <div className="col-md-2 sidebar" style={{ backgroundColor: "#00509e" }}>
@@ -86,7 +86,7 @@ function ServiceRequests() {
             <h3 className="text-white mt-3">Maverick Bank</h3>
           </div>
           <ul className="nav flex-column mt-4">
-            <li className="nav-item"><Link className="nav-link text-white" to="customer">Dashboard</Link></li>
+            <li className="nav-item"><Link className="nav-link text-white" to="/customer">Dashboard</Link></li>
             <li className="nav-item"><Link className="nav-link text-white" to="/account">Accounts</Link></li>
             <li className="nav-item"><Link className="nav-link text-white" to="/transaction">Transactions</Link></li>
             <li className="nav-item"><Link className="nav-link text-white" to={`/beneficiary/${customerId}`}>Beneficiary</Link></li>
@@ -159,7 +159,7 @@ function ServiceRequests() {
           }
         </div>
       </div>
-    </div>
+    
   );
 }
 

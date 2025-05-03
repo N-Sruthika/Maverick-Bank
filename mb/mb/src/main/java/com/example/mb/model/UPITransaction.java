@@ -12,7 +12,7 @@ public class UPITransaction {
     private Long id;
 
     private String upiId;
-    private String amount;
+    private double amount;
 
     @OneToOne
     private Transaction transaction;
@@ -33,11 +33,11 @@ public class UPITransaction {
 		this.upiId = upiId;
 	}
 
-	public String getAmount() {
+	public double getAmount() {
 		return amount;
 	}
 
-	public void setAmount(String amount) {
+	public void setAmount(double amount) {
 		this.amount = amount;
 	}
 
@@ -49,7 +49,7 @@ public class UPITransaction {
 		this.transaction = transaction;
 	}
 
-	public UPITransaction(Long id, String upiId, String amount, Transaction transaction) {
+	public UPITransaction(Long id, String upiId, double amount, Transaction transaction) {
 		super();
 		this.id = id;
 		this.upiId = upiId;
@@ -75,7 +75,7 @@ public class UPITransaction {
 				&& Objects.equals(transaction, other.transaction) && Objects.equals(upiId, other.upiId);
 	}
 
-	public UPITransaction(String upiId, String amount, Transaction transaction) {
+	public UPITransaction(String upiId, double amount, Transaction transaction) {
 		super();
 		this.upiId = upiId;
 		this.amount = amount;

@@ -3,6 +3,8 @@ package com.example.mb.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,6 +17,7 @@ import com.example.mb.exception.InsufficientBalanceException;
 import com.example.mb.exception.InvalidAccountException;
 import com.example.mb.model.BankTransfer;
 import com.example.mb.model.Transaction;
+import com.example.mb.model.UPITransaction;
 import com.example.mb.service.TransactionService;
 
 @RestController
@@ -36,9 +39,9 @@ public class TransactionController {
     // Make UPI Transfer
     @PostMapping("/upi-transfer/{accountNumber}")
     public Transaction makeUPITransfer(
-            @RequestBody Transaction transaction, 
+            @RequestBody UPITransaction upiTransaction, 
             @PathVariable String accountNumber) throws InvalidAccountException, InsufficientBalanceException {
-        return transactionService.makeUPITransfer(transaction, accountNumber);
+        return transactionService.makeUPITransfer(upiTransaction, accountNumber);
     }
 
     // Get Transaction History
@@ -58,6 +61,11 @@ public class TransactionController {
     public List<Transaction> getTransactionsByCustomerId(@PathVariable Long customerId) {
         return transactionService.getTransactionsByCustomerId(customerId);
     }
-    
+    @GetMapping("/customer/history/{customerId}")
+    public Page<Transaction> getPaginatedTransactionHistoryByCustomerId(
+            @PathVariable Long customerId,
+            Pageable pageable) {
+        return transactionService.getPaginatedTransactionHistoryByCustomerId(customerId, pageable);
+    }
 
 }

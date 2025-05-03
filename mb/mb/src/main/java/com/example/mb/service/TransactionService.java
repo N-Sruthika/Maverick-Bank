@@ -7,6 +7,8 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.example.mb.exception.InsufficientBalanceException;
@@ -81,38 +83,36 @@ public class TransactionService {
     }
 
     // Method for making UPI transfer
-    public Transaction makeUPITransfer(Transaction transaction, String accountNumber) throws InvalidAccountException, InsufficientBalanceException {
+    public Transaction makeUPITransfer(UPITransaction upiTransaction, String accountNumber) 
+            throws InvalidAccountException, InsufficientBalanceException {
         // Fetch from account by account number
         Account fromAccount = accountRepository.findByAccountNumber(accountNumber);
-        
         if (fromAccount == null) {
             throw new InvalidAccountException("From Account not found");
         }
 
         // Check if balance is sufficient
-        if (fromAccount.getBalance().compareTo(BigDecimal.valueOf(transaction.getAmount())) < 0) {
+        BigDecimal upiAmount = new BigDecimal(upiTransaction.getAmount());
+        if (fromAccount.getBalance().compareTo(upiAmount) < 0) {
             throw new InsufficientBalanceException("Insufficient balance for this transaction.");
         }
 
-        // Set transaction fields and save it first
+        // Create and save a new transaction
+        Transaction transaction = new Transaction();
         transaction.setTransactionMode("UPI");
         transaction.setTransactionType("TRANSFER");
         transaction.setTransactionDate(LocalDateTime.now());
         transaction.setStatus("COMPLETED");
         transaction.setFromAccount(fromAccount);
-        transactionRepository.save(transaction); // ✅ Save before linking to UPI
+        transaction.setAmount(upiTransaction.getAmount());
+        transactionRepository.save(transaction);
 
-        // Now create and save UPITransaction
-        UPITransaction upiTransaction = new UPITransaction();
-        upiTransaction.setTransaction(transaction); // ✅ Now transaction has ID
-        upiTransaction.setAmount(transaction.getAmount().toString());
-        upiTransaction.setUpiId("dummy@upi");
-        
-        // or get it from a request field if needed
+        // Link the transaction to UPITransaction and save it
+        upiTransaction.setTransaction(transaction);
         upiTransactionRepository.save(upiTransaction);
 
         // Deduct balance from the sender's account
-        fromAccount.setBalance(fromAccount.getBalance().subtract(BigDecimal.valueOf(transaction.getAmount())));
+        fromAccount.setBalance(fromAccount.getBalance().subtract(upiAmount));
         accountRepository.save(fromAccount);
 
         logger.info("UPI transfer completed for account {} to UPI ID {}", accountNumber, upiTransaction.getUpiId());
@@ -120,7 +120,7 @@ public class TransactionService {
     }
     public List<Transaction> getTransactionHistory(String accountNumber) {
         // Fetching transactions by account number from the repository
-        List<Transaction> transactions = transactionRepository.findByFromAccount_AccountNumber(accountNumber);
+        List<Transaction> transactions = transactionRepository.findByFromAccountAccountNumber(accountNumber);
         
         // You can skip manually setting the account number now, as it's already present in the Transaction entity
         return transactions;
@@ -138,6 +138,10 @@ public class TransactionService {
 
 	public List<Transaction> getTransactionsByCustomerId(Long customerId) {
         return transactionRepository.findByFromAccountCustomerId(customerId);
+    }
+
+	public Page<Transaction> getPaginatedTransactionHistoryByCustomerId(Long customerId, Pageable pageable) {
+        return transactionRepository.findByFromAccountCustomerId(customerId, pageable);
     }
 	
 

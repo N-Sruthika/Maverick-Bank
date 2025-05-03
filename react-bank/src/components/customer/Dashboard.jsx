@@ -9,8 +9,7 @@ function Dashboard() {
     const [totalBeneficiary, setTotalBeneficiary] = useState(null);
     const [totalActiveAccounts, setTotalActiveAccounts] = useState(null);
     const [transactionHistory, setTransactionHistory] = useState([]);
-    const{cid } = useParams(); // Assuming you are passing accountNumber as a URL parameter
-    
+      let cid = localStorage.getItem('customerId');
     useEffect(() => {
         const getBalance = async () => {
             try {
@@ -25,8 +24,7 @@ function Dashboard() {
 
         const getBeneficiary = async () => {
             try {
-                let cid = localStorage.getItem('customerId');
-                const response = await axios.get(`http://localhost:8081/api/beneficiaries/count/${cid}`);
+                    const response = await axios.get(`http://localhost:8081/api/beneficiaries/count/${cid}`);
                 console.log(response.data);
                 setTotalBeneficiary(response.data);
             } catch (error) {
@@ -36,8 +34,7 @@ function Dashboard() {
 
         const getActiveAccounts = async () => {
             try {
-                let cid = localStorage.getItem('customerId');
-                const response = await axios.get(`http://localhost:8081/api/accounts/active/count/${cid}`);
+                   const response = await axios.get(`http://localhost:8081/api/accounts/active/count/${cid}`);
                 console.log(response.data);
                 setTotalActiveAccounts(response.data);
             } catch (error) {
@@ -80,7 +77,7 @@ function Dashboard() {
                         <Link className="nav-link" to="/transaction">Transactions</Link>
                     </li>
                     <li className="nav-item">
-                    <Link to={`/beneficiary/${localStorage.getItem('customerId')}`} className="nav-link">Beneficiary</Link>
+                    <Link to={`/beneficiary/${cid}`} className="nav-link">Beneficiary</Link>
 
                     </li>
                     <li className="nav-item">
