@@ -226,4 +226,7 @@
   .amount-credit {
     color: #28a745;
   }
-  
+  .transaction-table-wrapper {
+    max-height: 250px; /* Adjust the height based on your requirement */
+    overflow-y: auto;
+}

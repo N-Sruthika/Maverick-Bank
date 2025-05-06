@@ -6,7 +6,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.time.LocalDate;
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,74 +26,79 @@ import com.example.mb.repository.ServiceRequestRepository;
 @ExtendWith(MockitoExtension.class)
 public class ServiceRequestServiceTest {
 
-    @InjectMocks
-    private ServiceRequestService serviceRequestService;
-
     @Mock
     private ServiceRequestRepository serviceRequestRepo;
 
     @Mock
     private CustomerRepository customerRepo;
 
-    private Customer c1;
-    private ServiceRequest r1, r2;
+    @InjectMocks
+    private ServiceRequestService serviceRequestService;
+
+    private ServiceRequest serviceRequest;
+    private Customer customer;
 
     @BeforeEach
-    public void init() {
-        // Initialize Customer instance
-        c1 = new Customer();
-        c1.setId(1L);
-        c1.setName("John Doe");
-        c1.setEmail("john.doe@example.com");
-        c1.setAadhaarNumber("1234567890");
-        c1.setAddress("123 Main St");
+    public void setUp() {
+        // Create a mock Customer object
+        customer = new Customer();
+        customer.setId(1L);
+        customer.setName("John Doe");
+        customer.setEmail("john@example.com");
+        customer.setAddress("New York");
 
-        // Initialize ServiceRequest instances
-        r1 = new ServiceRequest(ServiceRequest.Category.ACCOUNT, "Account Issue", "Issue with account balance", 
-                                "https://example.com/attachment.jpg", "Pending", c1, LocalDate.now());
-        r2 = new ServiceRequest(ServiceRequest.Category.TECHNICAL, "Technical Issue", "Website not loading", 
-                                "https://example.com/tech-attachment.jpg", "Pending", c1, LocalDate.now());
+        // Create a mock ServiceRequest object using the constructor
+        serviceRequest = new ServiceRequest(1L,
+                ServiceRequest.Category.ACCOUNT,
+                "Account Issue",
+                "Having trouble accessing my account",
+               
+                "Pending",
+                customer,
+                LocalDate.now()
+        );
     }
 
     @Test
-    public void raiseServiceRequestTest() throws InvalidIdException {
-        when(customerRepo.findById(1L)).thenReturn(Optional.of(c1));
-        when(serviceRequestRepo.save(r1)).thenReturn(r1);
-        
-        assertEquals(r1, serviceRequestService.raiseServiceRequest(1L, r1));
-        verify(serviceRequestRepo, times(1)).save(r1);
+    public void testRaiseServiceRequest() throws InvalidIdException {
+        // Mock the behavior of customerRepo
+        when(customerRepo.findById(1L)).thenReturn(Optional.of(customer));
+        when(serviceRequestRepo.save(serviceRequest)).thenReturn(serviceRequest);
+
+        // Test: raise service request
+        ServiceRequest raisedRequest = serviceRequestService.raiseServiceRequest(1L, serviceRequest);
+
+        assertEquals(serviceRequest, raisedRequest);
+        verify(serviceRequestRepo, times(1)).save(serviceRequest);
+        verify(customerRepo, times(1)).findById(1L);
     }
 
-    
     @Test
-    public void getRequestsByCustomerIdTest() throws InvalidIdException {
-        List<ServiceRequest> requests = Arrays.asList(r1, r2);
-        when(serviceRequestRepo.findByCustomerId(1L)).thenReturn(requests);
-        
-        assertEquals(requests, serviceRequestService.getRequestsByCustomerId(1L));
+    public void testGetRequestsByCustomerId() throws InvalidIdException {
+        List<ServiceRequest> serviceRequests = new ArrayList<>();
+        serviceRequests.add(serviceRequest);
+
+        // Mock the behavior of serviceRequestRepo
+        when(serviceRequestRepo.findByCustomerId(1L)).thenReturn(serviceRequests);
+
+        // Test: get service requests by customer ID
+        List<ServiceRequest> fetchedRequests = serviceRequestService.getRequestsByCustomerId(1L);
+
+        assertEquals(1, fetchedRequests.size());
+        assertEquals("Account Issue", fetchedRequests.get(0).getSubject());
         verify(serviceRequestRepo, times(1)).findByCustomerId(1L);
     }
 
    
 
     @Test
-    public void getRequestByIdTest() throws InvalidIdException {
-        when(serviceRequestRepo.findById(1L)).thenReturn(Optional.of(r1));
+    public void testGetAllCategories() {
+        // Test: get all categories
+        List<String> categories = serviceRequestService.getAllCategories();
 
-        assertEquals(r1, serviceRequestService.getRequestById(1L));
-        verify(serviceRequestRepo, times(1)).findById(1L);
+        assertEquals(3, categories.size());
+        assertEquals("ACCOUNT", categories.get(0));
+        assertEquals("LOAN", categories.get(1));
+        assertEquals("TECHNICAL", categories.get(2));
     }
-
-   
-    @Test
-    public void deleteRequestTest() throws InvalidIdException {
-        when(serviceRequestRepo.findById(1L)).thenReturn(Optional.of(r1));
-
-        String result = serviceRequestService.deleteRequest(1L);
-
-        assertEquals("Request deleted!!", result);
-        verify(serviceRequestRepo, times(1)).delete(r1);
-    }
-
-   
 }

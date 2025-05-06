@@ -135,6 +135,18 @@ public class ServiceRequest {
 		// TODO Auto-generated constructor stub
 	}
 
+	public ServiceRequest(Long id, Category category, String subject, String message, String status, Customer customer,
+			LocalDate createdDate) {
+		super();
+		this.id = id;
+		this.category = category;
+		this.subject = subject;
+		this.message = message;
+		this.status = status;
+		this.customer = customer;
+		this.createdDate = createdDate;
+	}
+
 	@Override
 	public int hashCode() {
 		return Objects.hash(attachmentUrl, category, createdDate, customer, id, message, status, subject);

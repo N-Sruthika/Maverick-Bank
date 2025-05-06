@@ -44,30 +44,11 @@ public class ServiceRequestService {
         List<ServiceRequest> list = serviceRequestRepo.findByCustomerId(customerId);
         if (list.isEmpty())
             throw new InvalidIdException("No service requests found for customer ID: " + customerId);
-        logger.info("Fetched {} service requests for customer ID {}", list.size(), customerId);
+        logger.info("Fetched  service requests for customer ID {}", customerId);
         return list;
     }
 
-    public ServiceRequest getRequestById(Long requestId) throws InvalidIdException {
-        Optional<ServiceRequest> optionalRequest = serviceRequestRepo.findById(requestId);
-        if (optionalRequest.isEmpty()) 
-            throw new InvalidIdException("Service Request not found with ID: " + requestId);        
-        logger.info("Fetched service request with ID {}", requestId);
-        return optionalRequest.get();
-    }
-
-    public String deleteRequest(Long requestId) throws InvalidIdException {
-        ServiceRequest req = getRequestById(requestId);
-        serviceRequestRepo.delete(req);
-        logger.info("Service request deleted successfully");
-		return "Request deleted!!";
-    }
-
-	public List<ServiceRequest> getAll() {
-		
-		return serviceRequestRepo.findAll();
-	}
-
+   
 	public List<String> getAllCategories() {
         List<String> categories = new ArrayList<>();
         Arrays.asList(Category.values()).forEach(category -> categories.add(category.name()));

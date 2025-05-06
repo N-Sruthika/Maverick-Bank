@@ -26,7 +26,7 @@ import com.example.mb.service.MyUserService;
 
 @RestController
 @RequestMapping("/api/auth")
-@CrossOrigin(origins = {"http://localhost:5173"})
+//@CrossOrigin(origins = {"http://localhost:5173"})
 public class AuthController {
 	@Autowired
 	private AuthenticationManager authenticationManager;
@@ -76,7 +76,7 @@ public class AuthController {
 	}
 	@PostMapping("/api/reset")
 	public ResponseEntity<?> reset(@RequestBody User user,Principal principal) {
-		//get the username from pricipal and fetch the info from db
+		//get the username from principal and fetch the info from db
 		String username = principal.getName();
  		authService.reset(username,user);
  		return ResponseEntity.ok("Password reseted successfully...");

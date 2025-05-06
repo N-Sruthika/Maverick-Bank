@@ -5,9 +5,7 @@ import axios from 'axios';
 
 function ServiceRequests() {
   const [serviceRequest, setServiceRequest] = useState([]);
-  const [raiseQuery, setRaiseQuery] = useState(false);
-  const [previousQuery, setPreviousQuery] = useState(false);
-  const [showQuery, setShowQuery] = useState(true);
+ const [showQuery, setShowQuery] = useState(true);
   const [showPreviousQuery, setShowPreviousQuery] = useState(false);
   const [category, setCategory] = useState(null);
   const [message, setMessage] = useState('');
@@ -51,6 +49,8 @@ function ServiceRequests() {
 
     try {
       const response = await axios.post(`http://localhost:8081/api/service-request/raise/${customerId}`, obj, headers);
+      alert("Service request raised successfully!");
+      setCategory(''); // Clear the category after submission
       console.log(response.data);
     } catch (err) {
       console.error(err);
@@ -92,7 +92,7 @@ function ServiceRequests() {
             <li className="nav-item"><Link className="nav-link text-white" to={`/beneficiary/${customerId}`}>Beneficiary</Link></li>
             <li className="nav-item"><Link className="nav-link active text-white" to="/service-request">Service Request</Link></li>
             <li className="nav-item"><Link className="nav-link text-white" to="/profile">Profile</Link></li>
-            <li className="nav-item"><Link className="nav-link text-white" to="#">Logout</Link></li>
+            <li className="nav-item"><Link className="nav-link text-white" to="/">Logout</Link></li>
           </ul>
         </div>
 

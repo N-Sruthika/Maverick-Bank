@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import "./Account.css";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
@@ -11,6 +11,7 @@ function Account() {
   const { accounts } = useSelector((state) => state.accounts)
 
   const account = accounts.find(acc => acc.customer.id == customerId);
+
   return (
     <div className="app-container">
       {/* Sidebar */}

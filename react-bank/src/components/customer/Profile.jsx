@@ -7,7 +7,31 @@ function Profile() {
   const [email, setEmail] = useState("");
   const [address, setAddress] = useState("");
   const customerId = localStorage.getItem('customerId');
-
+  const updateCustomer = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.put(`http://localhost:8081/api/customer/updateProfile/${customerId}`, {
+        email: email,
+        address: address
+      }, {
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`,
+        },
+      });
+      let pObj= customer.filter((p)=>p.id==customerId)
+      pObj.email=email;
+      pObj.address=address;
+      let temp=[...customer.filter((p)=>p.id!=customerId)];
+      temp.push(pObj)
+      setCustomer(temp);
+      alert("Profile updated successfully!");
+      setAddress("");
+      setEmail("");
+      
+    } catch (error) {
+      
+    }
+  }
   useEffect(() => {
     const getCustomer = async () => {
       try {
@@ -41,7 +65,7 @@ function Profile() {
                 </div>
                 <ul className="nav flex-column">
                     <li className="nav-item">
-                        <Link className="nav-link active" to="/customer">Dashboard</Link>
+                        <Link className="nav-link" to="/customer">Dashboard</Link>
                     </li>
                     <li className="nav-item">
                         <Link className="nav-link" to="/account">Accounts</Link>
@@ -57,7 +81,7 @@ function Profile() {
                         <Link className="nav-link" to="/service-request">Service Request</Link>
                     </li>
                     <li className="nav-item">
-                        <Link className="nav-link" to="/profile">Profile</Link>
+                        <Link className="nav-link  active" to="/profile">Profile</Link>
                     </li>
                     <li className="nav-item">
                         <Link className="nav-link" to="/">Logout</Link>
@@ -66,7 +90,7 @@ function Profile() {
             </div>
         {/* Main Content */}
         <div className="col-md-10 p-4">
-          <h3 className="text-center mb-4">Profile</h3>
+          
           {customer ?
             <div className="profile-card mb-4">
               <div className="profile-header text-center">
@@ -86,9 +110,7 @@ function Profile() {
               <div className="profile-item"><strong>PAN Number:</strong> {customer.panNumber}</div>
 
               <div className="text-center mt-4">
-              <button className="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target={`#update-${customer.id}`}>
-                                                        Update
-                                                    </button>  </div>
+              <button className="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target={`#update-${customer.id}`}>Update</button>  </div>
               <hr />
             </div>
             : "Customer not found"}
@@ -99,7 +121,7 @@ function Profile() {
                 <button type="button" className="btn-close m-2 align-self-end" data-bs-dismiss="modal" aria-label="Close"></button>
                 <div className="modal-body">
                   <h5 className="modal-title mb-3" id="userInfoModalLabel">Enter User Info</h5>
-                  <form>
+                  <form onSubmit={($e) => updateCustomer($e)}>
                     
                     <div className="mb-3">
                       <label htmlFor="userEmail" className="form-label">Email</label>

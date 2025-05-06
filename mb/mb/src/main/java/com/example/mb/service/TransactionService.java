@@ -40,23 +40,19 @@ public class TransactionService {
     public Transaction makeBankTransfer(BankTransfer bankTransfer, String accountNumber) throws InvalidAccountException, InsufficientBalanceException {
         // Fetch from account by account number
         Account fromAccount = accountRepository.findByAccountNumber(accountNumber);
-        
-        if (fromAccount == null) {
-            throw new InvalidAccountException("From Account not found");
-        }
-        
-        // Check if balance is sufficient
+       
+        // Check if balance is sufficient comparing the account balance with bank transfer amount
         if (fromAccount.getBalance().compareTo(bankTransfer.getAmount()) < 0) {
             throw new InsufficientBalanceException("Insufficient balance");
         }
         
-        // Fetch beneficiary details
+        // get the account number of beneficiary from bank transfer and Fetch beneficiary details by findByAccountNumber method
         Beneficiary beneficiary = beneficiaryRepository.findByAccountNumber(bankTransfer.getBeneficiaryAccountNumber());
         if (beneficiary == null) {
             throw new InvalidAccountException("Beneficiary account not found");
         }
         
-        // Create a new transaction
+        // Create a new transaction, set the amount,type,mode,date status, fromaccount and save the transaction
         Transaction transaction = new Transaction();
         transaction.setAmount(bankTransfer.getAmount().doubleValue());
         transaction.setTransactionMode("BANK");
@@ -66,7 +62,7 @@ public class TransactionService {
         transaction.setFromAccount(fromAccount);
         transactionRepository.save(transaction);
         
-        // Set up BankTransfer details
+        // Set up BankTransfer details and save 
         bankTransfer.setTransaction(transaction);
         bankTransfer.setBeneficiaryAccountNumber(bankTransfer.getBeneficiaryAccountNumber());
         bankTransfer.setBeneficiaryBankName(beneficiary.getBankName());
@@ -74,7 +70,7 @@ public class TransactionService {
         bankTransfer.setBeneficiaryIfsc(beneficiary.getIfsc());
         bankTransferRepository.save(bankTransfer);
         
-        // Deduct balance from the sender's account
+        // Deduct balance from the sender's account and subtract it with actual amount 
         fromAccount.setBalance(fromAccount.getBalance().subtract(bankTransfer.getAmount()));
         accountRepository.save(fromAccount);
 
@@ -85,7 +81,7 @@ public class TransactionService {
     // Method for making UPI transfer
     public Transaction makeUPITransfer(UPITransaction upiTransaction, String accountNumber) 
             throws InvalidAccountException, InsufficientBalanceException {
-        // Fetch from account by account number
+        // 1.Fetch the  account by account number
         Account fromAccount = accountRepository.findByAccountNumber(accountNumber);
         if (fromAccount == null) {
             throw new InvalidAccountException("From Account not found");
@@ -118,24 +114,7 @@ public class TransactionService {
         logger.info("UPI transfer completed for account {} to UPI ID {}", accountNumber, upiTransaction.getUpiId());
         return transaction;
     }
-    public List<Transaction> getTransactionHistory(String accountNumber) {
-        // Fetching transactions by account number from the repository
-        List<Transaction> transactions = transactionRepository.findByFromAccountAccountNumber(accountNumber);
-        
-        // You can skip manually setting the account number now, as it's already present in the Transaction entity
-        return transactions;
-    }
-
-	public List<Transaction> getTransactionHistoryByAccountId(int aid) {
-		
-		return transactionRepository.findById(aid);
-	}
-
-	public List<Transaction> getTransactionHistoryByCustomerId(int cid) {
-		// TODO Auto-generated method stub
-		return transactionRepository.findById(cid);
-	}
-
+ 
 	public List<Transaction> getTransactionsByCustomerId(Long customerId) {
         return transactionRepository.findByFromAccountCustomerId(customerId);
     }

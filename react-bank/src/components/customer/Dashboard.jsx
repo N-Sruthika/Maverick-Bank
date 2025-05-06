@@ -123,6 +123,7 @@ function Dashboard() {
                         <div className="card" style={{ width: "70%" }}>
                             <div className="card-header">Transaction History</div>
                             <div className="card-body">
+                            <div className="transaction-table-wrapper">
 
                                 <table className="table">
                                     <thead>
@@ -136,8 +137,8 @@ function Dashboard() {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {transactionHistory.map((transaction) => (
-                                            <tr key={transaction.id}>
+                                        {transactionHistory.map((transaction,index) => (
+                                            <tr key={index}>
                                                 <td>{transaction.id}</td>
                                                 <td>{transaction.amount}</td>
                                                 <td>{transaction.status}</td>
@@ -150,7 +151,7 @@ function Dashboard() {
                                     </tbody>
 
                                 </table>
-
+                                </div>
                             </div>
                         </div>
                     </div>

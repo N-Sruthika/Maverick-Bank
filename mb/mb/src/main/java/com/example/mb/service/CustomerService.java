@@ -24,11 +24,6 @@ public class CustomerService {
  
     Logger logger = LoggerFactory.getLogger("CustomerService");
 
-//    public Customer add(Customer customer) {
-//    	logger.info("Added customer successfully");
-//        return customerRepository.save(customer);      
-//    }
-
     public Customer getById(Long id) throws InvalidIdException {
         Optional<Customer> optional = customerRepository.findById(id);
         if (optional.isEmpty()) 
@@ -37,18 +32,8 @@ public class CustomerService {
         return optional.get();
     }
 
-//	public Customer getByUsername(String username) {
-//		logger.info("Fetched customer with username");
-//		return customerRepository.findByUsername(username);
-//	}
 
-	public List<Customer> getAllCustomerDetails(long bid) {
-	    return customerRepository.findByBranchId(bid);
-	}
-
-	public Customer getCustomerByUserId(long userId) throws InvalidIdException {
-	    return customerRepository.findByUserId(userId);
-	}
+	
 	public Customer add(Customer customer) throws InvalidUsernameException {
     	User user=customer.getUser();
     	user.setRole("CUSTOMER");
@@ -69,18 +54,15 @@ public class CustomerService {
         return optionalSignup.get();
     }
 
-    // Method to retrieve customer details by IFSC code
-    public Customer getDetailsByIfsc(String ifscCode) throws InvalidIdException {
-        Optional<Customer> optional = customerRepository.findByIfscCode(ifscCode);
-        if(optional.isEmpty())
-        	throw new InvalidIdException("Invalid ifsc code!!");
-        logger.info("Fetched customer signup with IFSC code {}", ifscCode);
-        return optional.get();
-    }
 
 	public Customer getCustomerByUsername(String name) {
 		// TODO Auto-generated method stub
 		return customerRepository.findByUserUsername(name);
+	}
+
+	public Customer updateProfile(Customer existingCustomer) {
+		
+		return customerRepository.save(existingCustomer);
 	}
 
 	

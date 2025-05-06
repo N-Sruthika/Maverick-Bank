@@ -98,9 +98,9 @@ function Beneficiary() {
         }
     }
     useEffect(() => {
-        //addBeneficiary()
+        
         getAllBeneficiary()
-        // deleteBeneficiary()
+        
     }, [])
 
 

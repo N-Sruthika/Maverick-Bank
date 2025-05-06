@@ -1,13 +1,17 @@
 package com.example.mb.config;
 
  
+import static org.springframework.security.config.Customizer.withDefaults;
+
+import java.util.Arrays;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -15,6 +19,8 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import com.example.mb.service.MyUserService;
 
@@ -29,7 +35,8 @@ public class SecurityConfig {
 	private JwtFilter jwtFilter;
 	@Bean
 	SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-		http.cors(Customizer.withDefaults()).csrf(csrf -> csrf.disable())
+		http
+		.cors(withDefaults())
 		.csrf(csrf->csrf.disable())
 			.authorizeHttpRequests((authorize) -> authorize
 				.requestMatchers("/api/auth/token/generate").permitAll()	
@@ -47,12 +54,12 @@ public class SecurityConfig {
 				.requestMatchers("/api/get/profile/{id}").hasAuthority("CUSTOMER")
 				.requestMatchers("/api/get/details/{username}").hasAuthority("CUSTOMER")
 				.requestMatchers("/api/getall/customer/{bid}").hasAuthority("CUSTOMER")
-				.requestMatchers("/api/customer/get/{c}").hasAuthority("CUSTOMER")
+				.requestMatchers("/api/customer/updateProfile/{id}").hasAuthority("CUSTOMER")
 				
 				//account					
 				.requestMatchers("/api/account/add/{branchId}/{customerId}").permitAll()
 				.requestMatchers("/api/account/get/balance/{accountNumber}").permitAll()
-				.requestMatchers("/api/account/get/balance/customer/{cid}").permitAll()
+				.requestMatchers("/api/account/get/balance/customer/{cid}").hasAuthority("CUSTOMER")
 				
 				.requestMatchers("/api/account/{accountId}").permitAll()
 				.requestMatchers("/api/accounts/customer/{customerId}").hasAuthority("CUSTOMER")
@@ -91,14 +98,10 @@ public class SecurityConfig {
 			    .requestMatchers("/api/transactions/account/history/{cid}").permitAll()
 			    .requestMatchers("/api/transactions/account/history/account/id/{aid}").permitAll()
 			    .requestMatchers("/api/transactions/customer/{customerId}").permitAll()
-				   
-			      
-			    // View transaction history for a specific account				/account/history/{aid}   
-				.requestMatchers("/api/employees/**").hasAuthority("ADMIN")
-				.requestMatchers("/api/branches/**").permitAll()
-				.requestMatchers("/api/departments/**").permitAll()
-				
-				.anyRequest().authenticated()
+			    .requestMatchers("/api/transactions/customer/history/{customerId}").permitAll()
+			    .requestMatchers("/swagger-ui/**").permitAll()
+				 	
+				.anyRequest().permitAll()
 				
 			)
 			.sessionManagement(session-> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -107,6 +110,17 @@ public class SecurityConfig {
 		return http.build();
 	}
 	
+	@Bean
+	UrlBasedCorsConfigurationSource corsConfigurationSource() {
+	    CorsConfiguration configuration = new CorsConfiguration();
+	    configuration.setAllowedOrigins(Arrays.asList("http://localhost:5173"));
+	    configuration.setAllowedMethods(Arrays.asList("GET","POST","PUT","DELETE","OPTIONS"));
+	    configuration.setAllowedHeaders(List.of("*"));
+	    configuration.setAllowCredentials(true);
+	    UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+	    source.registerCorsConfiguration("/**", configuration);
+	    return source;
+	}
 	@Bean
 	AuthenticationProvider getAuth() {
 		DaoAuthenticationProvider dao = new DaoAuthenticationProvider();

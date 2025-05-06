@@ -79,7 +79,7 @@ public class BeneficiaryController {
     public int getBeneficiaryCountByCustomerId(@PathVariable long customerId) {
         return beneficiaryService.countByCustomerId(customerId);
     }
- // GET method to fetch beneficiary name and bank name by customer ID
+ // GET method to fetch beneficiary details by customer ID
     @GetMapping("/api/beneficiaries/details/{customerId}")
     public List<Beneficiary> getBeneficiaryNamesAndBankNames(@PathVariable long customerId) throws InvalidIdException {
         List<Beneficiary> beneficiaries = beneficiaryService.getBeneficiariesByCustomerId(customerId);

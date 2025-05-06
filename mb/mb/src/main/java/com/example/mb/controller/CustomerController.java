@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -26,30 +27,21 @@ public class CustomerController {
 	    private CustomerService customerService;
 	    @Autowired
 	    private BranchService branchService;
-        //method to add customer with corresponding branch
-	    @PostMapping("/api/customer/add/{bid}")
-	    public Customer addCustomer(@PathVariable long bid, @RequestBody Customer customer) throws InvalidIdException, InvalidUsernameException {
-	        Branch branch = branchService.getById(bid);        
-	        customer.setBranch(branch);
-	        return customerService.add(customer);
-	    }
-
 	    
-	   
-	    
-	    //get by username
-//	    @GetMapping("/api/get/details/{username}")
-//	    public Customer getDetailsByUsername(@PathVariable String username) {	    	
-//	    	return  customerService.getByUsername(username);	
-//	    	
-//	    }
-	    @GetMapping("/api/getall/customer/{bid}")
-	    public List<Customer> getAllCustomerDetails(@PathVariable long bid) {
-	        return customerService.getAllCustomerDetails(bid);
-	    }
-	    @GetMapping("/api/customer/get")
+       	@GetMapping("/api/customer/get")
 	    public Customer getCustomerByUserId(Principal principal) throws InvalidIdException {
 	        return customerService.getCustomerByUsername(principal.getName());
+	    }
+	    @PutMapping("/api/customer/updateProfile/{id}")
+	    public Customer updateProfile(@PathVariable Long id,@RequestBody Customer customer) throws InvalidIdException {
+	    	Customer existingCustomer = customerService.getDetails(id);
+	    	if (customer.getEmail() != null) {
+	            existingCustomer.setEmail(customer.getEmail());
+	        }
+	        if (customer.getAddress() != null) {
+	            existingCustomer.setAddress(customer.getAddress());
+	        }
+	    	return customerService.updateProfile(existingCustomer);
 	    }
 
 	    @PostMapping("/api/newuser/signup")
@@ -62,11 +54,7 @@ public class CustomerController {
 	    public Customer getDetails(@PathVariable Long id) throws InvalidIdException {
 	        return customerService.getDetails(id);
 	    }
-	    @GetMapping("/api/customer/signup/ifsc/{ifscCode}")
-	    public Customer getCustomerSignupByIfsc(@PathVariable String ifscCode) throws InvalidIdException {
-	        return customerService.getDetailsByIfsc(ifscCode);
-	    }
-
+	   
 
 }
 

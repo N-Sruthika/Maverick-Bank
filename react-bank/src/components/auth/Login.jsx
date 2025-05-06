@@ -1,7 +1,7 @@
 import { useState } from "react";
 import users from "../../data/users.js";
 import { Link, useNavigate } from "react-router";
-import Dashboard from "../customer/Dashboard.jsx";
+
 import axios from "axios";
 import { useEffect } from "react";
 import "./Login.css";

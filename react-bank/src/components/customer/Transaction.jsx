@@ -1,30 +1,27 @@
-import { Link } from "react-router";
+import { Link } from "react-router-dom";
 import "./Transaction.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
-import { useSelector } from "react-redux";
+
 
 function Transaction() {
     const [showbank, setShowBank] = useState(true);
     const [showupi, setShowUpi] = useState(false);
     const [showTransferOptions, setShowTransferOptions] = useState(false);
     const [beneficiaryName, setBeneficiaryName] = useState('');
-    const [accountNumber, setAccountNumber] = useState(''); 
+    const [accountNumber, setAccountNumber] = useState('');
     const [ifscCode, setIfscCode] = useState('');
     const [bankName, setBankName] = useState('');
     const [amount, setAmount] = useState('');
-    const[accountType, setAccountType] = useState('');
+    const [accountType, setAccountType] = useState('');
     const [upiId, setUpiId] = useState('');
-    const { accounts } = useSelector((state) => state.accounts);
-    const customerId = localStorage.getItem("customerId");
-    
-    const userAccount = accounts.find(acc => acc.customer.id === Number(customerId));
+    const [transactionHistory, setTransactionHistory] = useState([]);
+    const [page, setPage] = useState(0);
+    const [size, setSize] = useState(5);
+    const [totalPages, setTotalPages] = useState(0);
 
-     const userAccountNumber = userAccount ? userAccount.accountNumber : null;
-    
-    console.log("User Account Number:", userAccountNumber);
-    
-  
+    let accno = localStorage.getItem('accountNumber')
+
     const populate = (val) => {
         setShowTransferOptions(true);
         switch (val) {
@@ -44,7 +41,7 @@ function Transaction() {
         e.preventDefault();
         let obj = {
             "beneficiaryAccountNumber": accountNumber,
-           
+
             "beneficiaryIFSC": ifscCode,
             "bankName": bankName,
             "amount": amount,
@@ -53,59 +50,75 @@ function Transaction() {
         };
         let token = localStorage.getItem('token');  // Token should be retrieved from localStorage
 
-        
+
 
         try {
             const response = await axios.post(
-                `http://localhost:8081/api/transactions/bank-transfer/${userAccountNumber}`,
+                `http://localhost:8081/api/transactions/bank-transfer/${accno}`,
                 obj,
                 {
                     headers: {
                         "Authorization": `Bearer ${token}`  // Proper header structure
                     }
                 }
-            );alert("Transaction Successful")
+            ); alert("Transaction Successful")
             setBeneficiaryName('')
             setAccountNumber('')
             setIfscCode('')
             setBankName('')
             setAmount('')
             setAccountType('')
-           
+
 
         }
-             catch (err) {
+        catch (err) {
             console.error(err);
         }
     }
     const addUpiTransfer = async (e) => {
         e.preventDefault();
         let obj = {
-                "amount": amount,
-                "upiId": upiId
- 
-      }  // Token should be retrieved from localStorage
+            "amount": amount,
+            "upiId": upiId
+
+        }  // Token should be retrieved from localStorage
         let token = localStorage.getItem('token');  // Token should be retrieved from localStorage
 
         try {
             const response = await axios.post(
-                `http://localhost:8081/api/transactions/upi-transfer/${userAccountNumber}`,
+                `http://localhost:8081/api/transactions/upi-transfer/${accno}`,
                 obj,
                 {
                     headers: {
                         "Authorization": `Bearer ${token}`  // Proper header structure
                     }
                 }
-            );alert("Transaction Successful")
-            
-            
+            ); alert("Transaction Successful")
+
+
 
         }
-             catch (err) { 
+        catch (err) {
             console.error(err);
+            alert("Transaction failed! Insufficient Bank Balance")
         }
     }
+    const getTransactionHistory = async () => {
+        try {
+            let cid = localStorage.getItem('customerId');
+            const response = await axios.get(`http://localhost:8081/api/transactions/customer/history/${cid}?page=${page}&size=${size}`);
+            console.log(response.data);
+            setTransactionHistory(response.data.content);
+            setTotalPages(response.data.totalPages);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+    useEffect(() => {
 
+        getTransactionHistory();
+
+    }, [page]);
 
     return (
         <div className="transaction-wrapper">
@@ -123,30 +136,79 @@ function Transaction() {
                     <li className="nav-item"><Link className="nav-link" to="/">Logout</Link></li>
                 </ul>
             </div>
-           
+
             <div className="dashboard-content">
-            {showTransferOptions === false ?
-                <div className="card">
-                    <h5>Pay and see history</h5>
+                {showTransferOptions === false ?
+                    <div className="card">
+                        <h5>Pay and see history</h5>
                         <div className="text p-3">
-                           
+
                             <button className="btn btn-primary" onClick={() => setShowTransferOptions(true)}>
                                 One Time Transfer
                             </button>
                         </div>
-                        <div className="card-body">
-                            <p>History</p>
-                            
+
+                        {/* transaction history */}
+                        <div className="row">
+                            <div className="chart-section mt-4">
+                                <h5>Transaction History</h5>
+                                <div className="card" style={{ width: "70%" }}>
+                                    <div className="card-header">Transaction History</div>
+                                    <div className="card-body">
+
+                                <table className="table">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Id</th>
+                                            <th scope="col">Amount</th>
+                                            <th scope="col">Status</th>
+                                            <th scope="col">Date</th>
+                                            <th scope="col">Type</th>
+                                            <th scope="col">Mode</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {transactionHistory.map((transaction,index) => (
+                                            <tr key={index}>
+                                                <td>{transaction.id}</td>
+                                                <td>{transaction.amount}</td>
+                                                <td>{transaction.status}</td>
+                                                <td>{transaction.transactionDate}</td>
+
+                                                <td>{transaction.transactionType}</td>
+                                                <td>{transaction.transactionMode}</td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+
+                                </table>
+
+                            </div>
+                                </div>
+                            </div>
+                            <br />
+                            <div className="col-md-6">
+                                <nav aria-label="Page navigation example">
+                                    <ul className="pagination">
+                                        <li className="page-item"><a className="page-link" href="#"
+                                            onClick={(e) => { e.preventDefault();
+                                                 page === 0 ? setPage(0) : setPage(page - 1) }}>Previous</a></li> &nbsp;&nbsp;
+
+
+                                        <li className="page-item"><a className="page-link" href="#"
+                                            onClick={(e) => {e.preventDefault(); page === totalPages - 1 ? setPage(page) : setPage(page + 1) }} >Next</a></li>
+                                    </ul>
+                                </nav>
+                            </div>
                         </div>
-                        
-                    
-                </div>
-                : ""}<br/>
+
+                    </div>
+                    : ""}<br />
                 {showTransferOptions === false ? "" :
-                
+
                     <div className="card">
-                         <h5>Choose your paymethod</h5><br/>
-                       
+                        <h5>Choose your paymethod</h5><br />
+
                         <div className="transfer-buttons">
                             <button className="transfer-btn" onClick={() => populate('bank')}>Bank Transfer</button>
                             <button className="transfer-btn" onClick={() => populate('upi')}>UPI Transfer</button>
@@ -155,37 +217,33 @@ function Transaction() {
                         {showbank === false ? "" :
                             <div className="card-content">
 
-                                <form onSubmit={(e)=>addBankTransfer(e)}>
+                                <form onSubmit={(e) => addBankTransfer(e)}>
                                     <div className="form-group">
                                         <label>Beneficiary Name</label>
-                                        <input type="text" className="form-control" placeholder="Enter Beneficiary Name" 
-                                        onChange={(e)=>{setBeneficiaryName(e.target.value)}}/>
+                                        <input type="text" className="form-control" placeholder="Enter Beneficiary Name"
+                                            onChange={(e) => { setBeneficiaryName(e.target.value) }} />
                                     </div>
                                     <div className="form-group">
                                         <label>Account Number</label>
-                                        <input type="text" className="form-control" 
-                                        onChange={(e)=>{setAccountNumber(e.target.value)}} placeholder="Enter Account Number" />
+                                        <input type="text" className="form-control"
+                                            onChange={(e) => { setAccountNumber(e.target.value) }} placeholder="Enter Account Number" />
                                     </div>
                                     <div className="form-group">
                                         <label>IFSC Code</label>
-                                        <input type="text" className="form-control" placeholder="Enter IFSC Code" 
-                                        onChange={(e)=>{setIfscCode(e.target.value)}}/>
+                                        <input type="text" className="form-control" placeholder="Enter IFSC Code"
+                                            onChange={(e) => { setIfscCode(e.target.value) }} />
                                     </div>
                                     <div className="form-group">
                                         <label>Bank Name</label>
                                         <input type="text" className="form-control" placeholder="Enter Bank Name"
-                                        onChange={(e)=>{setBankName(e.target.value)}} />
+                                            onChange={(e) => { setBankName(e.target.value) }} />
                                     </div>
                                     <div className="form-group">
                                         <label>Amount</label>
                                         <input type="text" className="form-control" placeholder="Enter Amount"
-                                        onChange={(e)=>{setAmount(e.target.value)}} />
+                                            onChange={(e) => { setAmount(e.target.value) }} />
                                     </div>
-                                    <div className="form-group">
-                                        <label>Account Type</label>
-                                        <input type="text" className="form-control" placeholder="Enter Account Type"
-                                        onChange={(e)=>{setAccountType(e.target.value)}}/>
-                                    </div>
+                                   
                                     <button type="submit" className="btn btn-primary">Confirm Transfer</button>
                                 </form>
                             </div>
@@ -193,16 +251,16 @@ function Transaction() {
 
                         {showupi === false ? "" :
                             <div className="card-content">
-                                <form onSubmit={(e)=>addUpiTransfer(e)}>
+                                <form onSubmit={(e) => addUpiTransfer(e)}>
                                     <div className="form-group">
                                         <label>UPI ID</label>
                                         <input type="text" className="form-control" placeholder="Enter UPI ID"
-                                        onChange={(e)=>{setUpiId(e.target.value)}} />
+                                            onChange={(e) => { setUpiId(e.target.value) }} />
                                     </div>
                                     <div className="form-group">
                                         <label>Amount</label>
                                         <input type="text" className="form-control" placeholder="Enter Amount"
-                                        onChange={(e)=>{setAmount(e.target.value)}} />
+                                            onChange={(e) => { setAmount(e.target.value) }} />
                                     </div>
                                     <button type="submit" className="btn btn-primary">Confirm Transfer</button>
                                 </form>
@@ -210,6 +268,7 @@ function Transaction() {
                         }
                     </div>
                 }
+
             </div>
         </div>
     );

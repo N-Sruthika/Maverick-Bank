@@ -32,21 +32,5 @@ public class ServiceRequestController {
     public List<String> getCategories() {
         return serviceRequestService.getAllCategories();
     }
-    @GetMapping("query/getall")
-    public List<ServiceRequest> getAll() {
-    	return serviceRequestService.getAll();
-    }
-
-    // GET: Get request by ID
-    @GetMapping("/{requestId}")
-    public ServiceRequest getRequestById(@PathVariable Long requestId) throws InvalidIdException {
-        return serviceRequestService.getRequestById(requestId);
-    }
-
-    // DELETE: Delete request by ID
-    @DeleteMapping("/delete/{requestId}")
-    public String deleteRequest(@PathVariable Long requestId) throws InvalidIdException {
-    	return serviceRequestService.deleteRequest(requestId);
-       
-    }
+   
 }
