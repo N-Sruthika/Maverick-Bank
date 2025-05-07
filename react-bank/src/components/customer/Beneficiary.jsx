@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import "./Beneficiary.css";
+import "../css/Beneficiary.css";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Link } from "react-router-dom";
@@ -28,7 +28,12 @@ function Beneficiary() {
             "bankName": bankName,
             "name": name
         }
-        let response = await axios.post(`http://localhost:8081/api/beneficiary/add/${customerId}`, obj);
+        const token=localStorage.getItem('token')
+        let response = await axios.post(`http://localhost:8081/api/beneficiary/add/${customerId}`, obj,{
+            headers:{
+                "Authorization":`Bearer ${token}`
+            }
+           });
         alert("Beneficiary added successfully")
         setAccountNumber("");
         setIfscCode("");
@@ -42,7 +47,12 @@ function Beneficiary() {
     }
     const getAllBeneficiary = async () => {
         try {
-            let response = await axios.get("http://localhost:8081/api/beneficiaries/customer/" + customerId)
+            const token=localStorage.getItem('token')
+            let response = await axios.get("http://localhost:8081/api/beneficiaries/customer/" + customerId,{
+                headers:{
+                    "Authorization":`Bearer ${token}`
+                }
+               })
             console.log(response.data)
             setBeneficiary(response.data)
 
@@ -55,7 +65,12 @@ function Beneficiary() {
 
     const deleteBeneficiary = async (id) => {
         try {
-            let response = await axios.delete(`http://localhost:8081/api/beneficiary/delete/${id}`)
+            const token=localStorage.getItem('token')
+            let response = await axios.delete(`http://localhost:8081/api/beneficiary/delete/${id}`,{
+                headers:{
+                    "Authorization":`Bearer ${token}`
+                }
+               })
             console.log(response.data)
             let temp = [...beneficiary]
             temp = temp.filter(b => b.id !== id)
@@ -107,7 +122,7 @@ function Beneficiary() {
     return (
         <div>
            
-                <div className="row">
+                <div className="app-container">
                     {/* Sidebar */}
                     <div className="sidebar">
                         <div className="text-center mb-4">

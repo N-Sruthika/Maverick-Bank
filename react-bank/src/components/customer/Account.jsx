@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import "./Account.css";
+import "../css/Account.css";
 import { useNavigate } from "react-router-dom";
 
 import { useSelector } from "react-redux";

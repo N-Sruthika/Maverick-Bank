@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import './ServiceRequest.css';
+import '../css/ServiceRequest.css';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 
@@ -31,8 +31,8 @@ function ServiceRequests() {
     }
   };
 
-  const addRequest = async (e) => {
-    e.preventDefault();
+  const addRequest = async ($e) => {
+    $e.preventDefault();
 
     let obj = {
       "category": category,
@@ -59,7 +59,14 @@ function ServiceRequests() {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await axios.get('http://localhost:8081/api/service-request/categories');
+        
+        const token = localStorage.getItem('token');
+
+        const response = await axios.get('http://localhost:8081/api/service-request/categories',{
+          headers: {
+            "Authorization": `Bearer ${token}`  // Using the token in the headers
+          }
+        });
         setCategories(response.data); // Store the categories in the state
       } catch (error) {
         console.error('Error fetching categories:', error);
@@ -67,8 +74,14 @@ function ServiceRequests() {
     };
 
     const getPreviousQuery = async () => {
+      const token = localStorage.getItem('token');
+
     
-      const response = await axios.get(`http://localhost:8081/api/service-request/customer/${customerId}`)
+      const response = await axios.get(`http://localhost:8081/api/service-request/customer/${customerId}`,{
+        headers: {
+          "Authorization": `Bearer ${token}`  // Using the token in the headers
+        }
+      })
       console.log(response.data)
       setServiceRequest(response.data)
     }
@@ -81,7 +94,7 @@ function ServiceRequests() {
     
       <div className="row">
         {/* Sidebar */}
-        <div className="col-md-2 sidebar" style={{ backgroundColor: "#00509e" }}>
+        <div className=" sidebar" style={{ backgroundColor: "#00509e" }}>
           <div className="text-center">
             <h3 className="text-white mt-3">Maverick Bank</h3>
           </div>
@@ -108,13 +121,16 @@ function ServiceRequests() {
 
           {
             showQuery == true ? (
-              <form onSubmit={addRequest}><pre>
+              <form onSubmit={($e)=>addRequest($e)}><pre>
                 <div className="form-group mb-3">
                   <label>Category</label>
                   <select required className="form-control" onChange={(e) => setCategory(e.target.value)}>
                     <option value="">Select Category</option>
-                    {categories.map((category, index) => (
-                      <option key={index} value={category}>{category}</option>
+                    {
+                    categories.map((category, index) => (
+                      <option key={index} value={category}>
+                        {category}
+                        </option>
                     ))}
                   </select>
                 </div>

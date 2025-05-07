@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import './Profile.css';
+import '../css/Profile.css';
 import axios from 'axios';
 import { Link } from 'react-router';
 function Profile() {
@@ -59,7 +59,7 @@ function Profile() {
 
       <div className="row">
         {/* Sidebar */}
-        <div className="sidebar">
+        <div className="sidebar" style={{width: "100%", backgroundColor: "#00509e"}}>
                 <div className="text-center mb-4">
                     <h3 className="text-white">Maverick Bank</h3>
                 </div>

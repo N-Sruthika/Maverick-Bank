@@ -1,17 +1,16 @@
 import { useState } from "react";
-import users from "../../data/users.js";
+
 import { Link, useNavigate } from "react-router";
 
 import axios from "axios";
-import { useEffect } from "react";
-import "./Login.css";
+import "../css/Login.css";
 
 function Login() {
     const [username, setUsername] = useState(null);
     const [password, setPassword] = useState(null);
     const [usernamemsg, setUsernameMsg] = useState(null);
     const [passwordmsg, setPasswordMsg] = useState(null);
-    const [userData, setUserData] = useState(users);
+
     const navigate = useNavigate();
     const login = () => {
         let isCorrect = false;

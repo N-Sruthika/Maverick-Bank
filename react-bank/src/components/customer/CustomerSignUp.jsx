@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import './CustomerSignUp.css';
+import '../css/CustomerSignUp.css';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { useEffect } from 'react';

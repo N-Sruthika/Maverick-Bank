@@ -82,7 +82,7 @@ public class AccountServiceTest {
         List<Account> accounts = accountService.getAllAccount();
 
         // Then: Assert that the accounts list  contains 2 accounts
-        assertNotNull(accounts);
+       
         assertEquals(2, accounts.size());
 
         // Verify that the repository method was called exactly once

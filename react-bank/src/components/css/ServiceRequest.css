@@ -2,6 +2,15 @@
 body {
   font-family: Arial, sans-serif;
 }
+.sidebar {
+  width: 220px;
+  background: linear-gradient(135deg, #00338d 0%, #002266 100%);
+  color: #fff;
+  min-height: 100vh;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
 
 
 /* Main Content Styles */

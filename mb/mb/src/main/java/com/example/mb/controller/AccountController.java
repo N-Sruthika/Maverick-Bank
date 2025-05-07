@@ -1,24 +1,15 @@
 package com.example.mb.controller;
 
 import java.math.BigDecimal;
-import java.security.Principal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.mb.exception.InvalidAccountException;
-import com.example.mb.exception.InvalidIdException;
 import com.example.mb.model.Account;
-import com.example.mb.model.Branch;
-import com.example.mb.model.Customer;
 import com.example.mb.service.AccountService;
 import com.example.mb.service.BranchService;
 import com.example.mb.service.CustomerService;
@@ -62,6 +53,8 @@ public class AccountController {
     public int getActiveAccountsCountByCustomer(@PathVariable long customerId) {
         return accountService.countActiveAccountsByCustomer(customerId);
     }  
+    
+
 }
 
 

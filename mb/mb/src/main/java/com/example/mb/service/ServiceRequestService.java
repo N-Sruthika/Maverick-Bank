@@ -47,11 +47,11 @@ public class ServiceRequestService {
         logger.info("Fetched  service requests for customer ID {}", customerId);
         return list;
     }
-
-   
-	public List<String> getAllCategories() {
+  
+ 	public List<String> getAllCategories() {
         List<String> categories = new ArrayList<>();
-        Arrays.asList(Category.values()).forEach(category -> categories.add(category.name()));
+        Arrays.asList(Category.values())
+        .forEach(category -> categories.add(category.name()));
         return categories;
     }
 }

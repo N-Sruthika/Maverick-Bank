@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import "./Dashboard.css";
+import "../css/Dashboard.css";
 import axios from "axios";
 import { Link, useParams } from "react-router-dom";
 
@@ -13,8 +13,14 @@ function Dashboard() {
     useEffect(() => {
         const getBalance = async () => {
             try {
+                const token=localStorage.getItem('token')
+              
                 let accno = localStorage.getItem('accountNumber')
-                const response = await axios.get(`http://localhost:8081/api/account/get/balance/${accno}`);
+                const response = await axios.get(`http://localhost:8081/api/account/get/balance/${accno}`,{
+                    headers:{
+                        "Authorization":`Bearer ${token}`
+                    }
+            });
                 console.log(response.data);
                 setTotalBalance(response.data);
             } catch (error) {
@@ -24,7 +30,13 @@ function Dashboard() {
 
         const getBeneficiary = async () => {
             try {
-                    const response = await axios.get(`http://localhost:8081/api/beneficiaries/count/${cid}`);
+                const token=localStorage.getItem('token')
+              
+                const response = await axios.get(`http://localhost:8081/api/beneficiaries/count/${cid}`,{
+                    headers:{
+                        "Authorization":`Bearer ${token}`
+                    }
+            });
                 console.log(response.data);
                 setTotalBeneficiary(response.data);
             } catch (error) {
@@ -34,7 +46,12 @@ function Dashboard() {
 
         const getActiveAccounts = async () => {
             try {
-                   const response = await axios.get(`http://localhost:8081/api/accounts/active/count/${cid}`);
+                const token=localStorage.getItem('token')
+                   const response = await axios.get(`http://localhost:8081/api/accounts/active/count/${cid}`,{
+                    headers:{
+                        "Authorization":`Bearer ${token}`
+                    }
+                   });
                 console.log(response.data);
                 setTotalActiveAccounts(response.data);
             } catch (error) {
@@ -44,8 +61,14 @@ function Dashboard() {
 
         const getTransactionHistory = async () => {
             try {
+                const token=localStorage.getItem('token')
+             
                 let cid = localStorage.getItem('customerId');
-                const response = await axios.get(`http://localhost:8081/api/transactions/customer/${cid}`);
+                const response = await axios.get(`http://localhost:8081/api/transactions/customer/${cid}`,{
+                    headers:{
+                        "Authorization":`Bearer ${token}`
+                    }
+                   });
                 console.log(response.data);
                 setTransactionHistory(response.data);
             } catch (error) {

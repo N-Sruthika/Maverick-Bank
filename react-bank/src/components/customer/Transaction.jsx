@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import "./Transaction.css";
+import "../css/Transaction.css";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
@@ -125,7 +125,7 @@ function Transaction() {
             <div className="sidebar">
                 <div className="sidebar-header text-center">
                     <h3>Maverick Bank</h3>
-                </div>
+                </div><br/>
                 <ul className="nav flex-column">
                     <li className="nav-item"><Link className="nav-link" to="/customer">Dashboard</Link></li>
                     <li className="nav-item"><Link className="nav-link" to="/account">Accounts</Link></li>
