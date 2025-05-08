@@ -124,4 +124,9 @@ public class TransactionService {
         return transactions;
     }
 
+	public List<Transaction> getTransactionHistoryByAccountId(int aid) {
+		
+		return transactionRepository.findById(aid);
+	}
+
 }
