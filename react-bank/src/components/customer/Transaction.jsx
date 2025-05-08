@@ -105,8 +105,13 @@ function Transaction() {
     }
     const getTransactionHistory = async () => {
         try {
+            let token = localStorage.getItem('token');
             let cid = localStorage.getItem('customerId');
-            const response = await axios.get(`http://localhost:8081/api/transactions/customer/history/${cid}?page=${page}&size=${size}`);
+            const response = await axios.get(`http://localhost:8081/api/transactions/customer/history/${cid}?page=${page}&size=${size}`,{
+                headers: {
+                "Authorization": `Bearer ${token}`  // Proper header structure
+            }
+        });
             console.log(response.data);
             setTransactionHistory(response.data.content);
             setTotalPages(response.data.totalPages);

@@ -29,9 +29,10 @@ public class BeneficiaryService {
     // Get a beneficiary by ID
     public Beneficiary getBeneficiaryById(long beneficiaryId) throws InvalidIdException {
         Optional<Beneficiary> beneficiary = beneficiaryRepository.findById(beneficiaryId);
-        if (beneficiary.isEmpty()) 
+        if (beneficiary.isEmpty()) { 
+        	 logger.warn("Beneficiary not found with Id {}",beneficiaryId);
             throw new InvalidIdException("Beneficiary not found with your ID");
-        
+        }
         logger.info("Fetched beneficiary with ID {}", beneficiaryId);
         return beneficiary.get();
     }

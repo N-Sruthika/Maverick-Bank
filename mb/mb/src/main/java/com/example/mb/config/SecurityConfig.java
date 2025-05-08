@@ -46,22 +46,17 @@ public class SecurityConfig {
 	              
                 //Customersignup				
 				.requestMatchers("/api/newuser/signup").permitAll()
-				.requestMatchers("api/customer/signup/ifsc/{ifscCode}").hasAuthority("CUSTOMER")			
 				.requestMatchers("/api/getall/{id}").hasAuthority("CUSTOMER")
 				
 				//customer profile			
-				.requestMatchers("/api/customer/add/{bid}").hasAnyAuthority("ADMIN")
 				.requestMatchers("/api/get/profile/{id}").hasAuthority("CUSTOMER")
 				.requestMatchers("/api/get/details/{username}").hasAuthority("CUSTOMER")
-				.requestMatchers("/api/getall/customer/{bid}").hasAuthority("CUSTOMER")
 				.requestMatchers("/api/customer/updateProfile/{id}").hasAuthority("CUSTOMER")
 				
 				//account					
-				.requestMatchers("/api/account/add/{branchId}/{customerId}").permitAll()
 				.requestMatchers("/api/account/get/balance/{accountNumber}").hasAuthority("CUSTOMER")//getting balance
 				.requestMatchers("/api/account/get/balance/customer/{cid}").hasAuthority("CUSTOMER")
 				
-				.requestMatchers("/api/account/{accountId}").permitAll()
 				.requestMatchers("/api/accounts/customer/{customerId}").hasAuthority("CUSTOMER")
 				.requestMatchers("/api/account/update/{accountId}").hasAuthority("CUSTOMER")
 				.requestMatchers("/api/account/deactivate/{accountId}").hasAuthority("CUSTOMER")
@@ -87,13 +82,11 @@ public class SecurityConfig {
 				.requestMatchers("/api/service-request/{requestId}").permitAll()
 				.requestMatchers("/api/service-request/delete/{requestId}").permitAll()
 				
-				.requestMatchers("/api/transactions/upi-transfer/{accountNumber}").permitAll() // UPI transaction
-			    .requestMatchers("/api/transactions/bank-transfer/{accountNumber}").permitAll() // Bank transfer
+				.requestMatchers("/api/transactions/upi-transfer/{accountNumber}").hasAuthority("CUSTOMER") // UPI transaction
+			    .requestMatchers("/api/transactions/bank-transfer/{accountNumber}").hasAuthority("CUSTOMER") // Bank transfer
 			    .requestMatchers("/api/transactions/history/{accountId}").hasAuthority("CUSTOMER")
-			    .requestMatchers("/api/transactions/account/history/{cid}").permitAll()
-			    .requestMatchers("/api/transactions/account/history/account/id/{aid}").permitAll()
 			    .requestMatchers("/api/transactions/customer/{customerId}").hasAuthority("CUSTOMER")
-			    .requestMatchers("/api/transactions/customer/history/{customerId}").permitAll()
+			    .requestMatchers("/api/transactions/customer/history/{customerId}").hasAuthority("CUSTOMER")
 			    .requestMatchers("/swagger-ui/**").permitAll()
 				 	
 				.anyRequest().permitAll()
